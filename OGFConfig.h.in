@@ -1,0 +1,2 @@
+// Resource directory set by CMake
+#define OGF_RESOURCE_DIR @OGF_RESOURCE_DIR@
