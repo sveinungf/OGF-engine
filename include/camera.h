@@ -1,14 +1,14 @@
 #pragma once
 
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 #pragma warning(push)
 #pragma warning(disable:4201) // nameless structs
-#include <glm\glm.hpp>
-#include <GL\glew.h>
-#include <gl\GL.h>
+#include <glm/glm.hpp>
 #pragma warning(pop)
 
-#include <glm\gtc\constants.hpp>
-#include <glm\gtc\matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 using namespace glm;
 

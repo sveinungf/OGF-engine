@@ -3,7 +3,7 @@
 #include <vector>
 #pragma warning(push)
 #pragma warning(disable:4201) // nameless structs
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
 #pragma warning(pop)
 
 using namespace glm;

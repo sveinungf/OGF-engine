@@ -1,5 +1,4 @@
 #include "camera.h"
-#include <GL\freeglut.h>
 
 
 using namespace glm;

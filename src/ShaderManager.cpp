@@ -1,5 +1,5 @@
 #include "ShaderManager.h"
-#include "nodes\LightNode.h"
+#include "nodes/LightNode.h"
 
 ShaderManager::ShaderManager(){
 }

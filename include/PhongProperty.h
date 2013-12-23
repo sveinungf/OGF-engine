@@ -1,11 +1,11 @@
 #pragma once
 
 #include <ostream>
-#include <GL\glew.h>
+#include <GL/glew.h>
 #pragma warning(push)
 #pragma warning(disable:4201) // nameless structs
-#include <glm\glm.hpp>
-#include <glm\ext.hpp>
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 #pragma warning(pop)
 
 

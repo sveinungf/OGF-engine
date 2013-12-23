@@ -1,12 +1,12 @@
 #pragma once
 #pragma warning(push)
 #pragma warning(disable:4201) // nameless structs
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
 #pragma warning(pop)
 #include <vector>
 #include "ShaderProgram.h"
 
-// Må fordward declare LightNode for å unngå sirkuler avhengighet
+// Mï¿½ fordward declare LightNode for ï¿½ unngï¿½ sirkuler avhengighet
 class LightNode;
 class ShaderManager {
 

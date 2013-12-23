@@ -3,7 +3,7 @@
 #include <string>
 #pragma warning(push)
 #pragma warning(disable:4201) // nameless structs
-#include <glm\ext.hpp>
+#include <glm/ext.hpp>
 #pragma warning(pop)
 #include <SOIL.h>
 #include "../Image.h"
