@@ -8,7 +8,8 @@
 class SimpleDraw : public AbstractComponent {
 
 public:
-	SimpleDraw() {}
+	SimpleDraw() : AbstractComponent() {}
+	virtual ~SimpleDraw() override {}
 
 	virtual void preRender(AbstractMesh* mesh, const mat4& viewToClip, const mat4& worldToView, const mat4& objectToWorld) override {}
 	virtual void render(AbstractMesh* mesh) override;

@@ -16,6 +16,7 @@ class Instancing : public AbstractComponent {
 public:
 	Instancing(const vector<vec3>& instancePositions);
 	Instancing(const vector<vec3>& instancePositions, const vector<vec3>& instanceNormals);
+	virtual ~Instancing() override {}
 
 	virtual void preRender(AbstractMesh* mesh, const mat4& viewToClip, const mat4& worldToView, const mat4& objectToWorld) override;
 	virtual void render(AbstractMesh* mesh) override;

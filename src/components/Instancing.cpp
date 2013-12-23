@@ -1,12 +1,12 @@
 #include "components/Instancing.h"
 
 
-Instancing::Instancing(const vector<vec3>& positions) : instancePositions(positions) {
+Instancing::Instancing(const vector<vec3>& positions) : AbstractComponent(), instancePositions(positions) {
     init();
 }
 
 Instancing::Instancing(const vector<vec3>& positions, const vector<vec3>& normals)
-		: instancePositions(positions), instanceNormals(normals) {
+		: AbstractComponent(), instancePositions(positions), instanceNormals(normals) {
 
     init();
 }
