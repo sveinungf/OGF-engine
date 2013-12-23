@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractNode.h"
 
-// Må forward declare ShaderManager for å unngå sirkuler avhengighet
+// Mï¿½ forward declare ShaderManager for ï¿½ unngï¿½ sirkuler avhengighet
 class ShaderManager;
 class LightNode : public AbstractNode {
 
@@ -11,8 +11,8 @@ private:
 
 protected:
 	// Rendering
-	virtual void renderThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
-	virtual void renderIDThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
+	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
+	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
 
 public:
 	LightNode(ShaderManager* shaderManager, PhongProperty* lightProperty);

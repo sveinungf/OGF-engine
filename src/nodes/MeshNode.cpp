@@ -17,7 +17,7 @@ void MeshNode::addTexture(Texture2D* texture) {
 }
 
 // Rendering
-void MeshNode::renderThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+void MeshNode::renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
 	updateObjectToWorld(parentTransformations);
 
 	for (AbstractComponent * component : components) {
@@ -45,8 +45,8 @@ void MeshNode::renderThis(const mat4& worldToView, const mat4& viewToClip, mat4 
 	}
 }
 
-void MeshNode::renderIDThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+void MeshNode::renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
 	shaderProgram.setUniformGLint("id", mesh->getId());
-	renderThis(worldToView, viewToClip, parentTransformations);
+	renderSelf(worldToView, viewToClip, parentTransformations);
 	shaderProgram.setUniformGLint("id", 0);
 }

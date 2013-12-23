@@ -8,7 +8,7 @@ LightNode::LightNode(ShaderManager* shaderManager,
     this->shaderManager = shaderManager;
 };
 
-void LightNode::renderThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+void LightNode::renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
 	for (AbstractComponent * component : components) {
 		component->preRender(nullptr, viewToClip, worldToView, objectToWorld);
 	}
@@ -17,6 +17,6 @@ void LightNode::renderThis(const mat4& worldToView, const mat4& viewToClip, mat4
 	shaderManager->updatePosition(lightId);
 }
 
-void LightNode::renderIDThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
-	renderThis(worldToView, viewToClip, parentTransformations);
+void LightNode::renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+	renderSelf(worldToView, viewToClip, parentTransformations);
 }

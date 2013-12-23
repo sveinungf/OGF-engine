@@ -13,8 +13,8 @@ public:
 
 protected:
 	// Rendering
-	virtual void renderThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
-	virtual void renderIDThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
+	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
+	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
 
 private:
 	vector<MeshNode*> self;

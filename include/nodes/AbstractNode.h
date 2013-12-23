@@ -95,7 +95,7 @@ protected:
     void updateObjectToWorld(mat4 parentTransformations[]);
 
 	// Rendering
-	virtual void renderThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) = 0;
-	virtual void renderIDThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) = 0;
+	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) = 0;
+	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) = 0;
 
 };

@@ -66,7 +66,7 @@ void AssImpNode::addTexture(Texture2D* texture, int mesh) {
 	}
 }
 
-void AssImpNode::renderThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+void AssImpNode::renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
 	updateObjectToWorld(parentTransformations);
 
 	for (AbstractNode * child : self) {
@@ -74,7 +74,7 @@ void AssImpNode::renderThis(const mat4& worldToView, const mat4& viewToClip, mat
 	}
 }
 
-void AssImpNode::renderIDThis(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+void AssImpNode::renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
 	updateObjectToWorld(parentTransformations);
 
 	for (AbstractNode * child : self) {
