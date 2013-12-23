@@ -139,7 +139,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 #	define AI_WONT_RETURN
 
-#	define ASSIMP_API __attribute__ ((visibility("default")))
+#	define ASSIMP_API //__attribute__ ((visibility("default")))
 #	define ASSIMP_API_WINONLY
 #	define AI_FORCE_INLINE inline
 #endif // (defined _MSC_VER)
@@ -185,7 +185,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if (defined(__BORLANDC__) || defined (__BCPLUSPLUS__))
 #error Currently, Borland is unsupported. Feel free to port Assimp.
 
-// "W8059 Packgröße der Struktur geändert"
+// "W8059 Packgrï¿½ï¿½e der Struktur geï¿½ndert"
 
 #endif
 	//////////////////////////////////////////////////////////////////////////

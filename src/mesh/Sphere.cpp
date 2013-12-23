@@ -12,11 +12,11 @@ void Sphere::prepareBufferData() {
 
 	index = 0;
 	vertices = new glm::vec4[numberOfVertices];
-	bytesOfVertices = (sizeof glm::vec4) * numberOfVertices;
+	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
 	colors = new glm::vec4[numberOfVertices];
-	bytesOfColors = (sizeof glm::vec4) * numberOfVertices;
+	bytesOfColors = sizeof(glm::vec4) * numberOfVertices;
 	normals = new glm::vec3[numberOfVertices];
-	bytesOfNormals = (sizeof glm::vec3) * numberOfVertices;
+	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
 	texCoords = 0;
 	bytesOfTexCoords = 0;
 

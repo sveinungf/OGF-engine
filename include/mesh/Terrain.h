@@ -10,6 +10,7 @@
 #include "../TerrainContentData.h"
 #include "AbstractMesh.h"
 
+using namespace glm;
 using namespace std;
 
 

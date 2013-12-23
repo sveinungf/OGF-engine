@@ -20,10 +20,10 @@ void Quad::prepareBufferData() {
 	normals = new vec3[numberOfVertices];
 	texCoords = new vec2[numberOfVertices];
 
-	bytesOfVertices = sizeof vec4 * numberOfVertices;
-	bytesOfNormals = sizeof vec3 * numberOfVertices;
+	bytesOfVertices = sizeof(vec4) * numberOfVertices;
+	bytesOfNormals = sizeof(vec3) * numberOfVertices;
 	bytesOfColors = 0;
-	bytesOfTexCoords = sizeof vec2 * numberOfVertices;
+	bytesOfTexCoords = sizeof(vec2) * numberOfVertices;
 
 	buildQuad(0, 1, 2, 3);
 }

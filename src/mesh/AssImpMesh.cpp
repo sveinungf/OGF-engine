@@ -13,7 +13,7 @@ AssImpMesh::AssImpMesh(aiMesh* mesh){
 
 	std::cout << " vertices( " << numberOfVertices << " )";
 
-	bytesOfVertices = (sizeof glm::vec4) * numberOfVertices;
+	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
 
 	vertices = new glm::vec4[numberOfVertices];
 
@@ -53,7 +53,7 @@ AssImpMesh::AssImpMesh(aiMesh* mesh){
 
 	if (mesh->HasNormals()){
 		std::cout << " normals";
-		bytesOfNormals = (sizeof glm::vec3) * numberOfVertices;
+		bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
 		normals = new glm::vec3[numberOfVertices];
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++){
 			auto n = mesh->mNormals[i];
@@ -64,7 +64,7 @@ AssImpMesh::AssImpMesh(aiMesh* mesh){
 	for (unsigned int uvChanIndex = 0; uvChanIndex < mesh->GetNumUVChannels(); uvChanIndex++){
 		if (uvChanIndex == 0 && mesh->HasTextureCoords(uvChanIndex)){
 			std::cout << " UVcoords";
-			bytesOfTexCoords = (sizeof glm::vec2) * numberOfVertices;
+			bytesOfTexCoords = sizeof(glm::vec2) * numberOfVertices;
 			texCoords = new glm::vec2[numberOfVertices];
 			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++){
@@ -81,7 +81,7 @@ AssImpMesh::AssImpMesh(aiMesh* mesh){
 	for (unsigned int vColorIndex = 0; vColorIndex < mesh->GetNumColorChannels(); vColorIndex++){
 		if (vColorIndex == 0 && mesh->HasVertexColors(vColorIndex)){
 			std::cout << " colors";
-			bytesOfColors = (sizeof glm::vec3) * numberOfVertices;
+			bytesOfColors = sizeof(glm::vec3) * numberOfVertices;
 			colors = new glm::vec4[numberOfVertices];
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++){
 				auto c = mesh->mColors[vColorIndex][i];
@@ -99,9 +99,9 @@ AssImpMesh::AssImpMesh(aiMesh* mesh){
 void AssImpMesh::computeTangentAndBitangetValues() {
 	//Create arrays
 	tangents = new glm::vec3[numberOfVertices];
-	bytesOfTangents = (sizeof glm::vec3) * numberOfVertices;
+	bytesOfTangents = sizeof(glm::vec3) * numberOfVertices;
 	bitangents = new glm::vec3[numberOfVertices];
-	bytesOfBitangents = (sizeof glm::vec3) * numberOfVertices;
+	bytesOfBitangents = sizeof(glm::vec3) * numberOfVertices;
 
 	for (unsigned int i = 0; i < numberOfVertices; i += 3) {
 		//find triangle corners cornerOne,cornerTwo & cornerThree

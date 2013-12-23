@@ -32,10 +32,10 @@ void Terrain::prepareBufferData() {
 	normals = new glm::vec3[numberOfVertices];
 	texCoords = new glm::vec2[numberOfVertices];
 
-	bytesOfVertices = (sizeof glm::vec4) * numberOfVertices;
-	bytesOfNormals = (sizeof glm::vec3) * numberOfVertices;
+	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
+	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
 	bytesOfColors = 0;
-	bytesOfTexCoords = (sizeof glm::vec2) * numberOfVertices;
+	bytesOfTexCoords = sizeof(glm::vec2) * numberOfVertices;
 
     int size = width * length;
     points = new glm::vec3[size];

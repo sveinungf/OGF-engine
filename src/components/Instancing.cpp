@@ -15,8 +15,8 @@ void Instancing::init() {
 	std::string resourceBase(OGF_RESOURCE_DIR);
 
     instances = instancePositions.size();
-    bytesOfInstancePositions = sizeof vec3 * instances;
-    bytesOfInstanceNormals = sizeof vec3 * instanceNormals.size();
+    bytesOfInstancePositions = sizeof(vec3) * instances;
+    bytesOfInstanceNormals = sizeof(vec3) * instanceNormals.size();
 
 	cullingShader << Shader(resourceBase + "/shaders/vInstanceCulling.glsl", Shader::VERT)
 			<< Shader(resourceBase + "/shaders/gInstanceCulling.glsl", Shader::GEOM);

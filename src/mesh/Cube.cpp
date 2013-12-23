@@ -29,10 +29,10 @@ void Cube::prepareBufferData() {
 void Cube::prepareBufferData(glm::vec4 color) {
 
 	numberOfVertices = 36; // 6 vertices per face * 6 faces
-	bytesOfVertices = (sizeof glm::vec4) * numberOfVertices;
-	bytesOfNormals = (sizeof glm::vec3) * numberOfVertices;
-	bytesOfColors = (sizeof glm::vec4) * numberOfVertices;
-	bytesOfTexCoords = (sizeof glm::vec2) * numberOfVertices;
+	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
+	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
+	bytesOfColors = sizeof(glm::vec4) * numberOfVertices;
+	bytesOfTexCoords = sizeof(glm::vec2) * numberOfVertices;
 
 	vertices = new glm::vec4[numberOfVertices];
 	normals = new glm::vec3[numberOfVertices];

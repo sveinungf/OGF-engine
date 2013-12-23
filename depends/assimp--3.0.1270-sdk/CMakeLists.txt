@@ -19,11 +19,14 @@ set(LIBASSIMP-DEV_COMPONENT libassimp${ASSIMP_VERSION_MAJOR}.${ASSIMP_VERSION_MI
 set(CPACK_COMPONENTS_ALL assimp-bin ${LIBASSIMP_COMPONENT} ${LIBASSIMP-DEV_COMPONENT} assimp-dev)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-  add_definitions(-fPIC) # this is a very important switch and some libraries seem now to have it....
-  ## hide all not-exported symbols
-  add_definitions( -fvisibility=hidden )
-  
-  add_definitions(-mno-ms-bitfields)
+	IF(NOT MINGW)
+		add_definitions(-fPIC) # this is a very important switch and some libraries seem now to have it....
+	ENDIF()
+	
+	## hide all not-exported symbols
+	add_definitions( -fvisibility=hidden )
+
+	add_definitions(-mno-ms-bitfields)
 endif()
 
 INCLUDE (FindPkgConfig)
@@ -104,8 +107,24 @@ if( NOT ZLIB_FOUND )
   include(CheckIncludeFile)
   include(CheckTypeSize)
   include(CheckFunctionExists)
-  # compile from sources
-  add_subdirectory(contrib/zlib)
+  
+	# compile from sources
+	IF(MINGW)
+		SET(CMAKE_C_FLAGS_COPY "${CMAKE_C_FLAGS}")
+		SET(CMAKE_CXX_FLAGS_COPY "${CMAKE_CXX_FLAGS}")
+		
+		#Suppress warning: visibility attribute not supported
+		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-attributes")
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-attributes")
+		ADD_SUBDIRECTORY(contrib/zlib)
+		
+		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_COPY}")
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_COPY}")
+	ELSE()
+		ADD_SUBDIRECTORY(contrib/zlib)
+	ENDIF()
+  
+  
   set(ZLIB_FOUND 1)
   set(ZLIB_LIBRARIES zlib)
   set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/zlib)
