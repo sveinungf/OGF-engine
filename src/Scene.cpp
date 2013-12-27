@@ -2,7 +2,7 @@
 
 
 Scene::Scene() {
-	camera = new Camera();
+	camera = new Camera(75.0f, 0.01f, 435.0f);
 	
 }
 
@@ -24,20 +24,17 @@ void Scene::setCamera(Camera* camera){
 }
 
 void Scene::setCameraPosition(glm::vec4 cameraPosition){
-	this->camera->setPosition(cameraPosition);
+	camera->setPosition(vec3(cameraPosition));
 }
 
 
 void Scene::render() {
+	camera->render();
 	rootNode->render(camera->getWorldToView(), camera->getViewToClip());
-
-	if (skybox != nullptr){
-		skybox->setPosition(glm::vec3(camera->getPosition()));
-		skybox->render(camera->getWorldToView(), camera->getViewToClip(), nullptr);
-	}
 }
 
 void Scene::addSkybox(){
 	skybox = new Skybox();
 	skybox->buildSkybox();
+	camera->add(skybox);
 }

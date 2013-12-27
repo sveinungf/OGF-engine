@@ -41,8 +41,8 @@ public:
     void enableParentTransformation(const Transformation& transformation);
 
     // Transformations
-    glm::vec3 getPositionVec3() const;
-    glm::vec4 getPositionVec4() const;
+    vec3 getPositionVec3() const;
+    vec4 getPositionVec4() const;
     void setPosition(const glm::vec3& xyz);
     void setPosition(const GLfloat& x, const GLfloat& y, const GLfloat& z);
     void move(const glm::vec3& xyz);

@@ -21,30 +21,28 @@ void Skybox::init(){
 			<< Shader(resourceBase + "/shaders/fSkybox.glsl", Shader::FRAG)
 			<< Shader::LINK;
 
-	Quad* quad = new Quad();
-
 	//initialize front
-	nFront = new MeshNode(shaderSkybox, quad);
+	nFront = new MeshNode(shaderSkybox, new Quad());
 	children.push_back(nFront);
 
 	//initialize left
-	nLeft = new MeshNode(shaderSkybox, quad);
+	nLeft = new MeshNode(shaderSkybox, new Quad());
 	children.push_back(nLeft);
 
 	//initialize right
-	nRight = new MeshNode(shaderSkybox, quad);
+	nRight = new MeshNode(shaderSkybox, new Quad());
 	children.push_back(nRight);
 
 	//initialize back
-	nBack = new MeshNode(shaderSkybox, quad);
+	nBack = new MeshNode(shaderSkybox, new Quad());
 	children.push_back(nBack);
 
 	//initialize top
-	nTop = new MeshNode(shaderSkybox, quad);
+	nTop = new MeshNode(shaderSkybox, new Quad());
 	children.push_back(nTop);
 
 	//initialize bottom
-	nBottom = new MeshNode(shaderSkybox, quad);
+	nBottom = new MeshNode(shaderSkybox, new Quad());
 	children.push_back(nBottom);
 
 	loadTextures();
@@ -115,4 +113,12 @@ void Skybox::buildSkybox(){
 	nBottom->scale(size, size, size);
 	nBottom->addComponent(simpleDraw);
 	nBottom->addTexture(textures[SKY_BOTTOM]);
+}
+
+void Skybox::renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+	updateObjectToWorld(parentTransformations);
+}
+
+void Skybox::renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+	renderSelf(worldToView, viewToClip, parentTransformations);
 }

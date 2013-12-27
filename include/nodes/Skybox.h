@@ -19,17 +19,13 @@ class Skybox : public AbstractNode {
 
 public:
 	Skybox();
-	~Skybox();
+	virtual ~Skybox() override;
 
 	void buildSkybox();
 
 protected:
-	// Rendering
-	#pragma warning(push)
-	#pragma warning(disable:4100) // ignore unused parameters
-	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override {}
-	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override {}
-	#pragma warning(pop)
+	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
+	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
 
 private:
 	

@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 #include "nodes/AbstractNode.h"
-#include "camera.h"
+#include "nodes/Camera.h"
 #include "nodes/Skybox.h"
 
 

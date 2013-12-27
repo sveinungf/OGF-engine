@@ -1,14 +1,14 @@
 #include <iostream>
-#include <GL\glew.h>
-#include <GL\freeglut.h>
-#include <GL\freeglut_ext.h>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
+#include <GL/freeglut_ext.h>
 
 #pragma warning(push)
 #pragma warning(disable:4201) // nameless structs
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
 #pragma warning(pop)
 
-#include <glm\gtx\transform.hpp>
+#include <glm/gtx/transform.hpp>
 #include "components/Blending.h"
 #include "components/Instancing.h"
 #include "components/SimpleDraw.h"
@@ -20,7 +20,6 @@
 #include "nodes/AssImpNode.h"
 #include "nodes/LightNode.h"
 #include "nodes/MeshNode.h"
-#include "camera.h"
 #include "LightProperties.h"
 #include "MaterialProperties.h"
 #include "Scene.h"
