@@ -3,6 +3,16 @@
 
 enum { SKY_LEFT = 0, SKY_BACK, SKY_RIGHT, SKY_FRONT, SKY_TOP, SKY_BOTTOM };
 
+Skybox::Skybox() : AbstractNode() {
+	init();
+}
+
+Skybox::~Skybox(){
+	for (Texture2D* texture : textures) {
+		delete texture;
+	}
+}
+
 void Skybox::init(){
 	std::string resourceBase(OGF_RESOURCE_DIR);
 
@@ -16,48 +26,37 @@ void Skybox::init(){
 	positionTop = glm::vec3(0.0f, 0.5f, 0.0f) * glm::vec3(size, size, size);
 	positionBottom = glm::vec3(0.0f, -0.5f, 0.0f) * glm::vec3(size, size, size);
 
-
-	shaderSkybox << Shader(resourceBase + "/shaders/vSkybox.glsl", Shader::VERT)
+	ShaderProgram skyboxShader;
+	skyboxShader << Shader(resourceBase + "/shaders/vSkybox.glsl", Shader::VERT)
 			<< Shader(resourceBase + "/shaders/fSkybox.glsl", Shader::FRAG)
 			<< Shader::LINK;
 
 	//initialize front
-	nFront = new MeshNode(shaderSkybox, new Quad());
+	nFront = new MeshNode(skyboxShader, new Quad());
 	children.push_back(nFront);
 
 	//initialize left
-	nLeft = new MeshNode(shaderSkybox, new Quad());
+	nLeft = new MeshNode(skyboxShader, new Quad());
 	children.push_back(nLeft);
 
 	//initialize right
-	nRight = new MeshNode(shaderSkybox, new Quad());
+	nRight = new MeshNode(skyboxShader, new Quad());
 	children.push_back(nRight);
 
 	//initialize back
-	nBack = new MeshNode(shaderSkybox, new Quad());
+	nBack = new MeshNode(skyboxShader, new Quad());
 	children.push_back(nBack);
 
 	//initialize top
-	nTop = new MeshNode(shaderSkybox, new Quad());
+	nTop = new MeshNode(skyboxShader, new Quad());
 	children.push_back(nTop);
 
 	//initialize bottom
-	nBottom = new MeshNode(shaderSkybox, new Quad());
+	nBottom = new MeshNode(skyboxShader, new Quad());
 	children.push_back(nBottom);
 
 	loadTextures();
 }
-
-Skybox::Skybox() : AbstractNode() {
-	init();
-}
-
-Skybox::~Skybox(){
-	for (Texture2D* texture : textures) {
-		delete texture;
-	}
-}
-
 
 void Skybox::loadTextures(){
 	std::string resourceBase(OGF_RESOURCE_DIR);
@@ -113,12 +112,4 @@ void Skybox::buildSkybox(){
 	nBottom->scale(size, size, size);
 	nBottom->addComponent(simpleDraw);
 	nBottom->addTexture(textures[SKY_BOTTOM]);
-}
-
-void Skybox::renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
-	updateObjectToWorld(parentTransformations);
-}
-
-void Skybox::renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
-	renderSelf(worldToView, viewToClip, parentTransformations);
 }

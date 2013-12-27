@@ -31,10 +31,11 @@ public:
 	void mouseActive(int x, int y);
 
 	void render();
+	void renderID();
 
 protected:
-	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
-	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
+	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip) override {}
+	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip) override {}
 
 private:
 	enum CameraKeys {

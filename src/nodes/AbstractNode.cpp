@@ -142,7 +142,8 @@ void AbstractNode::updateObjectToWorld(mat4 parentTransformations[]) {
 
 // Rendering
 void AbstractNode::render(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
-	renderSelf(worldToView, viewToClip, parentTransformations);
+	updateObjectToWorld(parentTransformations);
+	renderSelf(worldToView, viewToClip);
 
 	for (AbstractNode * child : children) {
 		child->render(worldToView, viewToClip, transformations);
@@ -150,7 +151,8 @@ void AbstractNode::render(const mat4& worldToView, const mat4& viewToClip, mat4 
 }
 
 void AbstractNode::renderID(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
-	renderIDSelf(worldToView, viewToClip, parentTransformations);
+	updateObjectToWorld(parentTransformations);
+	renderIDSelf(worldToView, viewToClip);
 
 	for (AbstractNode * child : children) {
 		child->renderID(worldToView, viewToClip, transformations);

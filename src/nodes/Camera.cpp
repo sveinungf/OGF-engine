@@ -166,22 +166,18 @@ void Camera::render() {
 	updateObjectToWorld(nullptr);
 	updateWorldToView();
 
-	//transformations[ROTATION_SELF] = mat4(1.0f);
-
 	for (AbstractNode* child : children) {
 		child->render(getWorldToView(), getViewToClip(), transformations);
 	}
 }
 
-void Camera::renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
-	updateObjectToWorld(parentTransformations);
+void Camera::renderID() {
+	updateObjectToWorld(nullptr);
 	updateWorldToView();
-	
-	transformations[ROTATION_SELF] = mat4(1.0f);
-}
 
-void Camera::renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
-	renderSelf(worldToView, viewToClip, parentTransformations);
+	for (AbstractNode* child : children) {
+		child->renderID(getWorldToView(), getViewToClip(), transformations);
+	}
 }
 
 void Camera::rotate(float pitch, float yaw, float roll) {

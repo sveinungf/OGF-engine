@@ -61,10 +61,7 @@ public:
 	void setPhongProperty(PhongProperty* prop) { phongProperty = prop; };
 
     // Rendering
-    void render(const mat4& worldToView, const mat4& viewToClip) { render(worldToView, viewToClip, nullptr); }
     void render(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]);
-
-	void renderID(const mat4& worldToView, const mat4& viewToClip) { renderID(worldToView, viewToClip, nullptr); }
 	void renderID(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]);
 
 protected:
@@ -95,7 +92,7 @@ protected:
     void updateObjectToWorld(mat4 parentTransformations[]);
 
 	// Rendering
-	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) = 0;
-	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) = 0;
+	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip) = 0;
+	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip) = 0;
 
 };

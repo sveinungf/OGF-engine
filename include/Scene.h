@@ -18,9 +18,8 @@ public:
 	void addSkybox();
 	Camera* getCamera();
     void render();
-	void renderID(){
-		rootNode->renderID(camera->getWorldToView(), camera->getViewToClip());
-	};
+	void renderID();
+
 private:
 	AbstractNode* rootNode;
 	Camera* camera;

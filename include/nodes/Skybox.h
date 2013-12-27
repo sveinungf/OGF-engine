@@ -24,8 +24,8 @@ public:
 	void buildSkybox();
 
 protected:
-	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
-	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) override;
+	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip) override {}
+	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip) override {}
 
 private:
 	
@@ -41,8 +41,6 @@ private:
 
 	float size;
 
-	ShaderProgram shaderSkybox;
-
 	vector<Texture2D*> textures;
 
 	MeshNode* nLeft;
@@ -51,5 +49,4 @@ private:
 	MeshNode* nFront;
 	MeshNode* nTop;
 	MeshNode* nBottom;
-
 };
