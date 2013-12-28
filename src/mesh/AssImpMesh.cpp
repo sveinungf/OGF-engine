@@ -128,6 +128,6 @@ void AssImpMesh::computeTangentAndBitangetValues() {
 
 		// Set the same tangent and bitangent for all three vertices of the triangle.
 		tangents[i + 0] = tangent;  tangents[i + 1] = tangent;  tangents[i + 2] = tangent;
-		bitangents[i + 0] = bitangent;  bitangents[i + 0] = bitangent;  bitangents[i + 0] = bitangent;
+		bitangents[i + 0] = bitangent;  bitangents[i + 1] = bitangent;  bitangents[i + 2] = bitangent;
 	}
 }
