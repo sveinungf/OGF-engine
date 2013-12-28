@@ -31,7 +31,7 @@
 
 namespace sveinung {
 
-vec4 cameraStartPosition(0.0f, 60.0f, -10.0f, 1.0f);
+vec3 cameraStartPosition(0.0f, 60.0f, -10.0f);
 int oldTimeSinceStart;
 
 Scene scene;
@@ -164,9 +164,9 @@ void init() {
 	rock->addTexture(rockNormalMap);
 	rock->addTexture(rockDiffus);
 
+	scene.init();
 	scene.setCameraPosition(cameraStartPosition);
 	scene.setRootNode(terrain);
-	scene.addSkybox();
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -176,11 +176,11 @@ void init() {
 
 void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if (renderID){
+
+	if (renderID) {
 		sManager->setUniformGLint("idMul", 3425160);
 		scene.renderID();
-	}
-	else{
+	} else {
 		scene.render();
 	}
 	glutSwapBuffers();

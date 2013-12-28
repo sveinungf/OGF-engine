@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 
-Scene::Scene() {
+Scene::Scene() : rootNode(nullptr), skybox(nullptr) {
 	camera = new Camera(75.0f, 0.01f, 435.0f);
 }
 
@@ -10,20 +10,15 @@ Scene::~Scene() {
 	delete camera;
 }
 
-void Scene::setRootNode(AbstractNode* node) {
-	rootNode = node;
+void Scene::init() {
+	skybox = new Skybox();
+	skybox->buildSkybox();
+
+	camera->add(skybox);
 }
 
-Camera* Scene::getCamera(){
-	return camera;
-}
-
-void Scene::setCamera(Camera* camera){
-	this->camera = camera;
-}
-
-void Scene::setCameraPosition(glm::vec4 cameraPosition){
-	camera->setPosition(vec3(cameraPosition));
+void Scene::setCameraPosition(const vec3& cameraPosition){
+	camera->setPosition(cameraPosition);
 }
 
 void Scene::render() {
@@ -34,10 +29,4 @@ void Scene::render() {
 void Scene::renderID() {
 	camera->renderID();
 	rootNode->renderID(camera->getWorldToView(), camera->getViewToClip(), nullptr);
-}
-
-void Scene::addSkybox(){
-	skybox = new Skybox();
-	skybox->buildSkybox();
-	camera->add(skybox);
 }

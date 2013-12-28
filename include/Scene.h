@@ -12,11 +12,10 @@ public:
     Scene();
     ~Scene();
 
-	void setRootNode(AbstractNode *node);
-	void setCamera(Camera* cam);
-	void setCameraPosition(vec4 position);
-	void addSkybox();
-	Camera* getCamera();
+	void init();
+	void setRootNode(AbstractNode* node) { rootNode = node; }
+	void setCameraPosition(const vec3& position);
+	Camera* getCamera() { return camera; }
     void render();
 	void renderID();
 
