@@ -24,26 +24,20 @@ AssImpMesh::AssImpMesh(aiMesh* mesh){
 
 		if (v.x > positiveExtent.x) {
 			positiveExtent.x = v.x;
-		}
-
-		if (v.x < negativeExtent.x) {
-			negativeExtent.x = -v.x;
+		} else if (v.x < negativeExtent.x) {
+			negativeExtent.x = v.x;
 		}
 
 		if (v.y > positiveExtent.y) {
 			positiveExtent.y = v.y;
-		}
-
-		if (v.y < negativeExtent.y) {
-			negativeExtent.y = -v.y;
+		} else if (v.y < negativeExtent.y) {
+			negativeExtent.y = v.y;
 		}
 
 		if (v.z > positiveExtent.z) {
 			positiveExtent.z = v.z;
-		}
-
-		if (v.z < negativeExtent.z) {
-			negativeExtent.z = -v.z;
+		} else if (v.z < negativeExtent.z) {
+			negativeExtent.z = v.z;
 		}
 	}
 

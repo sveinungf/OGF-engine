@@ -1,14 +1,12 @@
+#pragma warning(push, 0)
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <GL/freeglut_ext.h>
-
-#pragma warning(push)
-#pragma warning(disable:4201) // nameless structs
 #include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
 #pragma warning(pop)
 
-#include <glm/gtx/transform.hpp>
 #include "components/Blending.h"
 #include "components/Instancing.h"
 #include "components/SimpleDraw.h"
@@ -195,18 +193,15 @@ void reshape(int width, int height) {
 	scene.getCamera()->setAspectRatio(asp);
 }
 
-#pragma warning(push)
-#pragma warning(disable:4100) // ignore unused parameters
-
-void keySpecial(int key, int x, int y) {
+void keySpecial(int key, int /*x*/, int /*y*/) {
 	scene.getCamera()->keyDown((unsigned char)key);
 }
 
-void keySpecialUp(int key, int x, int y) {
+void keySpecialUp(int key, int /*x*/, int /*y*/) {
 	scene.getCamera()->keyUp((unsigned char)key);
 }
 
-void keyboard(unsigned char key, int x, int y) {
+void keyboard(unsigned char key, int /*x*/, int /*y*/) {
 	scene.getCamera()->keyDown(key);
     switch (key) {
 		case 'o':
@@ -244,16 +239,11 @@ void keyboard(unsigned char key, int x, int y) {
     }
 }
 
-void keyboardUp(unsigned char key, int x, int y){
+void keyboardUp(unsigned char key, int /*x*/, int /*y*/) {
 	scene.getCamera()->keyUp(key);
 }
-#pragma warning(pop)
 
-//----------------------------------------------------------------------------
-
-#pragma warning(push)
-#pragma warning(disable:4100) // ignore unused parameters
-void mouse( int button, int state, int x, int y ){
+void mouse( int button, int state, int x, int y ) {
 	scene.getCamera()->mouseAction(button, state, x, y);
 	if (state == GLUT_DOWN){
 		switch (button){
@@ -285,9 +275,6 @@ void mouse( int button, int state, int x, int y ){
 void activeMouse(int x, int y){
 	scene.getCamera()->mouseActive(x, y);
 }
-#pragma warning(pop)
-
-//----------------------------------------------------------------------------
 
 void idle(void) {
 	int timeSinceStart = glutGet(GLUT_ELAPSED_TIME);
@@ -298,8 +285,6 @@ void idle(void) {
 	sunSphere->rotateAroundOriginZ(0.01f * deltaTime);
 	glutPostRedisplay();
 }
-
-//----------------------------------------------------------------------------
 }
 
 int main(int argc, char** argv) {

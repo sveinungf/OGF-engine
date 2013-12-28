@@ -8,8 +8,6 @@
 
 using namespace std;
 
-#pragma warning(push)
-#pragma warning(disable:4100) // ignore unused parameters
 
 class Instancing : public AbstractComponent {
 
@@ -35,11 +33,10 @@ private:
 	GLuint cullQuery;
 	ShaderProgram cullingShader;
 
-	GLuint positionsTFB; // TFB = Transform Feedback Buffer
+	//TFB = Transform Feedback Buffer
+	GLuint positionsTFB;
 	GLuint normalsTFB;
 	int visibleInstances;
 
 	void init();
 };
-
-#pragma warning(pop)

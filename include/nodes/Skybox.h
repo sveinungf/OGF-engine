@@ -24,8 +24,8 @@ public:
 	void buildSkybox();
 
 protected:
-	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip) override {}
-	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip) override {}
+	virtual void renderSelf(const mat4&, const mat4&) override {}
+	virtual void renderIDSelf(const mat4&, const mat4&) override {}
 
 private:
 	

@@ -1,7 +1,7 @@
-//#pragma once
+#pragma once
+
 #include "AbstractMesh.h"
-//#include <math.h>
-//#include <iostream>
+
 #define _USE_MATH_DEFINES
 
 class Sphere : public AbstractMesh {
@@ -20,7 +20,6 @@ private:
 
 public:
 	Sphere();
-	~Sphere(void) {};
+	~Sphere(void) {}
 
 };
-
