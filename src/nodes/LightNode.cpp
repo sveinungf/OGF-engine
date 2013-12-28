@@ -8,7 +8,7 @@ LightNode::LightNode(ShaderManager* shaderManager,
     this->shaderManager = shaderManager;
 };
 
-void LightNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
+void LightNode::renderSelf(const mat4&, const mat4&) {
 	shaderManager->updatePosition(lightId);
 }
 
