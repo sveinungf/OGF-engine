@@ -5,7 +5,7 @@ class AssImpNode : public AbstractNode {
 
 public:
 	AssImpNode(const ShaderProgram& program, const std::string& path);
-	~AssImpNode();
+	virtual ~AssImpNode() override;
 
 	void addComponent(AbstractComponent* component, int mesh = -1);
 	void setMaterial(PhongProperty* material, int mesh = -1);
