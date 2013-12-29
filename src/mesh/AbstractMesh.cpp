@@ -3,11 +3,11 @@
 
 AbstractMesh::AbstractMesh() :
 		vertices(nullptr), colors(nullptr), normals(nullptr), texCoords(nullptr), tangents(nullptr), bitangents(nullptr),
-		numberOfVertices(0), bytesOfVertices(0), bytesOfColors(0), bytesOfNormals(0), bytesOfTexCoords(0), bytesOfTangents(0), bytesOfBitangents(0),
+		numberOfVertices(0), bytesOfVertices(0), bytesOfNormals(0), bytesOfColors(0), bytesOfTexCoords(0), bytesOfTangents(0), bytesOfBitangents(0),
 		vao(0), vbo(0), bufferOffset(0), attribOffset(0) {
 
 	id = ++count;
-};
+}
 
 void AbstractMesh::buildVAO() {
 	checkErrorAndStop("MeshAbstract::buildVAO() : pre method excecution", true);

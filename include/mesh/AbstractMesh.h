@@ -4,10 +4,7 @@
 #include <sstream>
 #include <vector>
 #include <GL/glew.h>
-#pragma warning(push)
-#pragma warning(disable:4201)
-#include <glm/glm.hpp>
-#pragma warning(pop)
+#include <glmhppnowarnings.h>
 #include <glm/ext.hpp>
 
 #include "../Debug.h"
@@ -17,7 +14,6 @@
 class AbstractMesh {
 
 public:
-	AbstractMesh();
 	virtual ~AbstractMesh() {}
 
 	static unsigned int count;
@@ -30,7 +26,7 @@ public:
 	void setAttribOffset(const GLintptr& offset) { attribOffset = offset; }
 	int getNumberOfVertices() const { return numberOfVertices; }
 
-	unsigned int getId(){ return id; }
+	unsigned int getId() { return id; }
 
 	virtual glm::vec3 getPositiveExtent() const { return glm::vec3(0.0f, 0.0f, 0.0f); }
 	virtual glm::vec3 getNegativeExtent() const { return glm::vec3(0.0f, 0.0f, 0.0f); }
@@ -54,6 +50,7 @@ protected:
 	int bytesOfTangents;
 	int bytesOfBitangents;
 
+	AbstractMesh();
 	virtual void prepareBufferData() = 0;
 	void buildVAO();
 

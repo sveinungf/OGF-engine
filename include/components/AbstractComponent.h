@@ -1,9 +1,6 @@
 #pragma once
 
-#pragma warning(push)
-#pragma warning(disable:4201) // nameless structs
-#include <glm/glm.hpp>
-#pragma warning(pop)
+#include <glmhppnowarnings.h>
 #include "../mesh/AbstractMesh.h"
 
 using namespace glm;

@@ -1,5 +1,6 @@
 #include "mesh/Sphere.h"
 
+
 Sphere::Sphere() : AbstractMesh() {
 	prepareBufferData();
 	buildVAO();

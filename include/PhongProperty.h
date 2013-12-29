@@ -2,11 +2,8 @@
 
 #include <ostream>
 #include <GL/glew.h>
-#pragma warning(push)
-#pragma warning(disable:4201) // nameless structs
-#include <glm/glm.hpp>
+#include <glmhppnowarnings.h>
 #include <glm/ext.hpp>
-#pragma warning(pop)
 
 
 class PhongProperty {

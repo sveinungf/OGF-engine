@@ -6,6 +6,10 @@
 
 class Sphere : public AbstractMesh {
 
+public:
+	Sphere();
+	virtual ~Sphere() override {}
+
 private:
 	virtual void prepareBufferData();
 
@@ -17,9 +21,5 @@ private:
 	glm::vec4 unit( const glm::vec4& p );
 	void divideTriangle( const glm::vec4& a, const glm::vec4& b, const glm::vec4& c, int count );
 	void tetrahedron( int count );
-
-public:
-	Sphere();
-	~Sphere(void) {}
 
 };

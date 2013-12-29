@@ -1,11 +1,9 @@
-#pragma warning(push, 0)
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <GL/freeglut_ext.h>
-#include <glm/glm.hpp>
+#include <glmhppnowarnings.h>
 #include <glm/gtx/transform.hpp>
-#pragma warning(pop)
 
 #include "components/Blending.h"
 #include "components/Instancing.h"
@@ -316,4 +314,6 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-#pragma warning(disable:4505) // unreferenced local function in glut
+#if defined(_MSC_VER)
+#	pragma warning(disable:4505) // Unreferenced local function in freeglut
+#endif

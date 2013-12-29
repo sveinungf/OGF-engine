@@ -1,10 +1,6 @@
 #pragma once
 
 #include <string>
-#pragma warning(push)
-#pragma warning(disable:4201) // nameless structs
-#include <glm/ext.hpp>
-#pragma warning(pop)
 #include <SOIL.h>
 #include "../Image.h"
 #include "../TerrainContentData.h"
@@ -18,7 +14,7 @@ class Terrain : public AbstractMesh {
 
 public:
 	Terrain(const string& filename);
-	~Terrain();
+	virtual ~Terrain() override;
 
 	Image* getHeightmap() const { return heightmap; }
 	int getLength() const { return length; }

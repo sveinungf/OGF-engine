@@ -1,21 +1,21 @@
 #include "FrameBuffer.h"
 
-FrameBuffer::FrameBuffer(){
+
+FrameBuffer::FrameBuffer() {
 	generate(1024, 1024);
 }
 
-FrameBuffer::FrameBuffer(int width, int height){
+FrameBuffer::FrameBuffer(int width, int height) {
 	generate(width, height);
 }
 
-
-FrameBuffer::~FrameBuffer(){
+FrameBuffer::~FrameBuffer() {
 	glDeleteFramebuffers(1, &fbo);
 	glDeleteTextures(1, &texture);
 	glDeleteTextures(1, &depth);
 }
 
-void FrameBuffer::enable(){
+void FrameBuffer::enable() {
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	static const GLfloat green[] = { 0.7f, 0.7f, 0.7f, 0.7f };
 	static const GLfloat one = 1.0f;
@@ -24,22 +24,18 @@ void FrameBuffer::enable(){
 	glClearBufferfv(GL_DEPTH, 0, &one);
 }
 
-void FrameBuffer::disable(){
+void FrameBuffer::disable() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-GLuint FrameBuffer::getTexture(){
-	return texture;
-}
-
-void FrameBuffer::reshape(int width, int height){
+void FrameBuffer::reshape(int width, int height) {
 	glDeleteFramebuffers(1, &fbo);
 	glDeleteTextures(1, &texture);
 	glDeleteTextures(1, &depth);
 	generate(width, height);
 }
 
-void FrameBuffer::generate(int width, int height){
+void FrameBuffer::generate(int width, int height) {
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	glGenTextures(1, &texture);

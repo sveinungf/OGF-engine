@@ -1,10 +1,7 @@
 #pragma once
 
 #include <vector>
-#pragma warning(push)
-#pragma warning(disable:4201) // nameless structs
-#include <glm/glm.hpp>
-#pragma warning(pop)
+#include <glmhppnowarnings.h>
 
 using namespace glm;
 using namespace std;

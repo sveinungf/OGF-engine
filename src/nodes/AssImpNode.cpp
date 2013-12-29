@@ -28,7 +28,7 @@ AssImpNode::AssImpNode(const ShaderProgram& program, const std::string& path){
 		self.push_back(m);
 	}
 	std::cout << std::endl;
-};
+}
 
 AssImpNode::~AssImpNode(){
 	for (MeshNode * node : self) {

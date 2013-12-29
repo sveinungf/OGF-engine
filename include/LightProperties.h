@@ -2,6 +2,7 @@
 
 #include "PhongProperty.h"
 
+
 class LightProperties {
 
 public:

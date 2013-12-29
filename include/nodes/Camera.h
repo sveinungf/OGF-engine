@@ -3,10 +3,7 @@
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#pragma warning(push)
-#pragma warning(disable:4201) // nameless structs
-#include <glm/glm.hpp>
-#pragma warning(pop)
+#include <glmhppnowarnings.h>
 #include "AbstractNode.h"
 
 using namespace glm;
@@ -77,5 +74,9 @@ private:
 
 	void rotate(float pitch, float yaw, float roll);
 };
+
+#if defined(_MSC_VER)
+#	pragma warning(disable:4505) // Unreferenced local function in freeglut
+#endif
 
 #endif /* CAMERA_H_ */

@@ -1,10 +1,10 @@
 #pragma once
+
 #include <GL/glew.h>
-#include <GL/freeglut.h>
 
 
-class FrameBuffer
-{
+class FrameBuffer {
+
 public:
 	FrameBuffer();
 	FrameBuffer(int width, int height);
@@ -13,10 +13,11 @@ public:
 	void enable();
 	void disable();
 
-	GLuint getTexture();
-	GLuint getFBO(){ return fbo; }
+	const GLuint& getFBO() { return fbo; }
+	const GLuint& getTexture() const { return texture; }
 
 	void reshape(int width, int height);
+
 private:
 	void generate(int width, int height);
 
@@ -24,5 +25,3 @@ private:
 	GLuint texture;
 	GLuint depth;
 };
-
-#pragma warning(disable:4505) // unreferenced local function in glut

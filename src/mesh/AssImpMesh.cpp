@@ -6,7 +6,7 @@
 #include <glm/gtc/swizzle.hpp>
 
 
-AssImpMesh::AssImpMesh(aiMesh* mesh){
+AssImpMesh::AssImpMesh(aiMesh* mesh) : AbstractMesh() {
 	this->id = ++AbstractMesh::count;
 	std::cout << "id( " << id << " )";
 	numberOfVertices = mesh->mNumVertices;

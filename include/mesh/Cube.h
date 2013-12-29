@@ -8,6 +8,7 @@ class Cube : public AbstractMesh {
 public:
 	Cube();
 	Cube(glm::vec4 color);
+	virtual ~Cube() override {}
 
 protected:
 	virtual void prepareBufferData() override;

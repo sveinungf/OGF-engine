@@ -6,7 +6,7 @@ LightNode::LightNode(ShaderManager* shaderManager,
 	phongProperty = lightProperty;
     lightId = shaderManager->add(this);
     this->shaderManager = shaderManager;
-};
+}
 
 void LightNode::renderSelf(const mat4&, const mat4&) {
 	shaderManager->updatePosition(lightId);

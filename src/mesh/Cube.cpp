@@ -1,5 +1,6 @@
 #include "mesh/Cube.h"
 
+
 glm::vec3 Cube::originalCube[8] = {
     glm::vec3(-0.5f, -0.5f,  0.5f),
     glm::vec3(-0.5f, 0.5f,  0.5f),
@@ -25,9 +26,7 @@ void Cube::prepareBufferData() {
 	prepareBufferData(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
 }
 
-
 void Cube::prepareBufferData(glm::vec4 color) {
-
 	numberOfVertices = 36; // 6 vertices per face * 6 faces
 	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
 	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
