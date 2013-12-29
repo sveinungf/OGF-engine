@@ -7,7 +7,7 @@ Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) {
     // Lager lokasjon for 1 tekstur (denne) i GPU minne
     glGenTextures(1, &textureName);
 
-    // Må binde teksturen for å sette parametre
+    // Mï¿½ binde teksturen for ï¿½ sette parametre
     glBindTexture(GL_TEXTURE_2D, textureName);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getWidth(), image->getHeight(), 0,
                  GL_RGBA, GL_UNSIGNED_BYTE, image->getPixelData());
@@ -21,11 +21,6 @@ Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) {
     } else {
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     }
-}
-
-Texture2D::Texture2D(const GLuint& premade) {
-	// Lager lokasjon for 1 tekstur (denne) i GPU minne
-	textureName = premade;
 }
 
 Texture2D::~Texture2D() {
