@@ -9,8 +9,7 @@ class LightNode;
 class ShaderManager {
 
 public:
-	ShaderManager();
-	~ShaderManager();
+	ShaderManager() {}
 
 	int add(LightNode* light);
 	void add(ShaderProgram& shader);

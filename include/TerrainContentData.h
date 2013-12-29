@@ -16,7 +16,7 @@ public:
 	static const float SNOW_HEIGHT_PERCENT;
 	static const float TEXTURE_MIX_RANGE;
 
-	TerrainContentData() {};
+	TerrainContentData() : rockHeight(0.0f), snowHeight(0.0f), waterHeight(0.0f) {}
 
 	float getRockHeight() const { return rockHeight; }
 	float getSnowHeight() const { return snowHeight; }
