@@ -25,7 +25,7 @@ ShaderProgram& ShaderProgram::operator<<(const GLenum& type){
 	return *this;
 }
 
-ShaderProgram& ShaderProgram::operator<<(const Shader& s){
+ShaderProgram& ShaderProgram::operator<<(const Shader& s) {
 	{
 		switch (s.getType()){
 		case Shader::FRAG:
@@ -40,25 +40,23 @@ ShaderProgram& ShaderProgram::operator<<(const Shader& s){
 		}
 		std::cout << s.getPath() << std::endl;
 	}
-	FILE* fp = fopen(s.getPath().c_str(), "r");
 
-	if (fp == NULL) {
-		std::cout << s.getPath() << " doesn't exist:" << std::endl;
-		throw std::runtime_error("File not found");
+	ifstream fileStream(s.getPath());
+
+	if (fileStream.fail()) {
+		std::cerr << "Can't open file " << s.getPath() << std::endl;
+		throw std::runtime_error("Can't open file " + s.getPath());
 	}
 
-	fseek(fp, 0L, SEEK_END);
-	long size = ftell(fp);
-	fseek(fp, 0L, SEEK_SET);
-	char* buf = new char[size + 1];
-	fread(buf, 1, size, fp);
-	buf[size] = '\0';
-	fclose(fp);
+	stringstream buffer;
+	buffer << fileStream.rdbuf();
+
+	string fileString = buffer.str();
+	const GLchar* fileCharArray = fileString.c_str();
 
 	GLuint shader = glCreateShader(s.getType());
-	glShaderSource(shader, 1, (const GLchar**)&buf, NULL);
+	glShaderSource(shader, 1, &fileCharArray, NULL);
 	glCompileShader(shader);
-	delete[] buf;
 
 	GLint compiled;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
@@ -169,5 +167,5 @@ void ShaderProgram::setTransformFeedbackOutput(const vector<string>& varyings) c
 	// Tells the transform feedback what shader variables to monitor
 	glTransformFeedbackVaryings(programLocation, size, arr, GL_SEPARATE_ATTRIBS);
 
-	delete arr;
+	delete[] arr;
 }
