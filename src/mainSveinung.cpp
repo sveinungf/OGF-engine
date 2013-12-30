@@ -29,6 +29,8 @@ namespace sveinung {
 
 vec3 cameraStartPosition(0.0f, 60.0f, -10.0f);
 int oldTimeSinceStart;
+unsigned int frameCount;
+int previousTime = 0;
 
 Scene scene;
 AssImpNode* tree;
@@ -180,6 +182,7 @@ void display(void) {
 		scene.render();
 	}
 	glutSwapBuffers();
+	++frameCount;
 }
 
 //----------------------------------------------------------------------------
@@ -281,6 +284,17 @@ void idle(void) {
 
 	scene.getCamera()->doMove(deltaTime);
 	sunSphere->rotateAroundOriginZ(0.01f * deltaTime);
+
+	int timeInterval = timeSinceStart - previousTime;
+	if (timeInterval > 1000) {
+		float fps = frameCount / (timeInterval / 1000.0f);
+		stringstream ss;
+		ss << "OGF Engine program - FPS: " << fps;
+		glutSetWindowTitle(ss.str().c_str());
+		previousTime = timeSinceStart;
+		frameCount = 0;
+	}
+
 	glutPostRedisplay();
 }
 }
