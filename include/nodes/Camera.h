@@ -2,7 +2,7 @@
 #define CAMERA_H_
 
 #include <GL/glew.h>
-#include <GL/freeglut.h>
+#include <GLFW/glfw3.h>
 #include <glmhppnowarnings.h>
 #include "AbstractNode.h"
 
@@ -21,11 +21,11 @@ public:
 
 	void updateWorldToView();
 
-	void doMove(int deltatime);
-	void keyDown(unsigned char key);
-	void keyUp(unsigned char key);
-	void mouseAction(int button, int state, int x, int y);
-	void mouseActive(int x, int y);
+	void doMove(double deltaTime);
+	void keyDown(int key);
+	void keyUp(int key);
+	void mouseAction(GLFWwindow* window, int button, int state, int x, int y);
+	void mouseActive(GLFWwindow* window, int x, int y);
 
 	void render();
 	void renderID();
@@ -74,9 +74,5 @@ private:
 
 	void rotate(float pitch, float yaw, float roll);
 };
-
-#if defined(_MSC_VER)
-#	pragma warning(disable:4505) // Unreferenced local function in freeglut
-#endif
 
 #endif /* CAMERA_H_ */

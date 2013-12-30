@@ -29,25 +29,21 @@ void Camera::updateWorldToView() {
 	worldToView = lookAt(vec3(position), vec3(position + forward), vec3(up));
 }
 
-void Camera::doMove(int deltatime){
+void Camera::doMove(double deltaTime){
 	int forw = (keys[KEY_W] - keys[KEY_S]);
 	int strafe = (keys[KEY_D] - keys[KEY_A]);
 	int hover = (keys[KEY_SPACE] - keys[KEY_V]);
 	float speed = (float) keys[KEY_LSHIFT] * 3 + 1;
 
-	vec4 translate = vec4(strafe, hover, forw, 0.0f) * speed * (float) deltatime / 100.0f;
+	vec4 translate = vec4(strafe, hover, forw, 0.0f) * speed * (float) deltaTime * 10;
 
 	vec3 a = cross(vec3(forward), vec3(up));
 	vec4 newPos = forward * translate.z + up * translate.y + vec4(a, 0.0f) * translate.x;
 	move(vec3(newPos));
 }
 
-void Camera::keyDown(unsigned char key){
+void Camera::keyDown(int key){
 	switch (key) {
-		case 'k':
-			std::cout << glm::to_string(getPositionVec4()) << std::endl << std::endl;
-			break;
-
 		case 'w':
 		case 'W':
 			keys[KEY_W] = true;
@@ -71,13 +67,13 @@ void Camera::keyDown(unsigned char key){
 		case 'V':
 			keys[KEY_V] = true;
 			break;
-		case GLUT_KEY_SHIFT_L:
+		case GLFW_KEY_LEFT_SHIFT:
 			keys[KEY_LSHIFT] = true;
 			break;
 	}
 }
 
-void Camera::keyUp(unsigned char key){
+void Camera::keyUp(int key){
 	switch (key) {
 		case 'w':
 		case 'W':
@@ -102,57 +98,56 @@ void Camera::keyUp(unsigned char key){
 		case 'V':
 			keys[KEY_V] = false;
 			break;
-		case GLUT_KEY_SHIFT_L:
+		case GLFW_KEY_LEFT_SHIFT:
 			keys[KEY_LSHIFT] = false;
 			break;
 	}
 }
 
-void Camera::mouseAction(int button, int state, int x, int y){
+void Camera::mouseAction(GLFWwindow* window, int button, int state, int x, int y) {
 	switch (button){
-	case GLUT_LEFT_BUTTON:
-		if (state == GLUT_DOWN) {
+	case GLFW_MOUSE_BUTTON_LEFT:
+		if (state == GLFW_PRESS) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 			mouseState = MOUSE_ACTIVE;
 			prevX = x;
 			prevY = y;
 			startX = x;
 			startY = y;
-			glutSetCursor(GLUT_CURSOR_NONE);
 		} else {
-			mouseState = 0;
-			glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-			glutWarpPointer(startX, startY);
+			glfwSetCursorPos(window, startX, startY);
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			mouseState = MOUSE_OFF;
 		}
 		break;
-	case GLUT_RIGHT_BUTTON:
+	case GLFW_MOUSE_BUTTON_RIGHT:
 		if (mouseState == MOUSE_ACTIVE) {
 			mouseState = MOUSE_ROLL;
 		} else {
+			glfwSetCursorPos(window, startX, startY);
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			mouseState = MOUSE_OFF;
-			glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-			glutWarpPointer(startX, startY);
 		}
 		break;
 	}
 }
 
-void Camera::mouseActive(int x, int y){
-	if (mouseState != MOUSE_OFF){
-		int wWidth = glutGet(GLUT_WINDOW_WIDTH);
-		int wHeight = glutGet(GLUT_WINDOW_HEIGHT);
+void Camera::mouseActive(GLFWwindow* window, int x, int y) {
+	int windowWidth, windowHeight;
+	glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
-		if (x <= 10 || y <= 10 || x >= wWidth - 10 || y >= wHeight - 10) {
-			glutWarpPointer(wWidth / 2, wHeight / 2);
-			prevX = wWidth / 2;
-			prevY = wHeight / 2;
+	if (mouseState != MOUSE_OFF) {
+		if (x <= 10 || y <= 10 || x >= windowWidth - 10 || y >= windowHeight - 10) {
+			prevX = windowWidth / 2;
+			prevY = windowHeight / 2;
+			glfwSetCursorPos(window, prevX, prevY);
 		} else {
 			switch (mouseState){
 			case MOUSE_ACTIVE:
-				rotate((prevY - y) / 4.0f, (prevX - x) / 4.0f, 0);
+				rotate((prevY - y) / 4.0f, (prevX - x) / 4.0f, 0.0f);
 				break;
 			case MOUSE_ROLL:
-				rotate(0, 0, (x - prevX) / 4.0f);
+				rotate(0.0f, 0.0f, (x - prevX) / 4.0f);
 				break;
 			}
 

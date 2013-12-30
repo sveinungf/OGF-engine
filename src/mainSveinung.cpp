@@ -1,7 +1,6 @@
 #include <iostream>
 #include <GL/glew.h>
-#include <GL/freeglut.h>
-#include <GL/freeglut_ext.h>
+#include <GLFW/glfw3.h>
 #include <glmhppnowarnings.h>
 #include <glm/gtx/transform.hpp>
 
@@ -25,12 +24,13 @@
 #include "FrameBuffer.h"
 #include "OGFConfig.h"
 
-namespace sveinung {
+
+GLFWwindow* window;
 
 vec3 cameraStartPosition(0.0f, 60.0f, -10.0f);
-int oldTimeSinceStart;
+double oldTimeSinceStart;
 unsigned int frameCount;
-int previousTime = 0;
+double previousTime;
 
 Scene scene;
 AssImpNode* tree;
@@ -48,6 +48,9 @@ ShaderManager* sManager;
 bool renderID = false;
 
 void init() {
+	oldTimeSinceStart = glfwGetTime();
+	previousTime = oldTimeSinceStart;
+
 	std::string resourceBase(OGF_RESOURCE_DIR);
 
 	ShaderProgram instancingShader = ShaderProgram()
@@ -173,6 +176,22 @@ void init() {
 }
 
 void display(void) {
+	double timeSinceStart = glfwGetTime();
+	double deltaTime = timeSinceStart - oldTimeSinceStart;
+	oldTimeSinceStart = timeSinceStart;
+	scene.getCamera()->doMove(deltaTime);
+	sunSphere->rotateAroundOriginZ(10 * (float) deltaTime);
+
+	double timeInterval = timeSinceStart - previousTime;
+	if (timeInterval > 1.0) {
+		double fps = frameCount / timeInterval;
+		stringstream ss;
+		ss << "OGF Engine program - FPS: " << fps;
+		glfwSetWindowTitle(window, ss.str().c_str());
+		previousTime = timeSinceStart;
+		frameCount = 0;
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (renderID) {
@@ -181,43 +200,24 @@ void display(void) {
 	} else {
 		scene.render();
 	}
-	glutSwapBuffers();
+	
 	++frameCount;
 }
 
-//----------------------------------------------------------------------------
-
-//Reshape window without losing aspect ratio
-void reshape(int width, int height) {
-	glViewport(0, 0, width, height);
-	float asp = (float) width/height;
-	scene.getCamera()->setAspectRatio(asp);
-}
-
-void keySpecial(int key, int /*x*/, int /*y*/) {
-	scene.getCamera()->keyDown((unsigned char)key);
-}
-
-void keySpecialUp(int key, int /*x*/, int /*y*/) {
-	scene.getCamera()->keyUp((unsigned char)key);
-}
-
-void keyboard(unsigned char key, int /*x*/, int /*y*/) {
-	scene.getCamera()->keyDown(key);
-    switch (key) {
+void keyCallback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/) {
+	if (action == GLFW_PRESS) {
+		switch (key) {
 		case 'o':
 		case 'O':
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // show wireframe
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// show wireframe
 			break;
-
 		case 'i':
 		case 'I':
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // back to default
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	// back to default
 			break;
-
 		case 'p':
 		case 'P':
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT); // show points
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);	// show points
 			break;
 		case 'u':
 		case 'U':
@@ -227,107 +227,114 @@ void keyboard(unsigned char key, int /*x*/, int /*y*/) {
 		case 'G':
 			std::cout << "GRESS: " << grassInstancing->getVisibleInstances() << std::endl;
 			break;
-
 		case 't':
 		case 'T':
 			std::cout << "Trees: " << treeInstancing->getVisibleInstances() << std::endl;
 			break;
-
-        case 033: // Escape Key
-            exit(EXIT_SUCCESS);
-            break;
-
-    }
-}
-
-void keyboardUp(unsigned char key, int /*x*/, int /*y*/) {
-	scene.getCamera()->keyUp(key);
-}
-
-void mouse( int button, int state, int x, int y ) {
-	scene.getCamera()->mouseAction(button, state, x, y);
-	if (state == GLUT_DOWN){
-		switch (button){
-		case GLUT_MIDDLE_BUTTON:
-			FrameBuffer fbo = FrameBuffer(
-					glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
-
-			fbo.enable();
-				sManager->setUniformGLint("idMul", 1);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				scene.renderID();
-				unsigned char data[4] = { 0 };
-				glReadPixels(x, glutGet(GLUT_WINDOW_HEIGHT) - y, 
-					1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &data);
-				// We are only checking the blue component, 
-				// we don't have 255 or more meshes 
-				if (data[2] == '\0'){
-					std::cout << "Did not click on a mesh." << std::endl;
-				} else{
-					std::cout << "Clicked on mesh id: "
-						<< (int)data[2] << std::endl;
-				}
-			fbo.disable();
+		case GLFW_KEY_ESCAPE:
+			glfwSetWindowShouldClose(window, GL_TRUE);
 			break;
+		default:
+			scene.getCamera()->keyDown(key);
+			break;
+		}
+	} else if (action == GLFW_RELEASE) {
+		scene.getCamera()->keyUp(key);
+	}
+}
+
+void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
+	scene.getCamera()->mouseActive(window, (int) xpos, (int) ypos);
+}
+
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int /*mods*/) {
+	double cursorX, cursorY;
+	glfwGetCursorPos(window, &cursorX, &cursorY);
+	scene.getCamera()->mouseAction(window, button, action, (int) cursorX, (int) cursorY);
+
+	if (action == GLFW_PRESS) {
+		int windowWidth, windowHeight;
+		FrameBuffer* fbo = nullptr;
+		unsigned char data[4] = { 0 };
+
+		switch (button) {
+		case GLFW_MOUSE_BUTTON_MIDDLE:
+			glfwGetWindowSize(window, &windowWidth, &windowHeight);
+			fbo = new FrameBuffer(windowWidth, windowHeight);
+
+			fbo->enable();
+			sManager->setUniformGLint("idMul", 1);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			scene.renderID();
+			
+			glReadPixels((int) cursorX, windowHeight - (int) cursorY, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &data);
+			// We are only checking the blue component, 
+			// we don't have 255 or more meshes 
+			if (data[2] == '\0'){
+				std::cout << "Did not click on a mesh." << std::endl;
+			} else {
+				std::cout << "Clicked on mesh id: " << (int) data[2] << std::endl;
+			}
+			fbo->disable();
+			break;
+		}
+
+		if (fbo != nullptr) {
+			delete fbo;
 		}
 	}
 }
 
-void activeMouse(int x, int y){
-	scene.getCamera()->mouseActive(x, y);
+void errorCallback(int error, const char* description) {
+	cerr << "GLFW Error " << error << ": " << description << endl;
 }
 
-void idle(void) {
-	int timeSinceStart = glutGet(GLUT_ELAPSED_TIME);
-	int deltaTime = timeSinceStart - oldTimeSinceStart;
-	oldTimeSinceStart = timeSinceStart;
+void framebufferSizeCallback(GLFWwindow* /*window*/, int width, int height) {
+	glViewport(0, 0, width, height);
+	scene.getCamera()->setAspectRatio((float) width/height);
+}
 
-	scene.getCamera()->doMove(deltaTime);
-	sunSphere->rotateAroundOriginZ(0.01f * deltaTime);
-
-	int timeInterval = timeSinceStart - previousTime;
-	if (timeInterval > 1000) {
-		float fps = frameCount / (timeInterval / 1000.0f);
-		stringstream ss;
-		ss << "OGF Engine program - FPS: " << fps;
-		glutSetWindowTitle(ss.str().c_str());
-		previousTime = timeSinceStart;
-		frameCount = 0;
+int main(int, char**) {
+	if (!glfwInit()) {
+		exit(EXIT_FAILURE);
 	}
 
-	glutPostRedisplay();
-}
-}
+	glfwSetErrorCallback(errorCallback);
 
-int main(int argc, char** argv) {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-    glutInitWindowSize(800, 600);
-    glutInitContextVersion(4, 2);
-    glutInitContextProfile(GLUT_CORE_PROFILE);
-    glutCreateWindow("OGF Engine program");
+	const int width = 800;
+	const int height = 600;
+	window = glfwCreateWindow(width, height, "OGF Engine program", NULL, NULL);
+	scene.getCamera()->setAspectRatio((float) width/height);
+
+	if (!window) {
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
+
+	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+	glfwSetKeyCallback(window, keyCallback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
 
     glewExperimental = GL_TRUE;
-
     glewInit();
+
+	cout << "OpenGL version " << glGetString(GL_VERSION) << endl;
+
 	checkErrorAndStop("after glewinit", false);
 
-	sveinung::init();
-	sveinung::oldTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
-	glutDisplayFunc(sveinung::display);
-    glutReshapeFunc(sveinung::reshape);
-    glutKeyboardFunc(sveinung::keyboard);
-	glutKeyboardUpFunc(sveinung::keyboardUp);
-    glutMouseFunc( sveinung::mouse );
-	glutMotionFunc(sveinung::activeMouse);
-	glutSpecialFunc(sveinung::keySpecial);
-	glutSpecialUpFunc(sveinung::keySpecialUp);
-	glutIdleFunc(sveinung::idle);
+	init();
 
-    glutMainLoop();
+	while (!glfwWindowShouldClose(window)) {
+		display();
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
+	glfwDestroyWindow(window);
+	glfwTerminate();
+
     return 0;
 }
-
-#if defined(_MSC_VER)
-#	pragma warning(disable:4505) // Unreferenced local function in freeglut
-#endif
