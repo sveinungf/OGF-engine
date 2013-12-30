@@ -19,14 +19,9 @@ set(LIBASSIMP-DEV_COMPONENT libassimp${ASSIMP_VERSION_MAJOR}.${ASSIMP_VERSION_MI
 set(CPACK_COMPONENTS_ALL assimp-bin ${LIBASSIMP_COMPONENT} ${LIBASSIMP-DEV_COMPONENT} assimp-dev)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-	IF(NOT MINGW)
-		add_definitions(-fPIC) # this is a very important switch and some libraries seem now to have it....
-	ENDIF()
-	
-	## hide all not-exported symbols
-	add_definitions( -fvisibility=hidden )
-
-	add_definitions(-mno-ms-bitfields)
+  add_definitions(-fPIC) # this is a very important switch and some libraries seem now to have it....
+  ## hide all not-exported symbols
+  add_definitions( -fvisibility=hidden )
 endif()
 
 INCLUDE (FindPkgConfig)
@@ -66,13 +61,13 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/cmake_uninstall.cmake.
 add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 # Allow the user to build a static library
-SET ( BUILD_STATIC_LIB ON CACHE BOOL
+SET ( BUILD_STATIC_LIB OFF CACHE BOOL
 	"Build a static (.a) version of the library"
 )
 
 # Globally enbale Boost resp. the Boost workaround – it is also needed by the
 # tools which include the Assimp headers.
-SET ( ENABLE_BOOST_WORKAROUND ON CACHE BOOL
+SET ( ENABLE_BOOST_WORKAROUND OFF CACHE BOOL
 	"If a simple implementation of the used Boost functions is used. Slightly reduces functionality, but enables builds without Boost available."
 )
 IF ( ENABLE_BOOST_WORKAROUND )
@@ -107,27 +102,11 @@ if( NOT ZLIB_FOUND )
   include(CheckIncludeFile)
   include(CheckTypeSize)
   include(CheckFunctionExists)
-  
-	# compile from sources
-	IF(MINGW)
-		SET(CMAKE_C_FLAGS_COPY "${CMAKE_C_FLAGS}")
-		SET(CMAKE_CXX_FLAGS_COPY "${CMAKE_CXX_FLAGS}")
-		
-		#Suppress warning: visibility attribute not supported
-		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-attributes")
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-attributes")
-		ADD_SUBDIRECTORY(contrib/zlib)
-		
-		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_COPY}")
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_COPY}")
-	ELSE()
-		ADD_SUBDIRECTORY(contrib/zlib)
-	ENDIF()
-  
-  
+  # compile from sources
+  add_subdirectory(contrib/zlib)
   set(ZLIB_FOUND 1)
   set(ZLIB_LIBRARIES zlib)
-  set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/contrib/zlib)
+  set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/zlib)
 else(NOT ZLIB_FOUND)
   ADD_DEFINITIONS(-DASSIMP_BUILD_NO_OWN_ZLIB)
 endif(NOT ZLIB_FOUND)
@@ -164,7 +143,7 @@ MARK_AS_ADVANCED ( ASSIMP_BUILD_ARCHITECTURE ASSIMP_BUILD_COMPILER )
 
 
 ADD_SUBDIRECTORY( code/ )
-SET ( BUILD_ASSIMP_TOOLS OFF CACHE BOOL
+SET ( BUILD_ASSIMP_TOOLS ON CACHE BOOL
 	"If the supplementary tools for Assimp are built in addition to the library."
 )
 IF ( BUILD_ASSIMP_TOOLS )

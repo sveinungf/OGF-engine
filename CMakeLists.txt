@@ -36,6 +36,11 @@ SET(GLFW_BUILD_TESTS OFF CACHE BOOL "Build the GLFW test programs")
 SET(GLFW_INSTALL OFF CACHE BOOL "Generate installation target")
 ADD_SUBDIRECTORY(depends/glfw-3.0.3)
 
+#ASSIMP
+SET(BUILD_STATIC_LIB ON CACHE BOOL "Build a static (.a) version of the library")
+SET(ENABLE_BOOST_WORKAROUND ON CACHE BOOL "If a simple implementation of the used Boost functions is used. Slightly reduces functionality, but enables builds without Boost available.")
+SET(BUILD_ASSIMP_TOOLS OFF CACHE BOOL "If the supplementary tools for Assimp are built in addition to the library.")
+#SET(NO_EXPORT ON CACHE BOOL "Disable Assimp's export functionality.")
 ADD_SUBDIRECTORY(depends/assimp--3.0.1270-sdk)
 ADD_SUBDIRECTORY(depends/soil-20080707)
 ADD_SUBDIRECTORY(src)
