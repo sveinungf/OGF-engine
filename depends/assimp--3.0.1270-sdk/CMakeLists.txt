@@ -18,7 +18,7 @@ set(LIBASSIMP_COMPONENT libassimp${ASSIMP_VERSION_MAJOR}.${ASSIMP_VERSION_MINOR}
 set(LIBASSIMP-DEV_COMPONENT libassimp${ASSIMP_VERSION_MAJOR}.${ASSIMP_VERSION_MINOR}-r${ASSIMP_SV_REVISION}-dev)
 set(CPACK_COMPONENTS_ALL assimp-bin ${LIBASSIMP_COMPONENT} ${LIBASSIMP-DEV_COMPONENT} assimp-dev)
 
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX AND NOT MINGW)
   add_definitions(-fPIC) # this is a very important switch and some libraries seem now to have it....
   ## hide all not-exported symbols
   add_definitions( -fvisibility=hidden )
@@ -106,7 +106,7 @@ if( NOT ZLIB_FOUND )
   add_subdirectory(contrib/zlib)
   set(ZLIB_FOUND 1)
   set(ZLIB_LIBRARIES zlib)
-  set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/zlib)
+  set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/contrib/zlib)
 else(NOT ZLIB_FOUND)
   ADD_DEFINITIONS(-DASSIMP_BUILD_NO_OWN_ZLIB)
 endif(NOT ZLIB_FOUND)
