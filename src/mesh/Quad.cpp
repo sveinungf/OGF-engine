@@ -9,56 +9,39 @@ vec3 Quad::points[4] = {
 };
 
 Quad::Quad() : AbstractMesh() {
+	useIBO = true;
 	prepareBufferData();
 	buildVAO();
 }
 
 void Quad::prepareBufferData() {
-	numberOfVertices = 6;
+	numberOfVertices = 4;
 
 	vertices = new vec4[numberOfVertices];
 	normals = new vec3[numberOfVertices];
 	texCoords = new vec2[numberOfVertices];
 
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(2);
+
+	indices.push_back(1);
+	indices.push_back(3);
+	indices.push_back(2);
+
 	bytesOfVertices = sizeof(vec4) * numberOfVertices;
 	bytesOfNormals = sizeof(vec3) * numberOfVertices;
-	bytesOfColors = 0;
 	bytesOfTexCoords = sizeof(vec2) * numberOfVertices;
 
-	buildQuad(0, 1, 2, 3);
-}
-
-void Quad::buildQuad(int a, int b, int c, int d) {
-	int index = 0;
 	vec3 normal(0.0f, 0.0f, -1.0f);
 
-	vertices[index] = vec4(points[a], 1.0f);
-	normals[index] = normal;
-	texCoords[index] = vec2(1.0, 1.0);
-	index++;
+	for (unsigned int i = 0; i < numberOfVertices; ++i) {
+		vertices[i] = vec4(points[i], 1.0f);
+		normals[i] = normal;
+	}
 
-	vertices[index] = vec4(points[b], 1.0f);
-	normals[index] = normal;
-	texCoords[index] = vec2(1.0, 0.0);
-	index++;
-
-	vertices[index] = vec4(points[c], 1.0f);
-	normals[index] = normal;
-	texCoords[index] = vec2(0.0, 1.0);
-	index++;
-
-	vertices[index] = vec4(points[b], 1.0f);
-	normals[index] = normal;
-	texCoords[index] = vec2(1.0, 0.0);
-	index++;
-
-	vertices[index] = vec4(points[d], 1.0f);
-	normals[index] = normal;
-	texCoords[index] = vec2(0.0, 0.0);
-	index++;
-
-	vertices[index] = vec4(points[c], 1.0f);
-	normals[index] = normal;
-	texCoords[index] = vec2(0.0, 1.0);
-	index++;
+	texCoords[0] = vec2(1.0f, 1.0f);
+	texCoords[1] = vec2(1.0f, 0.0f);
+	texCoords[2] = vec2(0.0f, 1.0f);
+	texCoords[3] = vec2(0.0f, 0.0f);
 }

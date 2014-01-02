@@ -4,7 +4,7 @@
 #include "MeshNode.h"
 #include "../mesh/Quad.h"
 #include "../Texture2D.h"
-#include "../components/SimpleDraw.h"
+#include "../components/IBODraw.h"
 #include <vector>
 #include "OGFConfig.h"
 

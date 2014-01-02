@@ -7,6 +7,7 @@
 #include "components/Blending.h"
 #include "components/Instancing.h"
 #include "components/SimpleDraw.h"
+#include "components/IBODraw.h"
 #include "mesh/AssImpMesh.h"
 #include "mesh/Cube.h"
 #include "mesh/Quad.h"
@@ -48,6 +49,8 @@ ShaderManager* sManager;
 bool renderID = false;
 
 void init() {
+	//glEnable(GL_CULL_FACE);
+
 	oldTimeSinceStart = glfwGetTime();
 	previousTime = oldTimeSinceStart;
 
@@ -124,9 +127,11 @@ void init() {
 	grassNode->addComponent(blending);
 	grassNode->addTexture(billboardGrass);
 	grassNode->move(0.0f, 0.5f, 0.0f);
+
+	IBODraw* ibodraw = new IBODraw();
 	
 	waterNode = new MeshNode(waterShader, waterMesh);
-	waterNode->addComponent(simpleDraw);
+	waterNode->addComponent(ibodraw);
 	waterNode->addTexture(new Texture2D(resourceBase + "/textures/water.jpg"));
 	waterNode->rotateAroundSelfX(90.0f);
 	waterNode->scale((GLfloat) terrainMesh->getWidth(), (GLfloat) terrainMesh->getLength(), 1.0f);

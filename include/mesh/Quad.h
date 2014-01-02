@@ -18,5 +18,4 @@ private:
 	static vec3 points[4];
 
 	virtual void prepareBufferData() override;
-	void buildQuad(int a, int b, int c, int d);
 };

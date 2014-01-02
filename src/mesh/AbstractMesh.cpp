@@ -4,7 +4,7 @@
 AbstractMesh::AbstractMesh() :
 		vertices(nullptr), colors(nullptr), normals(nullptr), texCoords(nullptr), tangents(nullptr), bitangents(nullptr),
 		numberOfVertices(0), bytesOfVertices(0), bytesOfNormals(0), bytesOfColors(0), bytesOfTexCoords(0), bytesOfTangents(0), bytesOfBitangents(0),
-		vao(0), vbo(0), bufferOffset(0), attribOffset(0) {
+		useIBO(false), vao(0), vbo(0), bufferOffset(0), attribOffset(0) {
 
 	id = ++count;
 }
@@ -16,6 +16,14 @@ void AbstractMesh::buildVAO() {
     glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it
     glGenBuffers(1, &vbo); // Generate our Vertex Buffer Object
     glBindBuffer(GL_ARRAY_BUFFER, vbo); // Bind our Vertex Buffer Object
+
+	if (useIBO) {
+		int bytesOfIndices = sizeof(GLubyte) * indices.size();
+
+		glGenBuffers(1, &ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bytesOfIndices, &indices[0], GL_STATIC_DRAW);
+	}
 
 	checkErrorAndStop("MeshAbstract::buildVAO() : Binding vao/vbo", true);
 	

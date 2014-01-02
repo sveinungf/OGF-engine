@@ -6,9 +6,10 @@
 #include <GL/glew.h>
 #include <glmhppnowarnings.h>
 #include <glm/ext.hpp>
-
 #include "../Debug.h"
 #include "../ShaderLayout.h"
+
+using namespace std;
 
 
 class AbstractMesh {
@@ -25,6 +26,7 @@ public:
 	const GLintptr& getAttribOffset() const { return attribOffset; }
 	void setAttribOffset(const GLintptr& offset) { attribOffset = offset; }
 	int getNumberOfVertices() const { return numberOfVertices; }
+	int getNumberOfIndices() const { return indices.size(); }
 
 	unsigned int getId() { return id; }
 
@@ -39,6 +41,8 @@ protected:
 	glm::vec3* tangents;
 	glm::vec3* bitangents;
 
+	vector<GLubyte> indices;
+
 	unsigned int id;
 
 	// All of these integers must be initiated in order to make things work
@@ -50,6 +54,8 @@ protected:
 	int bytesOfTangents;
 	int bytesOfBitangents;
 
+	bool useIBO;
+
 	AbstractMesh();
 	virtual void prepareBufferData() = 0;
 	void buildVAO();
@@ -57,6 +63,7 @@ protected:
 private:
 	GLuint vao;
 	GLuint vbo;
+	GLuint ibo;
 
 	GLintptr bufferOffset;
 	GLintptr attribOffset;

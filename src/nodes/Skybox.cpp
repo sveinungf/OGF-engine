@@ -70,46 +70,46 @@ void Skybox::loadTextures(){
 }
 
 void Skybox::buildSkybox(){
-	SimpleDraw* simpleDraw = new SimpleDraw();
+	IBODraw* ibodraw = new IBODraw();
 
 	//front
 	nFront->move(positionFront);
 	nFront->scale(size, size, size);
-	nFront->addComponent(simpleDraw);
+	nFront->addComponent(ibodraw);
 	nFront->addTexture(textures[SKY_FRONT]);
 
 	//left
 	nLeft->rotateAroundSelfY(90.0f);
 	nLeft->move(positionLeft);
 	nLeft->scale(size, size, size);
-	nLeft->addComponent(simpleDraw);
+	nLeft->addComponent(ibodraw);
 	nLeft->addTexture(textures[SKY_LEFT]);
 
 	//right
 	nRight->rotateAroundSelfY(-90.0f);
 	nRight->move(positionRight);
 	nRight->scale(size, size, size);
-	nRight->addComponent(simpleDraw);
+	nRight->addComponent(ibodraw);
 	nRight->addTexture(textures[SKY_RIGHT]);
 
 	//back
 	nBack->rotateAroundSelfY(180.0f);
 	nBack->move(positionBack);
 	nBack->scale(size, size, size);
-	nBack->addComponent(simpleDraw);
+	nBack->addComponent(ibodraw);
 	nBack->addTexture(textures[SKY_BACK]);
 
 	//top
 	nTop->rotateAroundSelfX(-90.0f);
 	nTop->move(positionTop);
 	nTop->scale(size, size, size);
-	nTop->addComponent(simpleDraw);
+	nTop->addComponent(ibodraw);
 	nTop->addTexture(textures[SKY_TOP]);
 
 	//bottom
 	nBottom->rotateAroundSelfX(90.0f);
 	nBottom->move(positionBottom);
 	nBottom->scale(size, size, size);
-	nBottom->addComponent(simpleDraw);
+	nBottom->addComponent(ibodraw);
 	nBottom->addTexture(textures[SKY_BOTTOM]);
 }

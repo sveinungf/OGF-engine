@@ -116,5 +116,11 @@ void Instancing::render(AbstractMesh* mesh) {
 		glVertexAttribDivisor(ShaderLayout::INSTANCE_NORMAL, 1);
 	}
 
-    glDrawArraysInstanced(GL_TRIANGLES, 0, mesh->getNumberOfVertices(), visibleInstances);
+	int indices = mesh->getNumberOfIndices();
+
+	if (indices > 0) {
+		glDrawElementsInstanced(GL_TRIANGLES, indices, GL_UNSIGNED_BYTE, (GLvoid*) 0, visibleInstances);
+	} else {
+		glDrawArraysInstanced(GL_TRIANGLES, 0, mesh->getNumberOfVertices(), visibleInstances);
+	}
 }
