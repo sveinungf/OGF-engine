@@ -2,6 +2,7 @@
 
 
 Terrain::Terrain(const string& filename) : AbstractMesh() {
+	useIBO = true;
 	heightmap = new Image(filename, Image::GREYSCALE);
 	
 	prepareBufferData();
@@ -26,7 +27,8 @@ void Terrain::prepareBufferData() {
 	int lastLengthIndex = length - 1;
 	int lastWidthIndex = width - 1;
 
-	numberOfVertices = lastWidthIndex * lastLengthIndex * 6;
+	int size = width * length;
+	numberOfVertices = useIBO ? size : lastWidthIndex * lastLengthIndex * 6;
 
     vertices = new glm::vec4[numberOfVertices];
 	normals = new glm::vec3[numberOfVertices];
@@ -34,10 +36,8 @@ void Terrain::prepareBufferData() {
 
 	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
 	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
-	bytesOfColors = 0;
 	bytesOfTexCoords = sizeof(glm::vec2) * numberOfVertices;
 
-    int size = width * length;
     points = new glm::vec3[size];
 	pointNormals = new glm::vec3[size];
 	
@@ -147,76 +147,117 @@ void Terrain::prepareBufferData() {
 
 	int index = 0;
 
-	// Triangles calculations
-    for (int i = 0; i < lastLengthIndex; ++i) {
-        for (int j = 0; j < lastWidthIndex; ++j) {
-			int current = i * width + j;
-			int nextRow = ((i + 1) * width) + j;
+	if (useIBO) {
+		// Indices calculations
+		for (int i = 0; i < lastLengthIndex; ++i) {
+			for (int j = 0; j < lastWidthIndex; ++j) {
+				int current = i * width + j;
+				int	nextRow = ((i + 1) * width) + j;
 
-			/*
-			 ________________	-> j++
-			|       |       |
-			|       |       |	// Vertex 0 is the current vertex. The other vertices is numbered clockwise within the same quad.
-			|       |       |
-			|       |       |
-			|       |       |
-			|       |       |
-			|_______0_______1
-			|       |\      |
-			|       | \     |
-			|       |  \    |
-			|       |   \   |
-			|       |    \  |
-			|       |     \ |
-			|_______3______\2
+				indices.push_back(current);
+				indices.push_back(nextRow + 1);
+				indices.push_back(current + 1);
+			
+				indices.push_back(current);
+				indices.push_back(nextRow);
+				indices.push_back(nextRow + 1);
+			}
+		}
 
-			|
-			v
-			i++
+		for (int i = 0; i < length; ++i) {
+			for (int j = 0; j < width; ++j) {
+				int k = i * width + j;
 
-			*/
+				vertices[k] = vec4(points[k], 1.0f);
+				normals[k] = pointNormals[k];
 
-			glm::vec4 vertex0 = glm::vec4(points[current], 1.0f);
-			glm::vec4 vertex1 = glm::vec4(points[current + 1], 1.0f);
-			glm::vec4 vertex2 = glm::vec4(points[nextRow + 1], 1.0f);
-			glm::vec4 vertex3 = glm::vec4(points[nextRow], 1.0f);
+				if (i % 2 == 0) {
+					if (j % 2 == 0) {
+						texCoords[k] = upperLeft;
+					} else {
+						texCoords[k] = upperRight;
+					}
+				} else {
+					if (j % 2 == 0) {
+						texCoords[k] = lowerLeft;
+					} else {
+						texCoords[k] = lowerRight;
+					}
+				}
+			}
+		}
+	} else {
+		// Triangles calculations
+		for (int i = 0; i < lastLengthIndex; ++i) {
+			for (int j = 0; j < lastWidthIndex; ++j) {
+				int current = i * width + j;
+				int nextRow = ((i + 1) * width) + j;
 
-			glm::vec3 normal0 = pointNormals[current];
-			glm::vec3 normal1 = pointNormals[current + 1];
-			glm::vec3 normal2 = pointNormals[nextRow + 1];
-			glm::vec3 normal3 = pointNormals[nextRow];
+				/*
+				 ________________	-> j++
+				|       |       |
+				|       |       |	// Vertex 0 is the current vertex. The other vertices is numbered clockwise within the same quad.
+				|       |       |
+				|       |       |
+				|       |       |
+				|       |       |
+				|_______0_______1
+				|       |\      |
+				|       | \     |
+				|       |  \    |
+				|       |   \   |
+				|       |    \  |
+				|       |     \ |
+				|_______3______\2
 
-            vertices[index] = vertex0;
-			texCoords[index] = upperLeft;
-			normals[index] = normal0;
-            ++index;
+				|
+				v
+				i++
 
-			vertices[index] = vertex2;
-			texCoords[index] = lowerRight;
-			normals[index] = normal2;
-			++index;
+				*/
 
-            vertices[index] = vertex1;
-			texCoords[index] = upperRight;
-			normals[index] = normal1;
-            ++index;
+				glm::vec4 vertex0 = glm::vec4(points[current], 1.0f);
+				glm::vec4 vertex1 = glm::vec4(points[current + 1], 1.0f);
+				glm::vec4 vertex2 = glm::vec4(points[nextRow + 1], 1.0f);
+				glm::vec4 vertex3 = glm::vec4(points[nextRow], 1.0f);
+				
+				glm::vec3 normal0 = pointNormals[current];
+				glm::vec3 normal1 = pointNormals[current + 1];
+				glm::vec3 normal2 = pointNormals[nextRow + 1];
+				glm::vec3 normal3 = pointNormals[nextRow];
+				
+				vertices[index] = vertex0;
+				texCoords[index] = upperLeft;
+				normals[index] = normal0;
+				++index;
 
-            vertices[index] = vertex0;
-			texCoords[index] = upperLeft;
-			normals[index] = normal0;
-            ++index;
+				vertices[index] = vertex2;
+				texCoords[index] = lowerRight;
+				normals[index] = normal2;
+				++index;
 
-			vertices[index] = vertex3;
-			texCoords[index] = lowerLeft;
-			normals[index] = normal3;
-			++index;
+				vertices[index] = vertex1;
+				texCoords[index] = upperRight;
+				normals[index] = normal1;
+				++index;
 
-            vertices[index] = vertex2;
-			texCoords[index] = lowerRight;
-			normals[index] = normal2;
-            ++index;
-        }
-    }
+				vertices[index] = vertex0;
+				texCoords[index] = upperLeft;
+				normals[index] = normal0;
+				++index;
+
+				vertices[index] = vertex3;
+				texCoords[index] = lowerLeft;
+				normals[index] = normal3;
+				++index;
+
+				vertices[index] = vertex2;
+				texCoords[index] = lowerRight;
+				normals[index] = normal2;
+				++index;
+			}
+		}
+	}
 }
 
 float Terrain::getHeightAt(int x, int z) const {

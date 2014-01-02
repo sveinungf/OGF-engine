@@ -18,7 +18,7 @@ void AbstractMesh::buildVAO() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo); // Bind our Vertex Buffer Object
 
 	if (useIBO) {
-		int bytesOfIndices = sizeof(GLubyte) * indices.size();
+		int bytesOfIndices = sizeof(GLuint) * indices.size();
 
 		glGenBuffers(1, &ibo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);

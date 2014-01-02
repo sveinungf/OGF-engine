@@ -151,7 +151,7 @@ void init() {
 	tree->addTexture(bark, 3);
 	
 	terrain = new MeshNode(terrainShader, terrainMesh);
-	terrain->addComponent(simpleDraw);
+	terrain->addComponent(ibodraw);
 	terrain->addTexture(sand);
 	terrain->addTexture(grass);
 	terrain->addTexture(greyrock);
@@ -185,7 +185,7 @@ void display(void) {
 	double deltaTime = timeSinceStart - oldTimeSinceStart;
 	oldTimeSinceStart = timeSinceStart;
 	scene.getCamera()->doMove(deltaTime);
-	sunSphere->rotateAroundOriginZ(10 * (float) deltaTime);
+	sunSphere->rotateAroundOriginZ(5 * (float) deltaTime);
 
 	double timeInterval = timeSinceStart - previousTime;
 	if (timeInterval > 1.0) {

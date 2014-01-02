@@ -41,7 +41,7 @@ protected:
 	glm::vec3* tangents;
 	glm::vec3* bitangents;
 
-	vector<GLubyte> indices;
+	vector<GLuint> indices;
 
 	unsigned int id;
 
