@@ -8,8 +8,8 @@ out vec3 origNormal;
 flat out int objectVisible; // flat = no interpolation
 
 uniform mat4 objectToClip;
-uniform vec3 objectPositiveExtent = vec3(0.0f);
-uniform vec3 objectNegativeExtent = vec3(0.0f);
+uniform vec3 objectPositiveExtent;
+uniform vec3 objectNegativeExtent;
 
 void main() {
 	origPosition = instancePosition;

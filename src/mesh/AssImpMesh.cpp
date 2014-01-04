@@ -17,8 +17,7 @@ AssImpMesh::AssImpMesh(aiMesh* mesh) : AbstractMesh() {
 
 	vertices = new glm::vec4[numberOfVertices];
 
-
-	for (unsigned int i = 0; i < mesh->mNumVertices; i++){
+	for (unsigned int i = 0; i < numberOfVertices; ++i){
 		auto v = mesh->mVertices[i];
 		vertices[i] = glm::vec4(v.x, v.y, v.z, 1.0f);
 
@@ -40,6 +39,8 @@ AssImpMesh::AssImpMesh(aiMesh* mesh) : AbstractMesh() {
 			negativeExtent.z = v.z;
 		}
 	}
+
+	negativeExtent *= -1;
 
 	if (mesh->HasTangentsAndBitangents()){
 		std::cout << " tanAndBitan";
