@@ -30,8 +30,10 @@ public:
 
 	unsigned int getId() { return id; }
 
-	virtual glm::vec3 getPositiveExtent() const { return glm::vec3(0.0f, 0.0f, 0.0f); }
-	virtual glm::vec3 getNegativeExtent() const { return glm::vec3(0.0f, 0.0f, 0.0f); }
+	// The xyz-values of the vertices furthest from the mesh's origo. Used to create a bounding box around the mesh.
+	// negativeExtent usually contains negative values.
+	const glm::vec3& getPositiveExtent() const { return positiveExtent; }
+	const glm::vec3& getNegativeExtent() const { return negativeExtent; }
 
 protected:
 	glm::vec4* vertices;
@@ -55,6 +57,9 @@ protected:
 	int bytesOfBitangents;
 
 	bool useIBO;
+	
+	glm::vec3 positiveExtent;
+	glm::vec3 negativeExtent;
 
 	AbstractMesh();
 	virtual void prepareBufferData() = 0;

@@ -40,8 +40,6 @@ AssImpMesh::AssImpMesh(aiMesh* mesh) : AbstractMesh() {
 		}
 	}
 
-	negativeExtent *= -1;
-
 	if (mesh->HasTangentsAndBitangents()){
 		std::cout << " tanAndBitan";
 	}

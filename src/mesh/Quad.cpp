@@ -12,6 +12,9 @@ Quad::Quad() : AbstractMesh() {
 	useIBO = true;
 	prepareBufferData();
 	buildVAO();
+
+	positiveExtent = points[3];
+	negativeExtent = points[0];
 }
 
 void Quad::prepareBufferData() {

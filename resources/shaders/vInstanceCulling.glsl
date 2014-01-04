@@ -17,12 +17,12 @@ void main() {
 
 	vec4 boundingBox[8];
 	boundingBox[0] = objectToClip * vec4(instancePosition + objectPositiveExtent, 1.0f);
-	boundingBox[1] = objectToClip * vec4(instancePosition + vec3(-objectNegativeExtent.x,   objectPositiveExtent.yz), 1.0f);
-	boundingBox[2] = objectToClip * vec4(instancePosition + vec3( objectPositiveExtent.x,  -objectNegativeExtent.y,  objectPositiveExtent.z), 1.0f);
-	boundingBox[3] = objectToClip * vec4(instancePosition + vec3(-objectNegativeExtent.xy,  objectPositiveExtent.z),  1.0f);
-	boundingBox[4] = objectToClip * vec4(instancePosition + vec3( objectPositiveExtent.xy, -objectNegativeExtent.z),  1.0f);
-	boundingBox[5] = objectToClip * vec4(instancePosition + vec3(-objectNegativeExtent.x,   objectPositiveExtent.y, -objectNegativeExtent.z), 1.0f);
-	boundingBox[6] = objectToClip * vec4(instancePosition + vec3( objectPositiveExtent.x,  -objectNegativeExtent.yz), 1.0f);
+	boundingBox[1] = objectToClip * vec4(instancePosition + vec3(objectNegativeExtent.x,  objectPositiveExtent.yz), 1.0f);
+	boundingBox[2] = objectToClip * vec4(instancePosition + vec3(objectPositiveExtent.x,  objectNegativeExtent.y, objectPositiveExtent.z), 1.0f);
+	boundingBox[3] = objectToClip * vec4(instancePosition + vec3(objectNegativeExtent.xy, objectPositiveExtent.z),  1.0f);
+	boundingBox[4] = objectToClip * vec4(instancePosition + vec3(objectPositiveExtent.xy, objectNegativeExtent.z),  1.0f);
+	boundingBox[5] = objectToClip * vec4(instancePosition + vec3(objectNegativeExtent.x,  objectPositiveExtent.y, objectNegativeExtent.z), 1.0f);
+	boundingBox[6] = objectToClip * vec4(instancePosition + vec3(objectPositiveExtent.x,  objectNegativeExtent.yz), 1.0f);
 	boundingBox[7] = objectToClip * vec4(instancePosition - objectNegativeExtent, 1.0f);
 	
 	int outOfBound[6] = int[6](0, 0, 0, 0, 0, 0);
