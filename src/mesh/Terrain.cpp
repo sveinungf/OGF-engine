@@ -135,15 +135,9 @@ void Terrain::prepareBufferData() {
 			glm::vec3 normalG = glm::normalize(glm::cross(vector08, vector07));
 			glm::vec3 normalH = glm::normalize(glm::cross(vector01, vector08));
 
-			pointNormals[current] = glm::normalize(normalA + normalB + normalC + normalD + normalE + normalF + normalG + normalH);
+			pointNormals[current] = (normalA + normalB + normalC + normalD + normalE + normalF + normalG + normalH) / 8.0f;
         }
     }
-
-	// Texture coordinates
-	glm::vec2 upperLeft(0.0f, 1.0f);
-	glm::vec2 upperRight(1.0f, 1.0f);
-	glm::vec2 lowerLeft(0.0f, 0.0f);
-	glm::vec2 lowerRight(1.0f, 0.0f);
 
 	int index = 0;
 
@@ -173,15 +167,15 @@ void Terrain::prepareBufferData() {
 
 				if (i % 2 == 0) {
 					if (j % 2 == 0) {
-						texCoords[k] = upperLeft;
+						texCoords[k] = texture2DCorners[UPPER_LEFT];
 					} else {
-						texCoords[k] = upperRight;
+						texCoords[k] = texture2DCorners[UPPER_RIGHT];
 					}
 				} else {
 					if (j % 2 == 0) {
-						texCoords[k] = lowerLeft;
+						texCoords[k] = texture2DCorners[LOWER_LEFT];
 					} else {
-						texCoords[k] = lowerRight;
+						texCoords[k] = texture2DCorners[LOWER_RIGHT];
 					}
 				}
 			}
@@ -227,32 +221,32 @@ void Terrain::prepareBufferData() {
 				glm::vec3 normal3 = pointNormals[nextRow];
 				
 				vertices[index] = vertex0;
-				texCoords[index] = upperLeft;
+				texCoords[index] = texture2DCorners[UPPER_LEFT];
 				normals[index] = normal0;
 				++index;
 
 				vertices[index] = vertex2;
-				texCoords[index] = lowerRight;
+				texCoords[index] = texture2DCorners[LOWER_RIGHT];
 				normals[index] = normal2;
 				++index;
 
 				vertices[index] = vertex1;
-				texCoords[index] = upperRight;
+				texCoords[index] = texture2DCorners[UPPER_RIGHT];
 				normals[index] = normal1;
 				++index;
 
 				vertices[index] = vertex0;
-				texCoords[index] = upperLeft;
+				texCoords[index] = texture2DCorners[UPPER_LEFT];
 				normals[index] = normal0;
 				++index;
 
 				vertices[index] = vertex3;
-				texCoords[index] = lowerLeft;
+				texCoords[index] = texture2DCorners[LOWER_LEFT];
 				normals[index] = normal3;
 				++index;
 
 				vertices[index] = vertex2;
-				texCoords[index] = lowerRight;
+				texCoords[index] = texture2DCorners[LOWER_RIGHT];
 				normals[index] = normal2;
 				++index;
 			}
