@@ -298,7 +298,7 @@ int main(int, char**) {
 		exit(EXIT_FAILURE);
 	}
 
-#if _DEBUG
+#if defined(OGF_DEBUG) || defined(_DEBUG)
 	std::cout << "Running debug build..." << std::endl;
 
 	glfwSetErrorCallback(glfwErrorCallback);
@@ -324,7 +324,7 @@ int main(int, char**) {
     glewExperimental = GL_TRUE;
     glewInit();
 
-#if _DEBUG
+#if defined(OGF_DEBUG) || defined(_DEBUG)
 	if (glDebugMessageCallback) {
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(openglDebugCallback, nullptr);

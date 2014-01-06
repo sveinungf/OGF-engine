@@ -1,6 +1,10 @@
 #pragma once
 
 #include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <SOIL.h>
 

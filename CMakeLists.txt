@@ -42,6 +42,19 @@ ADD_SUBDIRECTORY(depends/assimp--3.0.1270-sdk)
 ADD_SUBDIRECTORY(depends/soil-20080707)
 ADD_SUBDIRECTORY(src)
 
+IF(CMAKE_COMPILER_IS_GNUCXX)
+	OPTION(OGF_DEBUG_BUILD "Build OGF and libraries with debug symbols" ON)
+ENDIF()
+
+IF(OGF_DEBUG_BUILD)
+	SET(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+
+	SET_PROPERTY(TARGET
+		${OGF_NAME}
+		APPEND PROPERTY COMPILE_DEFINITIONS OGF_DEBUG
+	)
+ENDIF()
+
 #Build a static library of GLEW
 SET_PROPERTY(TARGET
 	${GLEW_NAME}
