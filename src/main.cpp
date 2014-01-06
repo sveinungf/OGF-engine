@@ -49,8 +49,6 @@ ShaderManager* sManager;
 bool renderID = false;
 
 void init() {
-	//glEnable(GL_CULL_FACE);
-
 	oldTimeSinceStart = glfwGetTime();
 	previousTime = oldTimeSinceStart;
 
@@ -108,6 +106,7 @@ void init() {
 
 	Blending* blending = new Blending();
 	SimpleDraw* simpleDraw = new SimpleDraw();
+	IBODraw* ibodraw = new IBODraw();
 
 	Texture2D* grass = new Texture2D(resourceBase + "/textures/grass.bmp");
 	Texture2D* sand = new Texture2D(resourceBase + "/textures/sand_diffuse.png");
@@ -127,13 +126,11 @@ void init() {
 	grassNode->addComponent(blending);
 	grassNode->addTexture(billboardGrass);
 	grassNode->move(0.0f, 0.5f, 0.0f);
-
-	IBODraw* ibodraw = new IBODraw();
 	
 	waterNode = new MeshNode(waterShader, waterMesh);
 	waterNode->addComponent(ibodraw);
 	waterNode->addTexture(new Texture2D(resourceBase + "/textures/water.jpg"));
-	waterNode->rotateAroundSelfX(90.0f);
+	waterNode->rotateAroundSelfX(-90.0f);
 	waterNode->scale((GLfloat) terrainMesh->getWidth(), (GLfloat) terrainMesh->getLength(), 1.0f);
 
 	sunSphere = new MeshNode(lightShader, sphereMesh);
@@ -175,6 +172,7 @@ void init() {
 	scene.setRootNode(terrain);
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	std::cout << std::endl << "Ready!" << std::endl << std::endl;
@@ -290,10 +288,6 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int /*mods*
 	}
 }
 
-void errorCallback(int error, const char* description) {
-	cerr << "GLFW Error " << error << ": " << description << endl;
-}
-
 void framebufferSizeCallback(GLFWwindow* /*window*/, int width, int height) {
 	glViewport(0, 0, width, height);
 	scene.getCamera()->setAspectRatio((float) width/height);
@@ -304,7 +298,12 @@ int main(int, char**) {
 		exit(EXIT_FAILURE);
 	}
 
-	glfwSetErrorCallback(errorCallback);
+#if _DEBUG
+	std::cout << "Running debug build..." << std::endl;
+
+	glfwSetErrorCallback(glfwErrorCallback);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+#endif
 
 	const int width = 800;
 	const int height = 600;
@@ -325,9 +324,18 @@ int main(int, char**) {
     glewExperimental = GL_TRUE;
     glewInit();
 
-	cout << "OpenGL version " << glGetString(GL_VERSION) << endl;
+#if _DEBUG
+	if (glDebugMessageCallback) {
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(openglDebugCallback, nullptr);
+		GLuint unusedIds = 0;
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, GL_TRUE);
+	} else {
+		cout << "glDebugMessageCallback not available" << endl;
+	}
+#endif
 
-	checkErrorAndStop("after glewinit", false);
+	cout << "OpenGL version " << glGetString(GL_VERSION) << endl;
 
 	init();
 

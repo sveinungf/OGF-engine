@@ -5,7 +5,7 @@ Camera::Camera(float fov, float nearZ, float farZ) : AbstractNode(), fieldOfView
 		zNear(nearZ), zFar(farZ), aspectRatio(0.0f), mouseState(MOUSE_OFF),
 		prevX(0), prevY(0), startX(0), startY(0) {
 
-	forward = vec4(0.0f, 0.0f, 1.0f, 0.0f);
+	forward = vec4(0.0f, 0.0f, -1.0f, 0.0f);
 	up = vec4(0.0f, 1.0f, 0.0f, 0.0f);
 
 	for (int i = 0; i < 8; ++i) {
@@ -44,6 +44,10 @@ void Camera::doMove(double deltaTime){
 
 void Camera::keyDown(int key){
 	switch (key) {
+		case 'k':
+		case 'K':
+			std::cout << "CAMERA POS: " << glm::to_string(getPositionVec4()) << std::endl;
+			break;
 		case 'w':
 		case 'W':
 			keys[KEY_W] = true;

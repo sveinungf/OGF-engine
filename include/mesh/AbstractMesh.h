@@ -15,6 +15,17 @@ using namespace std;
 class AbstractMesh {
 
 public:
+	enum TextureCorner {
+		UPPER_LEFT = 0,
+		UPPER_RIGHT,
+		LOWER_LEFT,
+		LOWER_RIGHT,
+		//----------
+		MAX_TEXTURE_CORNERS
+	};
+
+	static glm::vec2 texture2DCorners[MAX_TEXTURE_CORNERS];
+
 	virtual ~AbstractMesh() {}
 
 	static unsigned int count;

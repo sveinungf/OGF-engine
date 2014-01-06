@@ -1,6 +1,13 @@
 #include "mesh/AbstractMesh.h"
 
 
+glm::vec2 AbstractMesh::texture2DCorners[MAX_TEXTURE_CORNERS] = {
+	glm::vec2(0.0f, 1.0f),	// UPPER_LEFT
+	glm::vec2(1.0f, 1.0f),	// UPPER_RIGHT
+	glm::vec2(0.0f, 0.0f),	// LOWER_LEFT
+	glm::vec2(1.0f, 0.0f)	// LOWER_RIGHT
+};
+
 AbstractMesh::AbstractMesh() :
 		vertices(nullptr), colors(nullptr), normals(nullptr), texCoords(nullptr), tangents(nullptr), bitangents(nullptr),
 		numberOfVertices(0), bytesOfVertices(0), bytesOfNormals(0), bytesOfColors(0), bytesOfTexCoords(0), bytesOfTangents(0), bytesOfBitangents(0),

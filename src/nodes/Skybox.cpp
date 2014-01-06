@@ -19,10 +19,10 @@ void Skybox::init(){
 	size = 500.0f;  //Max zFar distance for camera atm
 	
 
-	positionLeft = glm::vec3(0.5f, 0.0f, 0.0f) * glm::vec3(size, size, size);
-	positionFront = glm::vec3(0.0f, 0.0f, 0.5f) * glm::vec3(size, size, size);
-	positionRight = glm::vec3(-0.5f, 0.0f, 0.0f) * glm::vec3(size, size, size);
-	positionBack = glm::vec3(0.0f, 0.0f, -0.5f) * glm::vec3(size, size, size);
+	positionLeft = glm::vec3(-0.5f, 0.0f, 0.0f) * glm::vec3(size, size, size);
+	positionFront = glm::vec3(0.0f, 0.0f, -0.5f) * glm::vec3(size, size, size);
+	positionRight = glm::vec3(0.5f, 0.0f, 0.0f) * glm::vec3(size, size, size);
+	positionBack = glm::vec3(0.0f, 0.0f, 0.5f) * glm::vec3(size, size, size);
 	positionTop = glm::vec3(0.0f, 0.5f, 0.0f) * glm::vec3(size, size, size);
 	positionBottom = glm::vec3(0.0f, -0.5f, 0.0f) * glm::vec3(size, size, size);
 
@@ -100,14 +100,14 @@ void Skybox::buildSkybox(){
 	nBack->addTexture(textures[SKY_BACK]);
 
 	//top
-	nTop->rotateAroundSelfX(-90.0f);
+	nTop->rotateAroundSelfX(90.0f);
 	nTop->move(positionTop);
 	nTop->scale(size, size, size);
 	nTop->addComponent(ibodraw);
 	nTop->addTexture(textures[SKY_TOP]);
 
 	//bottom
-	nBottom->rotateAroundSelfX(90.0f);
+	nBottom->rotateAroundSelfX(-90.0f);
 	nBottom->move(positionBottom);
 	nBottom->scale(size, size, size);
 	nBottom->addComponent(ibodraw);
