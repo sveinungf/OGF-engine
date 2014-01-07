@@ -305,10 +305,14 @@ int main(int, char**) {
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 #endif
 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	const int width = 800;
 	const int height = 600;
 	window = glfwCreateWindow(width, height, "OGF Engine program", NULL, NULL);
-	scene.getCamera()->setAspectRatio((float) width/height);
 
 	if (!window) {
 		glfwTerminate();
@@ -323,6 +327,9 @@ int main(int, char**) {
 
     glewExperimental = GL_TRUE;
     glewInit();
+	glGetError(); // "Invalid enumerant" after initializing GLEW
+
+	cout << "OpenGL version " << glGetString(GL_VERSION) << endl;
 
 #if defined(OGF_DEBUG) || defined(_DEBUG)
 	if (glDebugMessageCallback) {
@@ -335,8 +342,7 @@ int main(int, char**) {
 	}
 #endif
 
-	cout << "OpenGL version " << glGetString(GL_VERSION) << endl;
-
+	scene.getCamera()->setAspectRatio((float)width / height);
 	init();
 
 	while (!glfwWindowShouldClose(window)) {
