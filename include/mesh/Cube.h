@@ -7,12 +7,12 @@ class Cube : public AbstractMesh {
 
 public:
 	Cube();
-	Cube(glm::vec4 color);
+	explicit Cube(const glm::vec4& color);
 	virtual ~Cube() override {}
 
 protected:
 	virtual void prepareBufferData() override;
-	void prepareBufferData(glm::vec4 color);
+	void prepareBufferData(const glm::vec4& color);
 
 private:
 	//Stuff used to create the Cube. Not OpenGL related.

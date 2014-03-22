@@ -22,7 +22,7 @@ public:
 	};
 
 	Shader() : type(LINK) {}
-	Shader(const std::string& thePath, const GLenum& theType) : path(thePath), type(theType) {}
+	explicit Shader(const std::string& thePath, const GLenum& theType) : path(thePath), type(theType) {}
 
 	const std::string& getPath() const { return path; }
 	const GLenum& getType() const { return type; }

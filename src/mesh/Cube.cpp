@@ -17,7 +17,7 @@ Cube::Cube() : AbstractMesh() {
 	buildVAO();
 }
 
-Cube::Cube(glm::vec4 color) : AbstractMesh() {
+Cube::Cube(const glm::vec4& color) : AbstractMesh() {
 	prepareBufferData(color);
 	buildVAO();
 }
@@ -26,7 +26,7 @@ void Cube::prepareBufferData() {
 	prepareBufferData(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
 }
 
-void Cube::prepareBufferData(glm::vec4 color) {
+void Cube::prepareBufferData(const glm::vec4& color) {
 	numberOfVertices = 36; // 6 vertices per face * 6 faces
 	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
 	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;

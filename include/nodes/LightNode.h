@@ -8,7 +8,7 @@ class ShaderManager;
 class LightNode : public AbstractNode {
 
 public:
-	LightNode(ShaderManager* shaderManager, PhongProperty* lightProperty);
+	explicit LightNode(ShaderManager* shaderManager, PhongProperty* lightProperty);
 	virtual ~LightNode() override {}
 
 protected:

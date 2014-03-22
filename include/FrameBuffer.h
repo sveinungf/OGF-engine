@@ -7,7 +7,7 @@ class FrameBuffer {
 
 public:
 	FrameBuffer();
-	FrameBuffer(int width, int height);
+	explicit FrameBuffer(int width, int height);
 	~FrameBuffer();
 	
 	void enable();

@@ -8,7 +8,7 @@
 class Texture2D {
 
 public:
-    Texture2D(const std::string& filename, bool generateMipMaps = true);
+    explicit Texture2D(const std::string& filename, bool generateMipMaps = true);
     ~Texture2D();
 
     void useAsTextureId(const GLuint& id) const;

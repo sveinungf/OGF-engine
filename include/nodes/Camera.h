@@ -10,7 +10,7 @@
 class Camera : public AbstractNode {
 
 public:
-	Camera(float fieldOfView, float zNear, float zFar);
+	explicit Camera(float fieldOfView, float zNear, float zFar);
 	virtual ~Camera() override {}
 
 	const glm::mat4& getWorldToView() const { return worldToView; }

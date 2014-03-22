@@ -7,7 +7,7 @@
 class AssImpMesh : public AbstractMesh {
 
 public:
-	AssImpMesh(aiMesh* mesh);
+	explicit AssImpMesh(aiMesh* mesh);
 	virtual ~AssImpMesh() override {}
 
 private:

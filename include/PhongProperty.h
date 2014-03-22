@@ -9,8 +9,8 @@
 class PhongProperty {
 
 public:
+	explicit PhongProperty(const glm::vec4& ambient, const glm::vec4& diffuse, const glm::vec4& specular, const GLfloat& shininess);
 	PhongProperty(const PhongProperty& other);
-	PhongProperty(const glm::vec4& ambient, const glm::vec4& diffuse, const glm::vec4& specular, const GLfloat& shininess);
 
 	const glm::vec4& getAmbient() const { return ambient; }
 	const glm::vec4& getDiffuse() const { return diffuse; }

@@ -10,7 +10,7 @@ class MeshNode : public AbstractNode {
 
 public:
     // Constructors/destructors
-    MeshNode(const ShaderProgram& shaderProgram, AbstractMesh* mesh);
+    explicit MeshNode(const ShaderProgram& shaderProgram, AbstractMesh* mesh);
     virtual ~MeshNode() override;
 
 	// PhongProperty

@@ -5,7 +5,7 @@
 class AssImpNode : public AbstractNode {
 
 public:
-	AssImpNode(const ShaderProgram& program, const std::string& path);
+	explicit AssImpNode(const ShaderProgram& program, const std::string& path);
 	virtual ~AssImpNode() override;
 
 	void addComponent(AbstractComponent* component, int mesh = -1);
