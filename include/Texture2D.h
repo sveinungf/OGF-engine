@@ -9,12 +9,11 @@ class Texture2D {
 
 public:
     explicit Texture2D(const std::string& filename, bool generateMipMaps = true);
-    ~Texture2D();
 
-    void useAsTextureId(const GLuint& id) const;
-	Image* getImage();
+    void useAsTextureId(const GLuint id) const;
+	const Image& getImage() const { return image; }
 
 private:
-    Image* image;
+    Image image;
     GLuint textureName;
 };

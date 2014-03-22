@@ -1,12 +1,6 @@
 #pragma once
 
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
 #include <string>
-#include <SOIL.h>
 
 
 class Image {
@@ -14,8 +8,8 @@ class Image {
 public:
 	enum Format { GREYSCALE = 1, RGB = 3, RGBA = 4 };
 
-	Image() : channels(0), height(0), width(0), pixelDataLength(0), pixelData(0) {}
-	explicit Image(const std::string& filename, const Format& format);
+	Image() : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {}
+	explicit Image(const std::string& filename, const Format format);
 	Image(const Image& other);
 	Image(Image&& other);
 	~Image();

@@ -1,9 +1,13 @@
 #include "Image.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <SOIL.h>
 
 using namespace std;
 
 
-Image::Image(const string& filename, const Format& format) : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {
+Image::Image(const string& filename, const Format format) : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {
 	ifstream ifile(filename);
 
 	if (ifile.good()) {
@@ -25,11 +29,11 @@ Image::Image(const string& filename, const Format& format) : channels(0), height
 	}
 }
 
-Image::Image(const Image& other) : channels(other.channels), height(other.height), width(other.width), pixelDataLength(other.pixelDataLength), pixelData(pixelDataLength ? new unsigned char[pixelDataLength] : 0) {
+Image::Image(const Image& other) : channels(other.channels), height(other.height), width(other.width), pixelDataLength(other.pixelDataLength), pixelData(pixelDataLength ? new unsigned char[pixelDataLength] : nullptr) {
 	std::copy(other.pixelData, other.pixelData + pixelDataLength, pixelData);
 }
 
-Image::Image(Image&& other) : channels(0), height(0), width(0), pixelDataLength(0), pixelData(0) {
+Image::Image(Image&& other) : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {
 	swap(*this, other);
 }
 
