@@ -1,5 +1,7 @@
 #include "nodes/AbstractNode.h"
 
+using namespace glm;
+
 
 // Destructors
 AbstractNode::~AbstractNode() {

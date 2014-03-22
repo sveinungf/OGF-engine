@@ -9,8 +9,6 @@
 #include "../Debug.h"
 #include "../ShaderLayout.h"
 
-using namespace std;
-
 
 class AbstractMesh {
 
@@ -54,7 +52,7 @@ protected:
 	glm::vec3* tangents;
 	glm::vec3* bitangents;
 
-	vector<GLuint> indices;
+	std::vector<GLuint> indices;
 
 	unsigned int id;
 

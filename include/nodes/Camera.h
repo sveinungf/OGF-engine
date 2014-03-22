@@ -6,8 +6,6 @@
 #include <glmhppnowarnings.h>
 #include "AbstractNode.h"
 
-using namespace glm;
-
 
 class Camera : public AbstractNode {
 
@@ -15,8 +13,8 @@ public:
 	Camera(float fieldOfView, float zNear, float zFar);
 	virtual ~Camera() override {}
 
-	const mat4& getWorldToView() const { return worldToView; }
-	const mat4& getViewToClip() const { return viewToClip; }
+	const glm::mat4& getWorldToView() const { return worldToView; }
+	const glm::mat4& getViewToClip() const { return viewToClip; }
 	void setAspectRatio(float aspectRatio);
 
 	void updateWorldToView();
@@ -31,8 +29,8 @@ public:
 	void renderID();
 
 protected:
-	virtual void renderSelf(const mat4&, const mat4&) override {}
-	virtual void renderIDSelf(const mat4&, const mat4&) override {}
+	virtual void renderSelf(const glm::mat4&, const glm::mat4&) override {}
+	virtual void renderIDSelf(const glm::mat4&, const glm::mat4&) override {}
 
 private:
 	enum CameraKeys {
@@ -52,13 +50,13 @@ private:
 	};
 
 	//vec4 position;
-	vec4 forward;
-	vec4 up;
+	glm::vec4 forward;
+	glm::vec4 up;
 
-	mat4 worldToView;
+	glm::mat4 worldToView;
 
 	//ViewToClip variables
-	mat4 viewToClip;
+	glm::mat4 viewToClip;
 	float fieldOfView;
 	float zNear;
 	float zFar;

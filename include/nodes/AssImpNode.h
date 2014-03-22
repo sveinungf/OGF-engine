@@ -1,6 +1,7 @@
 #include "AbstractNode.h"
 #include "MeshNode.h"
 
+
 class AssImpNode : public AbstractNode {
 
 public:
@@ -13,9 +14,9 @@ public:
 
 protected:
 	// Rendering
-	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip) override;
-	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip) override;
+	virtual void renderSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) override;
+	virtual void renderIDSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) override;
 
 private:
-	vector<MeshNode*> self;
+	std::vector<MeshNode*> self;
 };

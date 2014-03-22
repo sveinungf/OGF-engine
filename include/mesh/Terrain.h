@@ -6,14 +6,11 @@
 #include "../TerrainContentData.h"
 #include "AbstractMesh.h"
 
-using namespace glm;
-using namespace std;
-
 
 class Terrain : public AbstractMesh {
 
 public:
-	Terrain(const string& filename);
+	Terrain(const std::string& filename);
 	virtual ~Terrain() override;
 
 	Image* getHeightmap() const { return heightmap; }

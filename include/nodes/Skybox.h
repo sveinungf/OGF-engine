@@ -24,8 +24,8 @@ public:
 	void buildSkybox();
 
 protected:
-	virtual void renderSelf(const mat4&, const mat4&) override {}
-	virtual void renderIDSelf(const mat4&, const mat4&) override {}
+	virtual void renderSelf(const glm::mat4&, const glm::mat4&) override {}
+	virtual void renderIDSelf(const glm::mat4&, const glm::mat4&) override {}
 
 private:
 	
@@ -41,7 +41,7 @@ private:
 
 	float size;
 
-	vector<Texture2D*> textures;
+	std::vector<Texture2D*> textures;
 
 	MeshNode* nLeft;
 	MeshNode* nBack;

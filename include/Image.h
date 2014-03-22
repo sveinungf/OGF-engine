@@ -8,15 +8,13 @@
 #include <string>
 #include <SOIL.h>
 
-using namespace std;
-
 
 class Image {
 
 public:
 	enum Format { GREYSCALE = 1, RGB = 3, RGBA = 4 };
 
-	Image(const string& filename, const Format& format);
+	Image(const std::string& filename, const Format& format);
 	~Image();
 
 	int getChannels() const { return channels; }

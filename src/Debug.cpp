@@ -1,5 +1,7 @@
 #include "Debug.h"
 
+using namespace std;
+
 
 void checkErrorAndStop(const string& errString, bool stop) {
     GLenum errCode = glGetError();

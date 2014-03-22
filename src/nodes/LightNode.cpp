@@ -1,6 +1,9 @@
 #include "nodes/LightNode.h"
 #include "ShaderManager.h"
 
+using namespace glm;
+
+
 LightNode::LightNode(ShaderManager* shaderManager,
 	PhongProperty* lightProperty) : AbstractNode() {
 	phongProperty = lightProperty;

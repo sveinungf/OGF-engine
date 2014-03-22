@@ -1,5 +1,7 @@
 #include "Image.h"
 
+using namespace std;
+
 
 Image::Image(const string& filename, const Format& format) : channels(0), height(0), width(0), pixelData(nullptr) {
 	ifstream ifile(filename);

@@ -3,9 +3,6 @@
 #include <vector>
 #include <glmhppnowarnings.h>
 
-using namespace glm;
-using namespace std;
-
 
 class TerrainContentData {
 
@@ -25,18 +22,18 @@ public:
 	void setSnowHeight(float height) { snowHeight = height; }
 	void setWaterHeight(float height) { waterHeight = height; }
 
-	const vector<vec3>& getTreePositions() { return treePositions; }
-	void setTreePositions(const vector<vec3>& vector) { treePositions = vector; }
-	const vector<vec3>& getGrassPositions() { return grassPositions; }
-	void setGrassPositions(const vector<vec3>& vector) { grassPositions = vector; }
-	const vector<vec3>& getGrassNormals() { return grassNormals; }
-	void setGrassNormals(const vector<vec3>& vector) { grassNormals = vector; }
+	const std::vector<glm::vec3>& getTreePositions() { return treePositions; }
+	void setTreePositions(const std::vector<glm::vec3>& vector) { treePositions = vector; }
+	const std::vector<glm::vec3>& getGrassPositions() { return grassPositions; }
+	void setGrassPositions(const std::vector<glm::vec3>& vector) { grassPositions = vector; }
+	const std::vector<glm::vec3>& getGrassNormals() { return grassNormals; }
+	void setGrassNormals(const std::vector<glm::vec3>& vector) { grassNormals = vector; }
 
 private:
 	float rockHeight;
 	float snowHeight;
 	float waterHeight;
-	vector<vec3> treePositions;
-	vector<vec3> grassPositions;
-	vector<vec3> grassNormals;
+	std::vector<glm::vec3> treePositions;
+	std::vector<glm::vec3> grassPositions;
+	std::vector<glm::vec3> grassNormals;
 };

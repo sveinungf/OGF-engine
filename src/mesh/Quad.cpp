@@ -1,5 +1,7 @@
 #include "mesh/Quad.h"
 
+using namespace glm;
+
 
 vec3 Quad::points[4] = {
 	vec3(-0.5f,  0.5f, 0.0f),

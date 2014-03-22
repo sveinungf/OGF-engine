@@ -5,9 +5,6 @@
 #include "../components/AbstractComponent.h"
 #include "../PhongProperty.h"
 
-using namespace glm;
-using namespace std;
-
 
 class AbstractNode {
 
@@ -38,8 +35,8 @@ public:
     void enableParentTransformation(const Transformation& transformation);
 
     // Transformations
-    vec3 getPositionVec3() const;
-    vec4 getPositionVec4() const;
+    glm::vec3 getPositionVec3() const;
+    glm::vec4 getPositionVec4() const;
     void setPosition(const glm::vec3& xyz);
     void setPosition(const GLfloat& x, const GLfloat& y, const GLfloat& z);
     void move(const glm::vec3& xyz);
@@ -58,22 +55,22 @@ public:
 	void setPhongProperty(PhongProperty* prop) { phongProperty = prop; };
 
     // Rendering
-    void render(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]);
-	void renderID(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]);
+    void render(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
+	void renderID(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
 
 protected:
     // Scenegraph
-    vector<AbstractNode*> children;
+    std::vector<AbstractNode*> children;
 
     // Components
-    vector<AbstractComponent*> components;
+    std::vector<AbstractComponent*> components;
 
     // Inherited transformations
     bool transformationFlags[MAX_TRANSFORMATIONS];
 
     // Transformations
-    mat4 transformations[MAX_TRANSFORMATIONS];
-    mat4 objectToWorld;
+    glm::mat4 transformations[MAX_TRANSFORMATIONS];
+    glm::mat4 objectToWorld;
 
     // PhongProperty
 	PhongProperty* phongProperty;
@@ -85,11 +82,11 @@ protected:
     AbstractNode();
 
     // Transformations
-    mat4 getParentObjectToWorld(mat4 parentTransformations[]) const;
-    void updateObjectToWorld(mat4 parentTransformations[]);
+    glm::mat4 getParentObjectToWorld(glm::mat4 parentTransformations[]) const;
+    void updateObjectToWorld(glm::mat4 parentTransformations[]);
 
 	// Rendering
-	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip) = 0;
-	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip) = 0;
+	virtual void renderSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) = 0;
+	virtual void renderIDSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) = 0;
 
 };

@@ -11,10 +11,6 @@
 #include "TerrainContentData.h"
 
 
-using namespace glm;
-using namespace std;
-
-
 class Shader {
 
 public:
@@ -26,13 +22,13 @@ public:
 	};
 
 	Shader() : type(LINK) {}
-	Shader(const string& thePath, const GLenum& theType) : path(thePath), type(theType) {}
+	Shader(const std::string& thePath, const GLenum& theType) : path(thePath), type(theType) {}
 
-	const string& getPath() const { return path; }
+	const std::string& getPath() const { return path; }
 	const GLenum& getType() const { return type; }
 
 private:
-	string path;
+	std::string path;
 	GLenum type;
 };
 
@@ -51,26 +47,26 @@ public:
 
 	void use() const { glUseProgram(programLocation); }
 
-	void setObjectToClip(const mat4& matrix) const { setUniformMat4("objectToClip", matrix); }
-	void setObjectToWorld(const mat4& matrix) const { setUniformMat4("objectToWorld", matrix); }
-	void setWorldToView(const mat4& matrix) const { setUniformMat4("worldToView", matrix); }
-	void setViewToClip(const mat4& matrix) const { setUniformMat4("viewToClip", matrix); }
+	void setObjectToClip(const glm::mat4& matrix) const { setUniformMat4("objectToClip", matrix); }
+	void setObjectToWorld(const glm::mat4& matrix) const { setUniformMat4("objectToWorld", matrix); }
+	void setWorldToView(const glm::mat4& matrix) const { setUniformMat4("worldToView", matrix); }
+	void setViewToClip(const glm::mat4& matrix) const { setUniformMat4("viewToClip", matrix); }
 
 	void setTextureId(const GLuint& id) const;
 
 	void setMaterialProperty(const PhongProperty& materialProperty) const;
-	void setLightProperty(const PhongProperty&	lightProperty, const vec4& position, const int& indexInArray) const;
-	void setLightPosition(const vec4& position, const int& indexInArray) const;
+	void setLightProperty(const PhongProperty&	lightProperty, const glm::vec4& position, const int& indexInArray) const;
+	void setLightPosition(const glm::vec4& position, const int& indexInArray) const;
 
 	void setTerrainContentData(const TerrainContentData& contentData) const;
 
-	void setUniformGLint(const string& variable, const GLint& value) const;
-    void setUniformGLfloat(const string& variable, const GLfloat& value) const;
-    void setUniformMat4(const string& variable, const mat4& value) const;
-	void setUniformVec3(const string& variable, const vec3& value) const;
-    void setUniformVec4(const string& variable, const vec4& value) const;
+	void setUniformGLint(const std::string& variable, const GLint& value) const;
+    void setUniformGLfloat(const std::string& variable, const GLfloat& value) const;
+    void setUniformMat4(const std::string& variable, const glm::mat4& value) const;
+	void setUniformVec3(const std::string& variable, const glm::vec3& value) const;
+    void setUniformVec4(const std::string& variable, const glm::vec4& value) const;
 
-	void setTransformFeedbackOutput(const vector<string>& varyings) const;
+	void setTransformFeedbackOutput(const std::vector<std::string>& varyings) const;
 private:
     GLuint programLocation;
 };

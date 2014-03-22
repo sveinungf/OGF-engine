@@ -2,8 +2,6 @@
 
 #include "AbstractMesh.h"
 
-using namespace glm;
-
 
 class Quad : public AbstractMesh {
 
@@ -12,7 +10,7 @@ public:
 	virtual ~Quad() override {}
 
 private:
-	static vec3 points[4];
+	static glm::vec3 points[4];
 
 	virtual void prepareBufferData() override;
 };

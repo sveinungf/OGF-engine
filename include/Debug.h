@@ -8,12 +8,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-using namespace std;
 
+void checkErrorAndStop(const std::string& errString, bool stop);
 
-void checkErrorAndStop(const string& errString, bool stop);
-
-string hyphenPaddedMessage(const string& message, int length = 60);
+std::string hyphenPaddedMessage(const std::string& message, int length = 60);
 
 void APIENTRY openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, void* userParam);
 

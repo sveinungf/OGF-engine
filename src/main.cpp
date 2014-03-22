@@ -25,6 +25,9 @@
 #include "FrameBuffer.h"
 #include "OGFConfig.h"
 
+using namespace glm;
+using namespace std;
+
 
 GLFWwindow* window;
 

@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+using namespace glm;
+
 
 Scene::Scene() : rootNode(nullptr), skybox(nullptr) {
 	camera = new Camera(75.0f, 0.01f, 435.0f);

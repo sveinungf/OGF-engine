@@ -1,6 +1,8 @@
 #include "ShaderManager.h"
 #include "nodes/LightNode.h"
 
+using namespace std;
+
 
 int ShaderManager::add(LightNode* light) {
 	int lightId = lights.size();

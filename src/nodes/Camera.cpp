@@ -1,5 +1,7 @@
 #include "nodes/Camera.h"
 
+using namespace glm;
+
 
 Camera::Camera(float fov, float nearZ, float farZ) : AbstractNode(), fieldOfView(fov),
 		zNear(nearZ), zFar(farZ), aspectRatio(0.0f), mouseState(MOUSE_OFF),

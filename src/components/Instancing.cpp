@@ -1,5 +1,8 @@
 #include "components/Instancing.h"
 
+using namespace glm;
+using namespace std;
+
 
 Instancing::Instancing(const vector<vec3>& positions) : AbstractComponent(), instancePositions(positions) {
     init();

@@ -17,7 +17,7 @@ public:
 	int getNumberOfShaders();
 
 	void updatePosition(int lightId);
-	void setUniformGLint(const string& variable, const int value);
+	void setUniformGLint(const std::string& variable, const int value);
 
 private:
 	std::vector<ShaderProgram> shaders;

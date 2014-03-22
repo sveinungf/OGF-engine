@@ -14,7 +14,7 @@ public:
 
 	void init();
 	void setRootNode(AbstractNode* node) { rootNode = node; }
-	void setCameraPosition(const vec3& position);
+	void setCameraPosition(const glm::vec3& position);
 	Camera* getCamera() { return camera; }
     void render();
 	void renderID();

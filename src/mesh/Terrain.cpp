@@ -1,5 +1,8 @@
 #include "mesh/Terrain.h"
 
+using namespace glm;
+using namespace std;
+
 
 Terrain::Terrain(const string& filename) : AbstractMesh() {
 	useIBO = true;

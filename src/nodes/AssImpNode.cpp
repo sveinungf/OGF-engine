@@ -1,12 +1,13 @@
-#include "nodes/AssImpNode.h"
-#include "nodes/MeshNode.h"
-
-#include "mesh/AssImpMesh.h"
-
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <assimp/version.h>
+#include "mesh/AssImpMesh.h"
+#include "nodes/AssImpNode.h"
+#include "nodes/MeshNode.h"
+
+using namespace glm;
+
 
 AssImpNode::AssImpNode(const ShaderProgram& program, const std::string& path){
 	auto importer = Assimp::Importer();

@@ -1,5 +1,7 @@
 #include "components/Blending.h"
 
+using namespace glm;
+
 
 void Blending::preRender(AbstractMesh*, const mat4&, const mat4&, const mat4&) {
 	glEnable(GL_BLEND);

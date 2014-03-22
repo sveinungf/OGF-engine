@@ -1,5 +1,7 @@
 #include "nodes/MeshNode.h"
 
+using namespace glm;
+
 
 // Constructors/destructors
 MeshNode::MeshNode(const ShaderProgram& program,

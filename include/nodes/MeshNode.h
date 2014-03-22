@@ -22,8 +22,8 @@ public:
 
 protected:
 	// Rendering
-	virtual void renderSelf(const mat4& worldToView, const mat4& viewToClip) override;
-	virtual void renderIDSelf(const mat4& worldToView, const mat4& viewToClip) override;
+	virtual void renderSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) override;
+	virtual void renderIDSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) override;
 
 private:
 	// Shader
@@ -33,5 +33,5 @@ private:
 	AbstractMesh* mesh;
 
 	// Texture
-	vector<Texture2D*> textures;
+	std::vector<Texture2D*> textures;
 };

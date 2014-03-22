@@ -1,5 +1,8 @@
 #include "ShaderProgram.h"
 
+using namespace glm;
+using namespace std;
+
 
 ShaderProgram& ShaderProgram::operator<<(const GLenum& type){
 	if (type == Shader::LINK) {
