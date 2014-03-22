@@ -31,24 +31,24 @@ public:
     // Inherited transformations
     void disableAllParentTransformations();
     void enableAllParentTransformations();
-    void disableParentTransformation(const Transformation& transformation);
-    void enableParentTransformation(const Transformation& transformation);
+    void disableParentTransformation(const Transformation transformation);
+    void enableParentTransformation(const Transformation transformation);
 
     // Transformations
     glm::vec3 getPositionVec3() const;
     glm::vec4 getPositionVec4() const;
     void setPosition(const glm::vec3& xyz);
-    void setPosition(const GLfloat& x, const GLfloat& y, const GLfloat& z);
+    void setPosition(const GLfloat x, const GLfloat y, const GLfloat z);
     void move(const glm::vec3& xyz);
-    void move(const GLfloat& x, const GLfloat& y, const GLfloat& z);
-    void rotateAroundOriginX(const GLfloat& x);
-    void rotateAroundOriginY(const GLfloat& y);
-    void rotateAroundOriginZ(const GLfloat& z);
-    void rotateAroundSelfX(const GLfloat& x);
-    void rotateAroundSelfY(const GLfloat& y);
-    void rotateAroundSelfZ(const GLfloat& z);
+    void move(const GLfloat x, const GLfloat y, const GLfloat z);
+    void rotateAroundOriginX(const GLfloat x);
+    void rotateAroundOriginY(const GLfloat y);
+    void rotateAroundOriginZ(const GLfloat z);
+    void rotateAroundSelfX(const GLfloat x);
+    void rotateAroundSelfY(const GLfloat y);
+    void rotateAroundSelfZ(const GLfloat z);
     void scale(const glm::vec3& xyz);
-    void scale(const GLfloat& x, const GLfloat& y, const GLfloat& z);
+    void scale(const GLfloat x, const GLfloat y, const GLfloat z);
 
     // PhongProperty
 	PhongProperty* getPhongProperty() { return phongProperty; };

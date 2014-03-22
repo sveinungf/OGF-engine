@@ -28,12 +28,12 @@ public:
 
 	static unsigned int count;
 
-	const GLuint& getVAO() const { return vao; }
-	const GLuint& getVBO() const { return vbo; }
-	const GLintptr& getBufferOffset() const { return bufferOffset; }
-	void setBufferOffset(const GLintptr& offset) { bufferOffset = offset; }
-	const GLintptr& getAttribOffset() const { return attribOffset; }
-	void setAttribOffset(const GLintptr& offset) { attribOffset = offset; }
+	const GLuint getVAO() const { return vao; }
+	const GLuint getVBO() const { return vbo; }
+	const GLintptr getBufferOffset() const { return bufferOffset; }
+	void setBufferOffset(const GLintptr offset) { bufferOffset = offset; }
+	const GLintptr getAttribOffset() const { return attribOffset; }
+	void setAttribOffset(const GLintptr offset) { attribOffset = offset; }
 	int getNumberOfVertices() const { return numberOfVertices; }
 	int getNumberOfIndices() const { return indices.size(); }
 

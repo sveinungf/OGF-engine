@@ -33,13 +33,13 @@ void AbstractNode::enableAllParentTransformations() {
     }
 }
 
-void AbstractNode::disableParentTransformation(const Transformation&
+void AbstractNode::disableParentTransformation(const Transformation
         transformation) {
 
     transformationFlags[transformation] = false;
 }
 
-void AbstractNode::enableParentTransformation(const Transformation&
+void AbstractNode::enableParentTransformation(const Transformation
         transformation) {
 
     transformationFlags[transformation] = true;
@@ -59,8 +59,8 @@ void AbstractNode::setPosition(const glm::vec3& to) {
 	transformations[TRANSLATION] = glm::translate(to - getPositionVec3());
 }
 
-void AbstractNode::setPosition(const GLfloat& x, const GLfloat& y,
-                               const GLfloat& z) {
+void AbstractNode::setPosition(const GLfloat x, const GLfloat y,
+                               const GLfloat z) {
     setPosition(glm::vec3(x, y, z));
 }
 
@@ -68,31 +68,31 @@ void AbstractNode::move(const glm::vec3& xyz) {
     transformations[TRANSLATION] *= glm::translate(xyz);
 }
 
-void AbstractNode::move(const GLfloat& x, const GLfloat& y, const GLfloat& z) {
+void AbstractNode::move(const GLfloat x, const GLfloat y, const GLfloat z) {
     transformations[TRANSLATION] *= glm::translate(x, y, z);
 }
 
-void AbstractNode::rotateAroundOriginX(const GLfloat& x) {
+void AbstractNode::rotateAroundOriginX(const GLfloat x) {
     transformations[ROTATION_ORIGIN] *= glm::rotate(x, 1.0f, 0.0f, 0.0f);
 }
 
-void AbstractNode::rotateAroundOriginY(const GLfloat& y) {
+void AbstractNode::rotateAroundOriginY(const GLfloat y) {
     transformations[ROTATION_ORIGIN] *= glm::rotate(y, 0.0f, 1.0f, 0.0f);
 }
 
-void AbstractNode::rotateAroundOriginZ(const GLfloat& z) {
+void AbstractNode::rotateAroundOriginZ(const GLfloat z) {
     transformations[ROTATION_ORIGIN] *= glm::rotate(z, 0.0f, 0.0f, 1.0f);
 }
 
-void AbstractNode::rotateAroundSelfX(const GLfloat& x) {
+void AbstractNode::rotateAroundSelfX(const GLfloat x) {
     transformations[ROTATION_SELF] *= glm::rotate(x, 1.0f, 0.0f, 0.0f);
 }
 
-void AbstractNode::rotateAroundSelfY(const GLfloat& y) {
+void AbstractNode::rotateAroundSelfY(const GLfloat y) {
     transformations[ROTATION_SELF] *= glm::rotate(y, 0.0f, 1.0f, 0.0f);
 }
 
-void AbstractNode::rotateAroundSelfZ(const GLfloat& z) {
+void AbstractNode::rotateAroundSelfZ(const GLfloat z) {
     transformations[ROTATION_SELF] *= glm::rotate(z, 0.0f, 0.0f, 1.0f);
 }
 
@@ -100,7 +100,7 @@ void AbstractNode::scale(const glm::vec3& xyz) {
     transformations[SCALING] *= glm::scale(xyz);
 }
 
-void AbstractNode::scale(const GLfloat& x, const GLfloat& y, const GLfloat& z) {
+void AbstractNode::scale(const GLfloat x, const GLfloat y, const GLfloat z) {
     transformations[SCALING] *= glm::scale(x, y, z);
 }
 

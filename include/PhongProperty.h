@@ -15,11 +15,11 @@ public:
 	const glm::vec4& getAmbient() const { return ambient; }
 	const glm::vec4& getDiffuse() const { return diffuse; }
 	const glm::vec4& getSpecular() const { return specular; }
-	const GLfloat& getShininess() const { return shininess; }
+	const GLfloat getShininess() const { return shininess; }
 	void setAmbient(const glm::vec4& amb) { ambient = amb; }
 	void setDiffuse(const glm::vec4& dif) { diffuse = dif; }
 	void setSpecular(const glm::vec4& spec) { specular = spec; }
-	void setShininess(const GLfloat& shin) { shininess = shin; }
+	void setShininess(const GLfloat shin) { shininess = shin; }
 
 	friend std::ostream& operator<< (std::ostream & output, const PhongProperty &prop);
 

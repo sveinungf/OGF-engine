@@ -4,7 +4,7 @@ using namespace glm;
 using namespace std;
 
 
-ShaderProgram& ShaderProgram::operator<<(const GLenum& type){
+ShaderProgram& ShaderProgram::operator<<(const GLenum type){
 	if (type == Shader::LINK) {
 		glLinkProgram(programLocation);
 
@@ -81,7 +81,7 @@ ShaderProgram& ShaderProgram::operator<<(const Shader& s) {
 	return *this;
 }
 
-void ShaderProgram::setTextureId(const GLuint& id) const {
+void ShaderProgram::setTextureId(const GLuint id) const {
 	stringstream ss;
 	ss << "texArray[" << id << "]";
 	setUniformGLint(ss.str(), id);
@@ -119,7 +119,7 @@ void ShaderProgram::setTerrainContentData(const TerrainContentData& contentData)
 }
 
 void ShaderProgram::setUniformGLint(const string& variable,
-	const GLint& value) const {
+	const GLint value) const {
 	glUseProgram(programLocation);
 	GLuint uniformLocation = glGetUniformLocation(programLocation,
 		variable.c_str());
@@ -127,7 +127,7 @@ void ShaderProgram::setUniformGLint(const string& variable,
 }
 
 void ShaderProgram::setUniformGLfloat(const string& variable,
-                                      const GLfloat& value) const {
+                                      const GLfloat value) const {
 	glUseProgram(programLocation);
     GLuint uniformLocation = glGetUniformLocation(programLocation,
                              variable.c_str());

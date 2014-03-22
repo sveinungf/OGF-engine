@@ -22,10 +22,10 @@ public:
 	};
 
 	Shader() : type(LINK) {}
-	explicit Shader(const std::string& thePath, const GLenum& theType) : path(thePath), type(theType) {}
+	explicit Shader(const std::string& thePath, const GLenum theType) : path(thePath), type(theType) {}
 
 	const std::string& getPath() const { return path; }
-	const GLenum& getType() const { return type; }
+	const GLenum getType() const { return type; }
 
 private:
 	std::string path;
@@ -41,7 +41,7 @@ public:
 	}
 
 	ShaderProgram& operator<<(const Shader& shader);
-	ShaderProgram& operator<<(const GLenum& type);
+	ShaderProgram& operator<<(const GLenum type);
 
 	const GLuint& getProgramLocation() const { return programLocation; }
 
@@ -52,7 +52,7 @@ public:
 	void setWorldToView(const glm::mat4& matrix) const { setUniformMat4("worldToView", matrix); }
 	void setViewToClip(const glm::mat4& matrix) const { setUniformMat4("viewToClip", matrix); }
 
-	void setTextureId(const GLuint& id) const;
+	void setTextureId(const GLuint id) const;
 
 	void setMaterialProperty(const PhongProperty& materialProperty) const;
 	void setLightProperty(const PhongProperty&	lightProperty, const glm::vec4& position, const int& indexInArray) const;
@@ -60,8 +60,8 @@ public:
 
 	void setTerrainContentData(const TerrainContentData& contentData) const;
 
-	void setUniformGLint(const std::string& variable, const GLint& value) const;
-    void setUniformGLfloat(const std::string& variable, const GLfloat& value) const;
+	void setUniformGLint(const std::string& variable, const GLint value) const;
+    void setUniformGLfloat(const std::string& variable, const GLfloat value) const;
     void setUniformMat4(const std::string& variable, const glm::mat4& value) const;
 	void setUniformVec3(const std::string& variable, const glm::vec3& value) const;
     void setUniformVec4(const std::string& variable, const glm::vec4& value) const;
