@@ -22,6 +22,6 @@ private:
 	void generate(int width, int height);
 
 	GLuint fbo;
-	GLuint texture;
 	GLuint depth;
+	GLuint texture;
 };

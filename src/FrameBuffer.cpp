@@ -1,11 +1,11 @@
 #include "FrameBuffer.h"
 
 
-FrameBuffer::FrameBuffer() {
+FrameBuffer::FrameBuffer() : fbo(0), depth(0), texture(0) {
 	generate(1024, 1024);
 }
 
-FrameBuffer::FrameBuffer(int width, int height) {
+FrameBuffer::FrameBuffer(int width, int height) : fbo(0), depth(0), texture(0) {
 	generate(width, height);
 }
 
