@@ -12,12 +12,12 @@ public:
 	ShaderManager() {}
 
 	int add(LightNode* light);
-	void add(ShaderProgram& shader);
-	int getNumberOfLights();
-	int getNumberOfShaders();
+	void add(const ShaderProgram& shader);
+	int getNumberOfLights() const { return lights.size(); }
+	int getNumberOfShaders() const { return shaders.size(); }
 
-	void updatePosition(int lightId);
-	void setUniformGLint(const std::string& variable, const int value);
+	void updatePosition(const int lightId) const;
+	void setUniformGLint(const std::string& variable, const int value) const;
 
 private:
 	std::vector<ShaderProgram> shaders;

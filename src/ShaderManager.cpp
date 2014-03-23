@@ -1,6 +1,7 @@
 #include "ShaderManager.h"
 #include "nodes/LightNode.h"
 
+using namespace glm;
 using namespace std;
 
 
@@ -15,32 +16,30 @@ int ShaderManager::add(LightNode* light) {
 	return lightId;
 }
 
-void ShaderManager::add(ShaderProgram& shader) {
-	shaders.push_back(shader);
-	if (lights.size() > 0) {
-		for (unsigned int l = 0; l < lights.size(); l++) {
+void ShaderManager::add(const ShaderProgram& shader) {
+	
+	unsigned int numberOfLights = lights.size();
+	shader.setUniformGLint("numberOfLights", numberOfLights);
+
+	//if (lights.size() > 0) {
+		for (unsigned int l = 0; l < numberOfLights; ++l) {
 			shader.setLightProperty(*lights[l]->getPhongProperty(), lights[l]->getPositionVec4(), l);
-			shader.setUniformGLint("numberOfLights", lights.size());
 		}
+	//}
+
+	shaders.push_back(shader);
+}
+
+void ShaderManager::updatePosition(const int lightId) const {
+	const vec4& lightPosition = lights[lightId]->getPositionVec4();
+
+	for (const ShaderProgram& shader : shaders) {
+		shader.setLightPosition(lightPosition, lightId);
 	}
 }
 
-void ShaderManager::updatePosition(int lightId) {
-	for (unsigned int s = 0; s < shaders.size(); s++) {
-		shaders[s].setLightPosition(lights[lightId]->getPositionVec4(), lightId);
-	}
-}
-
-int ShaderManager::getNumberOfLights() {
-	return lights.size();
-}
-
-int ShaderManager::getNumberOfShaders() {
-	return shaders.size();
-}
-
-void ShaderManager::setUniformGLint(const string& variable, const int value) {
-	for (ShaderProgram shader : shaders){
+void ShaderManager::setUniformGLint(const string& variable, const int value) const {
+	for (const ShaderProgram& shader : shaders){
 		shader.setUniformGLint(variable, value);
 	}
 }

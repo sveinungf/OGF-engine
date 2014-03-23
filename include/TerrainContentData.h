@@ -22,11 +22,11 @@ public:
 	void setSnowHeight(float height) { snowHeight = height; }
 	void setWaterHeight(float height) { waterHeight = height; }
 
-	const std::vector<glm::vec3>& getTreePositions() { return treePositions; }
+	const std::vector<glm::vec3>& getTreePositions() const { return treePositions; }
+	const std::vector<glm::vec3>& getGrassPositions() const { return grassPositions; }
+	const std::vector<glm::vec3>& getGrassNormals() const { return grassNormals; }
 	void setTreePositions(const std::vector<glm::vec3>& vector) { treePositions = vector; }
-	const std::vector<glm::vec3>& getGrassPositions() { return grassPositions; }
 	void setGrassPositions(const std::vector<glm::vec3>& vector) { grassPositions = vector; }
-	const std::vector<glm::vec3>& getGrassNormals() { return grassNormals; }
 	void setGrassNormals(const std::vector<glm::vec3>& vector) { grassNormals = vector; }
 
 private:

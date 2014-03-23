@@ -40,7 +40,9 @@ private:
 		KEY_D,
 		KEY_SPACE,
 		KEY_V,
-		KEY_LSHIFT
+		KEY_LSHIFT,
+		//--------
+		MAX_KEYS
 	};
 
 	enum MouseStates {
@@ -63,7 +65,7 @@ private:
 	float aspectRatio;
 
 	//Control variables
-	bool keys[8];
+	bool keys[MAX_KEYS];
 	int mouseState;
 	int prevX;
 	int prevY;

@@ -13,7 +13,7 @@ public:
 	void enable();
 	void disable();
 
-	const GLuint getFBO() { return fbo; }
+	const GLuint getFBO() const { return fbo; }
 	const GLuint getTexture() const { return texture; }
 
 	void reshape(int width, int height);

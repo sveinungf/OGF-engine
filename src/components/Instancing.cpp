@@ -4,12 +4,12 @@ using namespace glm;
 using namespace std;
 
 
-Instancing::Instancing(const vector<vec3>& positions) : AbstractComponent(), instancePositions(positions) {
+Instancing::Instancing(const vector<vec3>& positions) : AbstractComponent(), instancePositions(positions), visibleInstances(0) {
     init();
 }
 
 Instancing::Instancing(const vector<vec3>& positions, const vector<vec3>& normals)
-		: AbstractComponent(), instancePositions(positions), instanceNormals(normals) {
+		: AbstractComponent(), instancePositions(positions), instanceNormals(normals), visibleInstances(0) {
 
     init();
 }

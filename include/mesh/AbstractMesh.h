@@ -37,7 +37,7 @@ public:
 	int getNumberOfVertices() const { return numberOfVertices; }
 	int getNumberOfIndices() const { return indices.size(); }
 
-	unsigned int getId() { return id; }
+	unsigned int getId() const { return id; }
 
 	// The xyz-values of the vertices furthest from the mesh's origo. Used to create a bounding box around the mesh.
 	// negativeExtent usually contains negative values.

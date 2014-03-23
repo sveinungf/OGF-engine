@@ -140,9 +140,7 @@ void Terrain::prepareBufferData() {
 
 			pointNormals[current] = (normalA + normalB + normalC + normalD + normalE + normalF + normalG + normalH) / 8.0f;
         }
-    }
-
-	int index = 0;
+    }	
 
 	if (useIBO) {
 		// Indices calculations
@@ -184,6 +182,8 @@ void Terrain::prepareBufferData() {
 			}
 		}
 	} else {
+		int index = 0;
+
 		// Triangles calculations
 		for (int i = 0; i < lastLengthIndex; ++i) {
 			for (int j = 0; j < lastWidthIndex; ++j) {

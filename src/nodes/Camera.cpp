@@ -3,14 +3,11 @@
 using namespace glm;
 
 
-Camera::Camera(float fov, float nearZ, float farZ) : AbstractNode(), fieldOfView(fov),
+Camera::Camera(float fov, float nearZ, float farZ) : AbstractNode(), forward(0.0f, 0.0f, -1.0f, 0.0f), up(0.0f, 1.0f, 0.0f, 0.0f), fieldOfView(fov),
 		zNear(nearZ), zFar(farZ), aspectRatio(0.0f), mouseState(MOUSE_OFF),
 		prevX(0), prevY(0), startX(0), startY(0) {
 
-	forward = vec4(0.0f, 0.0f, -1.0f, 0.0f);
-	up = vec4(0.0f, 1.0f, 0.0f, 0.0f);
-
-	for (int i = 0; i < 8; ++i) {
+	for (int i = 0; i < MAX_KEYS; ++i) {
 		keys[i] = false;
 	}
 }
