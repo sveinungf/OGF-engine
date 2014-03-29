@@ -4,10 +4,10 @@ using namespace glm;
 
 
 vec3 Quad::points[4] = {
-	vec3(-0.5f,  0.5f, 0.0f),
-	vec3( 0.5f,  0.5f, 0.0f),
-	vec3(-0.5f, -0.5f, 0.0f),
-	vec3( 0.5f, -0.5f, 0.0f)
+	vec3(-0.5f,  0.5f, 0.0f),	// LEFT_TOP
+	vec3( 0.5f,  0.5f, 0.0f),	// RIGHT_TOP
+	vec3(-0.5f, -0.5f, 0.0f),	// LEFT_BOTTOM
+	vec3( 0.5f, -0.5f, 0.0f)	// RIGHT_BOTTOM
 };
 
 Quad::Quad() : AbstractMesh() {
@@ -15,8 +15,8 @@ Quad::Quad() : AbstractMesh() {
 	prepareBufferData();
 	buildVAO();
 
-	positiveExtent = points[3];
-	negativeExtent = points[0];
+	positiveExtent = points[RIGHT_TOP];
+	negativeExtent = points[LEFT_BOTTOM];
 }
 
 void Quad::prepareBufferData() {
