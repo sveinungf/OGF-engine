@@ -14,6 +14,7 @@ public:
 	virtual ~Camera() override {}
 
 	const glm::mat4& getWorldToView() const { return worldToView; }
+	const glm::mat4& getWorldToViewNoTranslation() const { return worldToViewNoTranslation; }
 	const glm::mat4& getViewToClip() const { return viewToClip; }
 	void setAspectRatio(float aspectRatio);
 
@@ -56,6 +57,7 @@ private:
 	glm::vec4 up;
 
 	glm::mat4 worldToView;
+	glm::mat4 worldToViewNoTranslation;
 
 	//ViewToClip variables
 	glm::mat4 viewToClip;

@@ -1,3 +1,4 @@
+#include "../Texture2D.h"
 #include "AbstractNode.h"
 #include "MeshNode.h"
 

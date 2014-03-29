@@ -2,7 +2,7 @@
 
 #include "../mesh/AbstractMesh.h"
 #include "../ShaderProgram.h"
-#include "../Texture2D.h"
+#include "../Texture.h"
 #include "AbstractNode.h"
 
 
@@ -18,7 +18,7 @@ public:
 	void setMaterial(PhongProperty* prop) { phongProperty = prop; };
 
     // Texture
-    void addTexture(Texture2D* texture);
+    void addTexture(Texture* texture);
 
 protected:
 	// Rendering
@@ -33,5 +33,5 @@ private:
 	AbstractMesh* mesh;
 
 	// Texture
-	std::vector<Texture2D*> textures;
+	std::vector<Texture*> textures;
 };

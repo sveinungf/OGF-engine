@@ -1,14 +1,11 @@
 #version 330 
 
-in vec4 vPosition;
-in vec3 vNormal;
-in vec4 vColor;
-in vec2 vTexCoord;
+in vec3 vTexCoord3;
 
-uniform sampler2D texture0;
+uniform samplerCube cubeTexture;
 
-out vec4 fColor;  //Color out for this fragment
+out vec4 fColor;
 
 void main() {
-	fColor = texture2D(texture0, vTexCoord); //Change back when normals are ok
+	fColor = texture(cubeTexture, vTexCoord3);
 } 

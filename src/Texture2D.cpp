@@ -2,13 +2,9 @@
 #include <iostream>
 
 
-Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) : image(filename, Image::RGBA) {
+Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) : Texture(), image(filename, Image::RGBA) {
 	std::cout << "Loading texture: " << filename << std::endl;
 
-    // Lager lokasjon for 1 tekstur (denne) i GPU minne
-    glGenTextures(1, &textureName);
-
-    // M� binde teksturen for � sette parametre
     glBindTexture(GL_TEXTURE_2D, textureName);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0,
                  GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelData());

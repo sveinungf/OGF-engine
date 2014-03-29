@@ -26,6 +26,7 @@ void Camera::updateWorldToView() {
 	up = normalize(up);
 
 	worldToView = lookAt(vec3(position), vec3(position + forward), vec3(up));
+	worldToViewNoTranslation = lookAt(vec3(), vec3(forward), vec3(up));
 }
 
 void Camera::doMove(double deltaTime){

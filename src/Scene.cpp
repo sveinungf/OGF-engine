@@ -9,14 +9,12 @@ Scene::Scene() : rootNode(nullptr), skybox(nullptr) {
 
 Scene::~Scene() {
     delete rootNode;
+	delete skybox;
 	delete camera;
 }
 
 void Scene::init() {
 	skybox = new Skybox();
-	skybox->buildSkybox();
-
-	camera->add(skybox);
 }
 
 void Scene::setCameraPosition(const vec3& cameraPosition){
@@ -25,10 +23,12 @@ void Scene::setCameraPosition(const vec3& cameraPosition){
 
 void Scene::render() {
 	camera->render();
+	skybox->render(camera->getWorldToViewNoTranslation(), camera->getViewToClip(), nullptr);
 	rootNode->render(camera->getWorldToView(), camera->getViewToClip(), nullptr);
 }
 
 void Scene::renderID() {
 	camera->renderID();
+	skybox->renderID(camera->getWorldToViewNoTranslation(), camera->getViewToClip(), nullptr);
 	rootNode->renderID(camera->getWorldToView(), camera->getViewToClip(), nullptr);
 }

@@ -13,7 +13,7 @@ MeshNode::~MeshNode() {
 }
 
 // Texture
-void MeshNode::addTexture(Texture2D* texture) {
+void MeshNode::addTexture(Texture* texture) {
 	shaderProgram.setTextureId(textures.size());
 	textures.push_back(texture);
 }
