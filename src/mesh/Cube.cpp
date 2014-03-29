@@ -77,31 +77,31 @@ void Cube::prepareBufferData(const glm::vec4& color) {
 void Cube::buildSide(int& index, const Corner a, const Corner b, const Corner c, const Corner d) {
     normals[index] = originalCube[a];
     vertices[index] = glm::vec4(originalCube[a], 1.0f);
-    texCoords[index] = glm::vec2(0.0, 0.0);
+	texCoords[index] = texture2DCorners[LOWER_LEFT];
 	++index;
 
     normals[index] = originalCube[b];
     vertices[index] = glm::vec4(originalCube[b], 1.0f);
-    texCoords[index] = glm::vec2(0.0, 1.0);
+	texCoords[index] = texture2DCorners[UPPER_LEFT];
 	++index;
 
     normals[index] = originalCube[c];
     vertices[index] = glm::vec4(originalCube[c], 1.0f);
-    texCoords[index] = glm::vec2(1.0, 1.0);
+	texCoords[index] = texture2DCorners[UPPER_RIGHT];
 	++index;
 
     normals[index] = originalCube[a];
     vertices[index] = glm::vec4(originalCube[a], 1.0f);
-    texCoords[index] = glm::vec2(0.0, 0.0);
+	texCoords[index] = texture2DCorners[LOWER_LEFT];
 	++index;
 
     normals[index] = originalCube[c];
     vertices[index] = glm::vec4(originalCube[c], 1.0f);
-    texCoords[index] = glm::vec2(1.0, 1.0);
+	texCoords[index] = texture2DCorners[UPPER_RIGHT];
 	++index;
 
     normals[index] = originalCube[d];
     vertices[index] = glm::vec4(originalCube[d], 1.0f);
-    texCoords[index] = glm::vec2(1.0, 0.0);
+	texCoords[index] = texture2DCorners[LOWER_RIGHT];
 	++index;
 }
