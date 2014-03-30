@@ -24,6 +24,7 @@
 #include "TerrainContentData.h"
 #include "FrameBuffer.h"
 #include "OGFConfig.h"
+#include "TextureCubeMap.h"
 
 using namespace glm;
 using namespace std;
@@ -120,6 +121,14 @@ void init() {
 	Texture2D* bark = new Texture2D(resourceBase + "/textures/bark.png");
 	Texture2D* rockNormalMap = new Texture2D(resourceBase + "/textures/S1Normal.jpg");
 	Texture2D* rockDiffus = new Texture2D(resourceBase + "/textures/S3Diffus.jpg");
+	
+	vector<string> skyboxImages;
+	skyboxImages.push_back(resourceBase + "/skyboxes/right.bmp");
+	skyboxImages.push_back(resourceBase + "/skyboxes/left.bmp");
+	skyboxImages.push_back(resourceBase + "/skyboxes/top.bmp");
+	skyboxImages.push_back(resourceBase + "/skyboxes/bottom.bmp");
+	skyboxImages.push_back(resourceBase + "/skyboxes/front.bmp");
+	skyboxImages.push_back(resourceBase + "/skyboxes/back.bmp");
 
 	light = new LightNode(sManager, &LightProperties::SUNLIGHT);
 
@@ -132,7 +141,7 @@ void init() {
 	
 	waterNode = new MeshNode(waterShader, waterMesh);
 	waterNode->addComponent(ibodraw);
-	waterNode->addTexture(new Texture2D(resourceBase + "/textures/water.jpg"));
+	waterNode->addTexture(new TextureCubeMap(skyboxImages));
 	waterNode->rotateAroundSelfX(-90.0f);
 	waterNode->scale((GLfloat) terrainMesh->getWidth(), (GLfloat) terrainMesh->getLength(), 1.0f);
 

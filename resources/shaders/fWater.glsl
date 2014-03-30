@@ -1,49 +1,28 @@
 #version 330 
 
-uniform struct LightSource {
-	vec4 ambient;
-	vec4 diffuse;
-	vec4 specular;
-	vec4 position;
-} light[64];
+in vec3 pos_eye;
+in vec3 n_eye;
 
+uniform samplerCube cube_texture;
 uniform mat4 worldToView;
-uniform int numberOfLights;
-uniform sampler2D texArray[1];
-
 uniform int id;
-
-in vec4 vertexColor;
-in vec2 vertexTexCoord;
-in vec3 vertexNormal;
-in vec3 eyeDir;
 
 out vec4 color;
 
 vec3 encodeID (int id);
 
 void main() { 
-	vec3 ambient = vec3(0.0f);
-	vec3 diffuse = vec3(0.0f);
-	vec3 specular = vec3(0.0f);
+	/* reflect ray around normal from eye to surface */
+	vec3 incident_eye = normalize(pos_eye);
+	vec3 normal = normalize(n_eye);
 
-	for (int i = 0; i < numberOfLights; ++i) {
-		vec3 lightInViewSpace = (worldToView * light[i].position).xyz;
-		vec3 lightDir = lightInViewSpace - (-eyeDir);
+	vec3 reflected = reflect(incident_eye, normal);
+	// convert from eye to world space
+	reflected = vec3(inverse(worldToView) * vec4(reflected, 0.0f));
 
-		vec3 E = normalize(eyeDir);
-		vec3 N = normalize(vertexNormal);
-
-		vec3 L = normalize(lightDir);
-		vec3 H = normalize(E + L);
-
-		ambient += light[i].ambient.xyz;
-		diffuse += light[i].diffuse.xyz * max(dot(L, N),0);
-		specular += light[i].specular.xyz * pow(max(dot(H, N), 0), 0.0f); //Hardcoded shininess
-	};
 	if (id == 0) {
-		color = texture2D(texArray[0], vertexTexCoord) * vec4(ambient + diffuse + specular, 1.0f);	
+		color = mix(texture(cube_texture, reflected), vec4(0.0f, 0.8f, 0.8f, 1.0f), 0.3f);
 	} else {
-		color = vec4(encodeID(id),1.0f);
+		color = vec4(encodeID(id), 1.0f);
 	}
 }
