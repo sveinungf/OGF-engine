@@ -2,14 +2,14 @@
 
 
 glm::vec3 Cube::originalCube[Cube::MAX_CORNERS] = {
-    glm::vec3(-0.5f, -0.5f,  0.5f),
-    glm::vec3(-0.5f, 0.5f,  0.5f),
-    glm::vec3(0.5f, 0.5f, 0.5f),
-    glm::vec3(0.5f, -0.5f, 0.5f),
-    glm::vec3(-0.5f, -0.5f, -0.5f),
-    glm::vec3(-0.5f, 0.5f, -0.5f),
-    glm::vec3(0.5f, 0.5f, -0.5f),
-    glm::vec3(0.5f, -0.5f, -0.5f)
+	glm::vec3(-0.5f, -0.5f, -0.5f),		// LEFT_BOTTOM_FRONT
+	glm::vec3(-0.5f, -0.5f, 0.5f),		// LEFT_BOTTOM_BACK
+	glm::vec3(-0.5f, 0.5f, -0.5f),		// LEFT_TOP_FRONT
+    glm::vec3(-0.5f, 0.5f, 0.5f),		// LEFT_TOP_BACK
+	glm::vec3(0.5f, -0.5f, -0.5f),		// RIGHT_BOTTOM_FRONT
+	glm::vec3(0.5f, -0.5f, 0.5f),		// RIGHT_BOTTOM_BACK
+	glm::vec3(0.5f, 0.5f, -0.5f),		// RIGHT_TOP_FRONT
+    glm::vec3(0.5f, 0.5f, 0.5f)			// RIGHT_TOP_BACK
 };
 
 Cube::Cube(const bool invert) : AbstractMesh(), inverted(invert) {
@@ -46,31 +46,31 @@ void Cube::prepareBufferData(const glm::vec4& color) {
 	int index = 0;
 
 	if (!inverted) {
-		// Back
-		buildSide(index, TOP_LEFT_BACK, BOTTOM_LEFT_BACK, BOTTOM_RIGHT_BACK, TOP_RIGHT_BACK);
-		// Right
-		buildSide(index, TOP_RIGHT_BACK, BOTTOM_RIGHT_BACK, BOTTOM_RIGHT_FRONT, TOP_RIGHT_FRONT);
-		// Bottom
-		buildSide(index, BOTTOM_RIGHT_BACK, BOTTOM_LEFT_BACK, BOTTOM_LEFT_FRONT, BOTTOM_RIGHT_FRONT);
-		// Top
-		buildSide(index, TOP_RIGHT_FRONT, TOP_LEFT_FRONT, TOP_LEFT_BACK, TOP_RIGHT_BACK);
-		// Front
-		buildSide(index, BOTTOM_LEFT_FRONT, TOP_LEFT_FRONT, TOP_RIGHT_FRONT, BOTTOM_RIGHT_FRONT);
 		// Left
-		buildSide(index, TOP_LEFT_FRONT, BOTTOM_LEFT_FRONT, BOTTOM_LEFT_BACK, TOP_LEFT_BACK);
+		buildSide(index, LEFT_TOP_FRONT, LEFT_BOTTOM_FRONT, LEFT_BOTTOM_BACK, LEFT_TOP_BACK);
+		// Right
+		buildSide(index, RIGHT_TOP_BACK, RIGHT_BOTTOM_BACK, RIGHT_BOTTOM_FRONT, RIGHT_TOP_FRONT);
+		// Bottom
+		buildSide(index, RIGHT_BOTTOM_BACK, LEFT_BOTTOM_BACK, LEFT_BOTTOM_FRONT, RIGHT_BOTTOM_FRONT);
+		// Top
+		buildSide(index, RIGHT_TOP_FRONT, LEFT_TOP_FRONT, LEFT_TOP_BACK, RIGHT_TOP_BACK);
+		// Front
+		buildSide(index, LEFT_BOTTOM_FRONT, LEFT_TOP_FRONT, RIGHT_TOP_FRONT, RIGHT_BOTTOM_FRONT);
+		// Back
+		buildSide(index, LEFT_TOP_BACK, LEFT_BOTTOM_BACK, RIGHT_BOTTOM_BACK, RIGHT_TOP_BACK);
 	} else {
-		// Back
-		buildSide(index, TOP_LEFT_BACK, TOP_RIGHT_BACK, BOTTOM_RIGHT_BACK, BOTTOM_LEFT_BACK);
-		// Right
-		buildSide(index, TOP_RIGHT_BACK, TOP_RIGHT_FRONT, BOTTOM_RIGHT_FRONT, BOTTOM_RIGHT_BACK);
-		// Bottom
-		buildSide(index, BOTTOM_RIGHT_BACK, BOTTOM_RIGHT_FRONT, BOTTOM_LEFT_FRONT, BOTTOM_LEFT_BACK);
-		// Top
-		buildSide(index, TOP_RIGHT_FRONT, TOP_RIGHT_BACK, TOP_LEFT_BACK, TOP_LEFT_FRONT);
-		// Front
-		buildSide(index, BOTTOM_LEFT_FRONT, BOTTOM_RIGHT_FRONT, TOP_RIGHT_FRONT, TOP_LEFT_FRONT);
 		// Left
-		buildSide(index, TOP_LEFT_FRONT, TOP_LEFT_BACK, BOTTOM_LEFT_BACK, BOTTOM_LEFT_FRONT);
+		buildSide(index, LEFT_TOP_FRONT, LEFT_TOP_BACK, LEFT_BOTTOM_BACK, LEFT_BOTTOM_FRONT);
+		// Right
+		buildSide(index, RIGHT_TOP_BACK, RIGHT_TOP_FRONT, RIGHT_BOTTOM_FRONT, RIGHT_BOTTOM_BACK);
+		// Bottom
+		buildSide(index, RIGHT_BOTTOM_BACK, RIGHT_BOTTOM_FRONT, LEFT_BOTTOM_FRONT, LEFT_BOTTOM_BACK);
+		// Top
+		buildSide(index, RIGHT_TOP_FRONT, RIGHT_TOP_BACK, LEFT_TOP_BACK, LEFT_TOP_FRONT);
+		// Front
+		buildSide(index, LEFT_BOTTOM_FRONT, RIGHT_BOTTOM_FRONT, RIGHT_TOP_FRONT, LEFT_TOP_FRONT);
+		// Back
+		buildSide(index, LEFT_TOP_BACK, RIGHT_TOP_BACK, RIGHT_BOTTOM_BACK, LEFT_BOTTOM_BACK);
 	}
 }
 
