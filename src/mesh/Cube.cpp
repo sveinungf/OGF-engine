@@ -13,11 +13,13 @@ glm::vec3 Cube::originalCube[Cube::MAX_CORNERS] = {
 };
 
 Cube::Cube(const bool invert) : AbstractMesh(), inverted(invert) {
+	useIBO = true;
 	prepareBufferData();
 	buildVAO();
 }
 
 Cube::Cube(const glm::vec4& color, const bool invert) : AbstractMesh(), inverted(invert) {
+	useIBO = true;
 	prepareBufferData(color);
 	buildVAO();
 }
@@ -27,7 +29,7 @@ void Cube::prepareBufferData() {
 }
 
 void Cube::prepareBufferData(const glm::vec4& color) {
-	numberOfVertices = 36; // 6 vertices per face * 6 faces
+	numberOfVertices = 24; // 4 vertices per face * 6 faces
 	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
 	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
 	bytesOfColors = sizeof(glm::vec4) * numberOfVertices;
@@ -75,28 +77,18 @@ void Cube::prepareBufferData(const glm::vec4& color) {
 }
 
 void Cube::buildSide(int& index, const Corner a, const Corner b, const Corner c, const Corner d) {
-    normals[index] = originalCube[a];
-    vertices[index] = glm::vec4(originalCube[a], 1.0f);
+	normals[index] = originalCube[a];
+	vertices[index] = glm::vec4(originalCube[a], 1.0f);
 	texCoords[index] = texture2DCorners[LOWER_LEFT];
 	++index;
-
-    normals[index] = originalCube[b];
-    vertices[index] = glm::vec4(originalCube[b], 1.0f);
+	
+	normals[index] = originalCube[b];
+	vertices[index] = glm::vec4(originalCube[b], 1.0f);
 	texCoords[index] = texture2DCorners[UPPER_LEFT];
 	++index;
-
-    normals[index] = originalCube[c];
-    vertices[index] = glm::vec4(originalCube[c], 1.0f);
-	texCoords[index] = texture2DCorners[UPPER_RIGHT];
-	++index;
-
-    normals[index] = originalCube[a];
-    vertices[index] = glm::vec4(originalCube[a], 1.0f);
-	texCoords[index] = texture2DCorners[LOWER_LEFT];
-	++index;
-
-    normals[index] = originalCube[c];
-    vertices[index] = glm::vec4(originalCube[c], 1.0f);
+	
+	normals[index] = originalCube[c];
+	vertices[index] = glm::vec4(originalCube[c], 1.0f);
 	texCoords[index] = texture2DCorners[UPPER_RIGHT];
 	++index;
 
@@ -104,4 +96,12 @@ void Cube::buildSide(int& index, const Corner a, const Corner b, const Corner c,
     vertices[index] = glm::vec4(originalCube[d], 1.0f);
 	texCoords[index] = texture2DCorners[LOWER_RIGHT];
 	++index;
+
+	indices.push_back(index - 3);
+	indices.push_back(index - 2);
+	indices.push_back(index - 4);
+
+	indices.push_back(index - 2);
+	indices.push_back(index - 1);
+	indices.push_back(index - 4);
 }

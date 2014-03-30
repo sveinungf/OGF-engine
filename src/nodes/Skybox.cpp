@@ -1,5 +1,5 @@
 #include "components/DisableDepthMasking.h"
-#include "components/SimpleDraw.h"
+#include "components/IBODraw.h"
 #include "mesh/Cube.h"
 #include "nodes/MeshNode.h"
 #include "nodes/Skybox.h"
@@ -21,7 +21,7 @@ Skybox::Skybox() {
 	Cube* cube = new Cube(true);
 	MeshNode* cubeMesh = new MeshNode(skyboxShader, cube);
 
-	cubeMesh->addComponent(new SimpleDraw());
+	cubeMesh->addComponent(new IBODraw());
 	cubeMesh->addComponent(new DisableDepthMasking());
 
 	vector<string> skyboxImages;
