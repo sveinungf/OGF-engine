@@ -21,7 +21,7 @@ void main() {
 	reflected = vec3(inverse(worldToView) * vec4(reflected, 0.0f));
 
 	if (id == 0) {
-		color = mix(texture(cube_texture, reflected), vec4(0.0f, 0.8f, 0.8f, 1.0f), 0.3f);
+		color = vec4(mix(texture(cube_texture, reflected), vec4(0.0f, 0.8f, 0.8f, 1.0f), 0.3f).xyz, 0.8f);
 	} else {
 		color = vec4(encodeID(id), 1.0f);
 	}

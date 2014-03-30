@@ -141,6 +141,7 @@ void init() {
 	
 	waterNode = new MeshNode(waterShader, waterMesh);
 	waterNode->addComponent(ibodraw);
+	waterNode->addComponent(blending);
 	waterNode->addTexture(new TextureCubeMap(skyboxImages));
 	waterNode->rotateAroundSelfX(-90.0f);
 	waterNode->scale((GLfloat) terrainMesh->getWidth(), (GLfloat) terrainMesh->getLength(), 1.0f);
