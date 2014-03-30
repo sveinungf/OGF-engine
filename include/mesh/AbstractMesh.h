@@ -13,16 +13,16 @@
 class AbstractMesh {
 
 public:
-	enum TextureCorner {
-		UPPER_LEFT = 0,
-		UPPER_RIGHT,
-		LOWER_LEFT,
-		LOWER_RIGHT,
+	enum Corner2D {
+		LEFT_BOTTOM = 0,
+		LEFT_TOP,
+		RIGHT_BOTTOM,
+		RIGHT_TOP,
 		//----------
-		MAX_TEXTURE_CORNERS
+		MAX_CORNERS_2D
 	};
 
-	static glm::vec2 texture2DCorners[MAX_TEXTURE_CORNERS];
+	static glm::vec2 texture2DCorners[MAX_CORNERS_2D];
 
 	virtual ~AbstractMesh() {}
 

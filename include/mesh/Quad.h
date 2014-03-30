@@ -10,16 +10,7 @@ public:
 	virtual ~Quad() override {}
 
 private:
-	static enum Corner {
-		LEFT_TOP = 0,
-		RIGHT_TOP,
-		LEFT_BOTTOM,
-		RIGHT_BOTTOM,
-		//----------------
-		MAX_CORNERS
-	};
-
-	static glm::vec3 points[MAX_CORNERS];
+	static glm::vec3 points[MAX_CORNERS_2D];
 
 	virtual void prepareBufferData() override;
 };

@@ -168,15 +168,15 @@ void Terrain::prepareBufferData() {
 
 				if (i % 2 == 0) {
 					if (j % 2 == 0) {
-						texCoords[k] = texture2DCorners[UPPER_LEFT];
+						texCoords[k] = texture2DCorners[LEFT_TOP];
 					} else {
-						texCoords[k] = texture2DCorners[UPPER_RIGHT];
+						texCoords[k] = texture2DCorners[RIGHT_TOP];
 					}
 				} else {
 					if (j % 2 == 0) {
-						texCoords[k] = texture2DCorners[LOWER_LEFT];
+						texCoords[k] = texture2DCorners[LEFT_BOTTOM];
 					} else {
-						texCoords[k] = texture2DCorners[LOWER_RIGHT];
+						texCoords[k] = texture2DCorners[RIGHT_BOTTOM];
 					}
 				}
 			}
@@ -224,32 +224,32 @@ void Terrain::prepareBufferData() {
 				glm::vec3 normal3 = pointNormals[nextRow];
 				
 				vertices[index] = vertex0;
-				texCoords[index] = texture2DCorners[UPPER_LEFT];
+				texCoords[index] = texture2DCorners[LEFT_TOP];
 				normals[index] = normal0;
 				++index;
 
 				vertices[index] = vertex2;
-				texCoords[index] = texture2DCorners[LOWER_RIGHT];
+				texCoords[index] = texture2DCorners[RIGHT_BOTTOM];
 				normals[index] = normal2;
 				++index;
 
 				vertices[index] = vertex1;
-				texCoords[index] = texture2DCorners[UPPER_RIGHT];
+				texCoords[index] = texture2DCorners[RIGHT_TOP];
 				normals[index] = normal1;
 				++index;
 
 				vertices[index] = vertex0;
-				texCoords[index] = texture2DCorners[UPPER_LEFT];
+				texCoords[index] = texture2DCorners[LEFT_TOP];
 				normals[index] = normal0;
 				++index;
 
 				vertices[index] = vertex3;
-				texCoords[index] = texture2DCorners[LOWER_LEFT];
+				texCoords[index] = texture2DCorners[LEFT_BOTTOM];
 				normals[index] = normal3;
 				++index;
 
 				vertices[index] = vertex2;
-				texCoords[index] = texture2DCorners[LOWER_RIGHT];
+				texCoords[index] = texture2DCorners[RIGHT_BOTTOM];
 				normals[index] = normal2;
 				++index;
 			}

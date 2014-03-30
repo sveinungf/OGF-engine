@@ -15,7 +15,7 @@ protected:
 	void prepareBufferData(const glm::vec4& color);
 
 private:
-	static enum Corner {
+	enum Corner3D {
 		LEFT_BOTTOM_FRONT = 0,
 		LEFT_BOTTOM_BACK,
 		LEFT_TOP_FRONT,
@@ -25,12 +25,12 @@ private:
 		RIGHT_TOP_FRONT,
 		RIGHT_TOP_BACK,
 		//----------------
-		MAX_CORNERS
+		MAX_CORNERS_3D
 	};
 
-	static glm::vec3 originalCube[MAX_CORNERS];
+	static glm::vec3 originalCube[MAX_CORNERS_3D];
 
 	bool inverted;
 
-	void buildSide(int& index, const Corner a, const Corner b, const Corner c, const Corner d);
+	void buildSide(int& index, const Corner3D a, const Corner3D b, const Corner3D c, const Corner3D d);
 };

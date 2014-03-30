@@ -1,7 +1,7 @@
 #include "mesh/Cube.h"
 
 
-glm::vec3 Cube::originalCube[Cube::MAX_CORNERS] = {
+glm::vec3 Cube::originalCube[Cube::MAX_CORNERS_3D] = {
 	glm::vec3(-0.5f, -0.5f, -0.5f),		// LEFT_BOTTOM_FRONT
 	glm::vec3(-0.5f, -0.5f, 0.5f),		// LEFT_BOTTOM_BACK
 	glm::vec3(-0.5f, 0.5f, -0.5f),		// LEFT_TOP_FRONT
@@ -76,25 +76,25 @@ void Cube::prepareBufferData(const glm::vec4& color) {
 	}
 }
 
-void Cube::buildSide(int& index, const Corner a, const Corner b, const Corner c, const Corner d) {
+void Cube::buildSide(int& index, const Corner3D a, const Corner3D b, const Corner3D c, const Corner3D d) {
 	normals[index] = originalCube[a];
 	vertices[index] = glm::vec4(originalCube[a], 1.0f);
-	texCoords[index] = texture2DCorners[LOWER_LEFT];
+	texCoords[index] = texture2DCorners[LEFT_BOTTOM];
 	++index;
 	
 	normals[index] = originalCube[b];
 	vertices[index] = glm::vec4(originalCube[b], 1.0f);
-	texCoords[index] = texture2DCorners[UPPER_LEFT];
+	texCoords[index] = texture2DCorners[LEFT_TOP];
 	++index;
 	
 	normals[index] = originalCube[c];
 	vertices[index] = glm::vec4(originalCube[c], 1.0f);
-	texCoords[index] = texture2DCorners[UPPER_RIGHT];
+	texCoords[index] = texture2DCorners[RIGHT_TOP];
 	++index;
 
     normals[index] = originalCube[d];
     vertices[index] = glm::vec4(originalCube[d], 1.0f);
-	texCoords[index] = texture2DCorners[LOWER_RIGHT];
+	texCoords[index] = texture2DCorners[RIGHT_BOTTOM];
 	++index;
 
 	indices.push_back(index - 3);

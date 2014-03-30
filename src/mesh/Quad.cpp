@@ -4,10 +4,10 @@ using namespace glm;
 
 
 vec3 Quad::points[4] = {
-	vec3(-0.5f,  0.5f, 0.0f),	// LEFT_TOP
-	vec3( 0.5f,  0.5f, 0.0f),	// RIGHT_TOP
 	vec3(-0.5f, -0.5f, 0.0f),	// LEFT_BOTTOM
-	vec3( 0.5f, -0.5f, 0.0f)	// RIGHT_BOTTOM
+	vec3(-0.5f, 0.5f, 0.0f),	// LEFT_TOP
+	vec3(0.5f, -0.5f, 0.0f),	// RIGHT_BOTTOM
+	vec3(0.5f, 0.5f, 0.0f)		// RIGHT_TOP
 };
 
 Quad::Quad() : AbstractMesh() {

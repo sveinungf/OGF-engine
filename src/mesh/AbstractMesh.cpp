@@ -1,11 +1,11 @@
 #include "mesh/AbstractMesh.h"
 
 
-glm::vec2 AbstractMesh::texture2DCorners[MAX_TEXTURE_CORNERS] = {
-	glm::vec2(0.0f, 1.0f),	// UPPER_LEFT
-	glm::vec2(1.0f, 1.0f),	// UPPER_RIGHT
-	glm::vec2(0.0f, 0.0f),	// LOWER_LEFT
-	glm::vec2(1.0f, 0.0f)	// LOWER_RIGHT
+glm::vec2 AbstractMesh::texture2DCorners[MAX_CORNERS_2D] = {
+	glm::vec2(0.0f, 0.0f),	// LEFT_BOTTOM
+	glm::vec2(0.0f, 1.0f),	// LEFT_TOP
+	glm::vec2(1.0f, 0.0f),	// RIGHT_BOTTOM
+	glm::vec2(1.0f, 1.0f)	// RIGHT_TOP
 };
 
 AbstractMesh::AbstractMesh() :
