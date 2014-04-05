@@ -264,39 +264,37 @@ void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int /*mods*/) {
-	double cursorX, cursorY;
-	glfwGetCursorPos(window, &cursorX, &cursorY);
-	scene.getCamera()->mouseAction(window, button, action, (int) cursorX, (int) cursorY);
+	scene.getCamera()->mouseAction(window, button, action);
 
 	if (action == GLFW_PRESS) {
-		int windowWidth, windowHeight;
-		FrameBuffer* fbo = nullptr;
-		unsigned char data[4] = { 0 };
-
 		switch (button) {
-		case GLFW_MOUSE_BUTTON_MIDDLE:
-			glfwGetWindowSize(window, &windowWidth, &windowHeight);
-			fbo = new FrameBuffer(windowWidth, windowHeight);
+		case GLFW_MOUSE_BUTTON_MIDDLE: {
+				double cursorX, cursorY;
+				int windowWidth, windowHeight;
+				unsigned char data[4] = {0};
 
-			fbo->enable();
-			sManager->setUniformGLint("idMul", 1);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			scene.renderID();
+				glfwGetCursorPos(window, &cursorX, &cursorY);
+				glfwGetWindowSize(window, &windowWidth, &windowHeight);
+
+				FrameBuffer fbo(windowWidth, windowHeight);
+				fbo.enable();
+
+				sManager->setUniformGLint("idMul", 1);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				scene.renderID();
 			
-			glReadPixels((int) cursorX, windowHeight - (int) cursorY, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &data);
-			// We are only checking the blue component, 
-			// we don't have 255 or more meshes 
-			if (data[2] == '\0'){
-				std::cout << "Did not click on a mesh." << std::endl;
-			} else {
-				std::cout << "Clicked on mesh id: " << (int) data[2] << std::endl;
-			}
-			fbo->disable();
-			break;
-		}
+				glReadPixels((int) cursorX, windowHeight - (int) cursorY, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &data);
+				// We are only checking the blue component, 
+				// we don't have 255 or more meshes 
+				if (data[2] == '\0'){
+					std::cout << "Did not click on a mesh." << std::endl;
+				} else {
+					std::cout << "Clicked on mesh id: " << (int) data[2] << std::endl;
+				}
 
-		if (fbo != nullptr) {
-			delete fbo;
+				fbo.disable();
+			}
+			break;
 		}
 	}
 }

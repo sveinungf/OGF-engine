@@ -108,7 +108,7 @@ void Camera::keyUp(const int key){
 	}
 }
 
-void Camera::mouseAction(GLFWwindow* window, int button, int state, int /*x*/, int /*y*/) {
+void Camera::mouseAction(GLFWwindow* const window, const int button, const int state) {
 	switch (button) {
 	case GLFW_MOUSE_BUTTON_LEFT:
 		if (state == GLFW_PRESS) {
@@ -121,12 +121,20 @@ void Camera::mouseAction(GLFWwindow* window, int button, int state, int /*x*/, i
 		}
 		break;
 	case GLFW_MOUSE_BUTTON_RIGHT:
-		mouseState = mouseState == MOUSE_ACTIVE ? MOUSE_ROLL : MOUSE_ACTIVE;
+		if (state == GLFW_PRESS) {
+			if (mouseState == MOUSE_ACTIVE) {
+				mouseState = MOUSE_ROLL;
+			}
+		} else {
+			if (mouseState == MOUSE_ROLL) {
+				mouseState = MOUSE_ACTIVE;
+			}
+		}
 		break;
 	}
 }
 
-void Camera::mouseActive(GLFWwindow* window, int x, int y) {
+void Camera::mouseActive(GLFWwindow* const window, const int x, const int y) {
 	if (mouseState != MOUSE_OFF) {
 		int middleX = windowWidth / 2;
 		int middleY = windowHeight / 2;

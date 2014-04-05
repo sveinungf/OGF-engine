@@ -6,8 +6,7 @@
 class FrameBuffer {
 
 public:
-	FrameBuffer();
-	explicit FrameBuffer(int width, int height);
+	explicit FrameBuffer(const int width, const int height);
 	~FrameBuffer();
 	
 	void enable();
@@ -16,10 +15,10 @@ public:
 	const GLuint getFBO() const { return fbo; }
 	const GLuint getTexture() const { return texture; }
 
-	void reshape(int width, int height);
+	void reshape(const int width, const int height);
 
 private:
-	void generate(int width, int height);
+	void generate(const int width, const int height);
 
 	GLuint fbo;
 	GLuint depth;

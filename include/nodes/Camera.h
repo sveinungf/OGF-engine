@@ -24,8 +24,8 @@ public:
 	void doMove(const double deltaTime);
 	void keyDown(const int key);
 	void keyUp(const int key);
-	void mouseAction(GLFWwindow* window, int button, int state, int x, int y);
-	void mouseActive(GLFWwindow* window, int x, int y);
+	void mouseAction(GLFWwindow* const window, const int button, const int state);
+	void mouseActive(GLFWwindow* const window, const int x, const int y);
 
 	void render();
 	void renderID();
