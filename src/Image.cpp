@@ -7,7 +7,7 @@
 using namespace std;
 
 
-Image::Image(const string& filename, const Format format, const bool flip) : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {
+Image::Image(const string& filename, const Format format, const bool flip) : Image() {
 	ifstream ifile(filename);
 
 	if (ifile.good()) {
@@ -37,7 +37,7 @@ Image::Image(const Image& other) : channels(other.channels), height(other.height
 	std::copy(other.pixelData, other.pixelData + pixelDataLength, pixelData);
 }
 
-Image::Image(Image&& other) : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {
+Image::Image(Image&& other) : Image() {
 	swap(*this, other);
 }
 
