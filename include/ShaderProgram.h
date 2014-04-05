@@ -8,40 +8,21 @@
 #include <GL/glew.h>
 #include <glmhppnowarnings.h>
 #include "PhongProperty.h"
+#include "Shader.h"
 #include "TerrainContentData.h"
 
-
-class Shader {
-
-public:
-	enum {
-		FRAG = GL_FRAGMENT_SHADER,
-		VERT = GL_VERTEX_SHADER,
-		GEOM = GL_GEOMETRY_SHADER,
-		LINK
-	};
-
-	Shader() : type(LINK) {}
-	explicit Shader(const std::string& thePath, const GLenum theType) : path(thePath), type(theType) {}
-
-	const std::string& getPath() const { return path; }
-	const GLenum getType() const { return type; }
-
-private:
-	std::string path;
-	GLenum type;
-};
 
 class ShaderProgram {
 	
 public:
-	ShaderProgram() { 
-		std::cout << std::endl << "Creating shader:" << std::endl;
-		programLocation = glCreateProgram(); 
-	}
+	enum Action {
+		LINK = 0
+	};
 
+	ShaderProgram();
+
+	ShaderProgram& operator<<(const Action type);
 	ShaderProgram& operator<<(const Shader& shader);
-	ShaderProgram& operator<<(const GLenum type);
 
 	const GLuint& getProgramLocation() const { return programLocation; }
 
@@ -55,8 +36,8 @@ public:
 	void setTextureId(const GLuint id) const;
 
 	void setMaterialProperty(const PhongProperty& materialProperty) const;
-	void setLightProperty(const PhongProperty&	lightProperty, const glm::vec4& position, const int& indexInArray) const;
-	void setLightPosition(const glm::vec4& position, const int& indexInArray) const;
+	void setLightProperty(const PhongProperty&	lightProperty, const glm::vec4& position, const int indexInArray) const;
+	void setLightPosition(const glm::vec4& position, const int indexInArray) const;
 
 	void setTerrainContentData(const TerrainContentData& contentData) const;
 
@@ -67,6 +48,7 @@ public:
     void setUniformVec4(const std::string& variable, const glm::vec4& value) const;
 
 	void setTransformFeedbackOutput(const std::vector<std::string>& varyings) const;
+
 private:
     GLuint programLocation;
 };

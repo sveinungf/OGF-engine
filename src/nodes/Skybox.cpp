@@ -14,9 +14,9 @@ Skybox::Skybox() {
 	string resourceBase(OGF_RESOURCE_DIR);
 	
 	ShaderProgram skyboxShader;
-	skyboxShader << Shader(resourceBase + "/shaders/vSkybox.glsl", Shader::VERT)
-		<< Shader(resourceBase + "/shaders/fSkybox.glsl", Shader::FRAG)
-		<< Shader::LINK;
+	skyboxShader << Shader(resourceBase + "/shaders/vSkybox.glsl", Shader::VERTEX)
+		<< Shader(resourceBase + "/shaders/fSkybox.glsl", Shader::FRAGMENT)
+		<< ShaderProgram::LINK;
 
 	Cube* cube = new Cube(true);
 	MeshNode* cubeMesh = new MeshNode(skyboxShader, cube);

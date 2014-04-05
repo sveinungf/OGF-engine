@@ -21,8 +21,8 @@ void Instancing::init() {
     bytesOfInstancePositions = sizeof(vec3) * instances;
     bytesOfInstanceNormals = sizeof(vec3) * instanceNormals.size();
 
-	cullingShader << Shader(resourceBase + "/shaders/vInstanceCulling.glsl", Shader::VERT)
-			<< Shader(resourceBase + "/shaders/gInstanceCulling.glsl", Shader::GEOM);
+	cullingShader << Shader(resourceBase + "/shaders/vInstanceCulling.glsl", Shader::VERTEX)
+			<< Shader(resourceBase + "/shaders/gInstanceCulling.glsl", Shader::GEOMETRY);
 
 	vector<string> varyings;
 	varyings.push_back("culledPosition");
@@ -68,7 +68,7 @@ void Instancing::init() {
 
 	// Let's tell the shader what shader variables to listen to
     cullingShader.setTransformFeedbackOutput(varyings);
-	cullingShader << Shader::LINK;
+	cullingShader << ShaderProgram::LINK;
 }
 
 void Instancing::preRender(AbstractMesh* mesh, const mat4& viewToClip, const mat4& worldToView,

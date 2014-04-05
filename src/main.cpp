@@ -59,35 +59,35 @@ void init() {
 	std::string resourceBase(OGF_RESOURCE_DIR);
 
 	ShaderProgram instancingShader = ShaderProgram()
-		<< Shader(resourceBase + "/shaders/vInstancing.glsl", Shader::VERT)
-		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAG)
-		<< Shader(resourceBase + "/shaders/fInstancing.glsl", Shader::FRAG)
-		<< Shader::LINK;
+		<< Shader(resourceBase + "/shaders/vInstancing.glsl", Shader::VERTEX)
+		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAGMENT)
+		<< Shader(resourceBase + "/shaders/fInstancing.glsl", Shader::FRAGMENT)
+		<< ShaderProgram::LINK;
 	ShaderProgram waterShader = ShaderProgram()
-		<< Shader(resourceBase + "/shaders/vWater.glsl", Shader::VERT)
-		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAG)
-		<< Shader(resourceBase + "/shaders/fWater.glsl", Shader::FRAG)
-		<< Shader::LINK;
+		<< Shader(resourceBase + "/shaders/vWater.glsl", Shader::VERTEX)
+		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAGMENT)
+		<< Shader(resourceBase + "/shaders/fWater.glsl", Shader::FRAGMENT)
+		<< ShaderProgram::LINK;
 	ShaderProgram lightShader = ShaderProgram()
-		<< Shader(resourceBase + "/shaders/vLightShader.glsl", Shader::VERT)
-		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAG)
-		<< Shader(resourceBase + "/shaders/fLightShader.glsl", Shader::FRAG)
-		<< Shader::LINK;
+		<< Shader(resourceBase + "/shaders/vLightShader.glsl", Shader::VERTEX)
+		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAGMENT)
+		<< Shader(resourceBase + "/shaders/fLightShader.glsl", Shader::FRAGMENT)
+		<< ShaderProgram::LINK;
 	ShaderProgram terrainShader = ShaderProgram()
-		<< Shader(resourceBase + "/shaders/vTerrain.glsl", Shader::VERT)
-		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAG)
-		<< Shader(resourceBase + "/shaders/fTerrain.glsl", Shader::FRAG)
-		<< Shader::LINK;
+		<< Shader(resourceBase + "/shaders/vTerrain.glsl", Shader::VERTEX)
+		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAGMENT)
+		<< Shader(resourceBase + "/shaders/fTerrain.glsl", Shader::FRAGMENT)
+		<< ShaderProgram::LINK;
 	ShaderProgram treeShader = ShaderProgram()
-		<< Shader(resourceBase + "/shaders/vTree.glsl", Shader::VERT)
-		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAG)
-		<< Shader(resourceBase + "/shaders/fTree.glsl", Shader::FRAG)
-		<< Shader::LINK;
+		<< Shader(resourceBase + "/shaders/vTree.glsl", Shader::VERTEX)
+		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAGMENT)
+		<< Shader(resourceBase + "/shaders/fTree.glsl", Shader::FRAGMENT)
+		<< ShaderProgram::LINK;
 	ShaderProgram bumpMapShader = ShaderProgram()
-		<< Shader(resourceBase + "/shaders/vBumpMapLightshader.glsl", Shader::VERT)
-		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAG)
-		<< Shader(resourceBase + "/shaders/fBumpMapLightshader.glsl", Shader::FRAG)
-		<< Shader::LINK;
+		<< Shader(resourceBase + "/shaders/vBumpMapLightshader.glsl", Shader::VERTEX)
+		<< Shader(resourceBase + "/shaders/fColorID.glsl", Shader::FRAGMENT)
+		<< Shader(resourceBase + "/shaders/fBumpMapLightshader.glsl", Shader::FRAGMENT)
+		<< ShaderProgram::LINK;
 
 	sManager = new ShaderManager();
 	sManager->add(instancingShader);

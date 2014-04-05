@@ -4,8 +4,13 @@ using namespace glm;
 using namespace std;
 
 
-ShaderProgram& ShaderProgram::operator<<(const GLenum type){
-	if (type == Shader::LINK) {
+ShaderProgram::ShaderProgram() {
+	std::cout << std::endl << "Creating shader:" << std::endl;
+	programLocation = glCreateProgram();
+}
+
+ShaderProgram& ShaderProgram::operator<<(const Action type){
+	if (type == ShaderProgram::LINK) {
 		glLinkProgram(programLocation);
 
 		GLint linked;
@@ -31,13 +36,13 @@ ShaderProgram& ShaderProgram::operator<<(const GLenum type){
 ShaderProgram& ShaderProgram::operator<<(const Shader& s) {
 	{
 		switch (s.getType()){
-		case Shader::FRAG:
+		case Shader::FRAGMENT:
 			std::cout << "  Fragment: ";
 			break;
-		case Shader::GEOM:
+		case Shader::GEOMETRY:
 			std::cout << "  Geometry: ";
 			break;
-		case Shader::VERT:
+		case Shader::VERTEX:
 			std::cout << "  Vertex:   ";
 			break;
 		}
@@ -95,7 +100,7 @@ void ShaderProgram::setMaterialProperty(const PhongProperty&
     setUniformGLfloat("material.shininess", materialProperty.getShininess());
 }
 
-void ShaderProgram::setLightProperty(const PhongProperty& lightProperty, const glm::vec4& position, const int& indexInArray) const {
+void ShaderProgram::setLightProperty(const PhongProperty& lightProperty, const glm::vec4& position, const int indexInArray) const {
 	stringstream lightAmbient;  /**/  lightAmbient << "light[" << indexInArray << "].ambient";
 	stringstream lightDiffuse;  /**/  lightDiffuse << "light[" << indexInArray << "].diffuse";
 	stringstream lightSpecular; /**/  lightSpecular << "light[" << indexInArray << "].specular";
@@ -106,7 +111,7 @@ void ShaderProgram::setLightProperty(const PhongProperty& lightProperty, const g
 	ShaderProgram::setUniformVec4(lightPosition.str(), position);
 }
 
-void ShaderProgram::setLightPosition(const glm::vec4& position, const int& indexInArray) const {
+void ShaderProgram::setLightPosition(const glm::vec4& position, const int indexInArray) const {
 	stringstream lightPosition; lightPosition << "light[" << indexInArray << "].position";
 	ShaderProgram::setUniformVec4(lightPosition.str(), position);
 }
