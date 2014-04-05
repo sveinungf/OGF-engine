@@ -303,7 +303,7 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int /*mods*
 
 void framebufferSizeCallback(GLFWwindow* /*window*/, int width, int height) {
 	glViewport(0, 0, width, height);
-	scene.getCamera()->setAspectRatio((float) width/height);
+	scene.getCamera()->updateWindowDimensions(width, height);
 }
 
 int main(int, char**) {
@@ -355,7 +355,7 @@ int main(int, char**) {
 	}
 #endif
 
-	scene.getCamera()->setAspectRatio((float)width / height);
+	scene.getCamera()->updateWindowDimensions(width, height);
 	init();
 
 	while (!glfwWindowShouldClose(window)) {

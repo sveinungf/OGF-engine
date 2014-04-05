@@ -3,18 +3,18 @@
 using namespace glm;
 
 
-Camera::Camera(float fov, float nearZ, float farZ) : AbstractNode(), forward(0.0f, 0.0f, -1.0f, 0.0f), up(0.0f, 1.0f, 0.0f, 0.0f), fieldOfView(fov),
-		zNear(nearZ), zFar(farZ), aspectRatio(0.0f), mouseState(MOUSE_OFF),
-		prevX(0), prevY(0), startX(0), startY(0) {
+Camera::Camera(const float fov, const float nearZ, const float farZ) : AbstractNode(), windowWidth(0), windowHeight(0), forward(0.0f, 0.0f, -1.0f, 0.0f), up(0.0f, 1.0f, 0.0f, 0.0f), fieldOfView(fov),
+		zNear(nearZ), zFar(farZ), mouseState(MOUSE_OFF), prevX(0), prevY(0), startX(0), startY(0) {
 
 	for (int i = 0; i < MAX_KEYS; ++i) {
 		keys[i] = false;
 	}
 }
 
-void Camera::setAspectRatio(float aspect) {
-	aspectRatio = aspect;
-	viewToClip = perspective(fieldOfView, aspectRatio, zNear, zFar);
+void Camera::updateWindowDimensions(const int width, const int height) {
+	windowWidth = width;
+	windowHeight = height;
+	viewToClip = perspective(fieldOfView, (float) width / height, zNear, zFar);
 }
 
 void Camera::updateWorldToView() {
@@ -29,7 +29,7 @@ void Camera::updateWorldToView() {
 	worldToViewNoTranslation = lookAt(vec3(), vec3(forward), vec3(up));
 }
 
-void Camera::doMove(double deltaTime){
+void Camera::doMove(const double deltaTime){
 	int forw = (keys[KEY_W] - keys[KEY_S]);
 	int strafe = (keys[KEY_D] - keys[KEY_A]);
 	int hover = (keys[KEY_SPACE] - keys[KEY_V]);
@@ -42,122 +42,105 @@ void Camera::doMove(double deltaTime){
 	move(vec3(newPos));
 }
 
-void Camera::keyDown(int key){
+void Camera::keyDown(const int key){
 	switch (key) {
-		case 'k':
-		case 'K':
-			std::cout << "CAMERA POS: " << glm::to_string(getPositionVec4()) << std::endl;
-			break;
-		case 'w':
-		case 'W':
-			keys[KEY_W] = true;
-			break;
-		case 'a':
-		case 'A':
-			keys[KEY_A] = true;
-			break;
-		case 's':
-		case 'S':
-			keys[KEY_S] = true;
-			break;
-		case 'd':
-		case 'D':
-			keys[KEY_D] = true;
-			break;
-		case ' ':
-			keys[KEY_SPACE] = true;
-			break;
-		case 'v':
-		case 'V':
-			keys[KEY_V] = true;
-			break;
-		case GLFW_KEY_LEFT_SHIFT:
-			keys[KEY_LSHIFT] = true;
-			break;
+	case 'k':
+	case 'K':
+		std::cout << "CAMERA POS: " << glm::to_string(getPositionVec4()) << std::endl;
+		break;
+	case 'w':
+	case 'W':
+		keys[KEY_W] = true;
+		break;
+	case 'a':
+	case 'A':
+		keys[KEY_A] = true;
+		break;
+	case 's':
+	case 'S':
+		keys[KEY_S] = true;
+		break;
+	case 'd':
+	case 'D':
+		keys[KEY_D] = true;
+		break;
+	case ' ':
+		keys[KEY_SPACE] = true;
+		break;
+	case 'v':
+	case 'V':
+		keys[KEY_V] = true;
+		break;
+	case GLFW_KEY_LEFT_SHIFT:
+		keys[KEY_LSHIFT] = true;
+		break;
 	}
 }
 
-void Camera::keyUp(int key){
+void Camera::keyUp(const int key){
 	switch (key) {
-		case 'w':
-		case 'W':
-			keys[KEY_W] = false;
-			break;
-		case 'a':
-		case 'A':
-			keys[KEY_A] = false;
-			break;
-		case 's':
-		case 'S':
-			keys[KEY_S] = false;
-			break;
-		case 'd':
-		case 'D':
-			keys[KEY_D] = false;
-			break;
-		case ' ':
-			keys[KEY_SPACE] = false;
-			break;
-		case 'v':
-		case 'V':
-			keys[KEY_V] = false;
-			break;
-		case GLFW_KEY_LEFT_SHIFT:
-			keys[KEY_LSHIFT] = false;
-			break;
+	case 'w':
+	case 'W':
+		keys[KEY_W] = false;
+		break;
+	case 'a':
+	case 'A':
+		keys[KEY_A] = false;
+		break;
+	case 's':
+	case 'S':
+		keys[KEY_S] = false;
+		break;
+	case 'd':
+	case 'D':
+		keys[KEY_D] = false;
+		break;
+	case ' ':
+		keys[KEY_SPACE] = false;
+		break;
+	case 'v':
+	case 'V':
+		keys[KEY_V] = false;
+		break;
+	case GLFW_KEY_LEFT_SHIFT:
+		keys[KEY_LSHIFT] = false;
+		break;
 	}
 }
 
-void Camera::mouseAction(GLFWwindow* window, int button, int state, int x, int y) {
-	switch (button){
+void Camera::mouseAction(GLFWwindow* window, int button, int state, int /*x*/, int /*y*/) {
+	switch (button) {
 	case GLFW_MOUSE_BUTTON_LEFT:
 		if (state == GLFW_PRESS) {
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 			mouseState = MOUSE_ACTIVE;
-			prevX = x;
-			prevY = y;
-			startX = x;
-			startY = y;
+			glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
 		} else {
-			glfwSetCursorPos(window, startX, startY);
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			mouseState = MOUSE_OFF;
 		}
 		break;
 	case GLFW_MOUSE_BUTTON_RIGHT:
-		if (mouseState == MOUSE_ACTIVE) {
-			mouseState = MOUSE_ROLL;
-		} else {
-			glfwSetCursorPos(window, startX, startY);
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			mouseState = MOUSE_OFF;
-		}
+		mouseState = mouseState == MOUSE_ACTIVE ? MOUSE_ROLL : MOUSE_ACTIVE;
 		break;
 	}
 }
 
 void Camera::mouseActive(GLFWwindow* window, int x, int y) {
-	int windowWidth, windowHeight;
-	glfwGetWindowSize(window, &windowWidth, &windowHeight);
-
 	if (mouseState != MOUSE_OFF) {
-		if (x <= 10 || y <= 10 || x >= windowWidth - 10 || y >= windowHeight - 10) {
-			prevX = windowWidth / 2;
-			prevY = windowHeight / 2;
-			glfwSetCursorPos(window, prevX, prevY);
-		} else {
-			switch (mouseState){
-			case MOUSE_ACTIVE:
-				rotate((prevY - y) / 4.0f, (prevX - x) / 4.0f, 0.0f);
-				break;
-			case MOUSE_ROLL:
-				rotate(0.0f, 0.0f, (x - prevX) / 4.0f);
-				break;
-			}
+		int middleX = windowWidth / 2;
+		int middleY = windowHeight / 2;
 
-			prevY = y;
-			prevX = x;
+		switch (mouseState) {
+		case MOUSE_ACTIVE:
+			rotate((middleY - y) / 4.0f, (middleX - x) / 4.0f, 0.0f);
+			break;
+		case MOUSE_ROLL:
+			rotate(0.0f, 0.0f, (x - middleX) / 4.0f);
+			break;
 		}
+
+		glfwSetCursorPos(window, middleX, middleY);
 	}
 }
 
@@ -179,9 +162,9 @@ void Camera::renderID() {
 	}
 }
 
-void Camera::rotate(float pitch, float yaw, float roll) {
+void Camera::rotate(const float pitch, const float yaw, const float roll) {
 	vec3 a = cross(vec3(forward), vec3(up));
-	
+
 	mat4 rotation = glm::rotate(mat4(), pitch, a);
 	rotation = glm::rotate(rotation, yaw, vec3(up));
 	rotation = glm::rotate(rotation, roll, vec3(forward));

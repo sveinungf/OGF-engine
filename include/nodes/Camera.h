@@ -10,19 +10,20 @@
 class Camera : public AbstractNode {
 
 public:
-	explicit Camera(float fieldOfView, float zNear, float zFar);
+	explicit Camera(const float fieldOfView, const float zNear, const float zFar);
 	virtual ~Camera() override {}
 
 	const glm::mat4& getWorldToView() const { return worldToView; }
 	const glm::mat4& getWorldToViewNoTranslation() const { return worldToViewNoTranslation; }
 	const glm::mat4& getViewToClip() const { return viewToClip; }
-	void setAspectRatio(float aspectRatio);
+	
+	void updateWindowDimensions(const int width, const int height);
 
 	void updateWorldToView();
 
-	void doMove(double deltaTime);
-	void keyDown(int key);
-	void keyUp(int key);
+	void doMove(const double deltaTime);
+	void keyDown(const int key);
+	void keyUp(const int key);
 	void mouseAction(GLFWwindow* window, int button, int state, int x, int y);
 	void mouseActive(GLFWwindow* window, int x, int y);
 
@@ -52,7 +53,8 @@ private:
 		MOUSE_OFF
 	};
 
-	//vec4 position;
+	int windowWidth, windowHeight;
+
 	glm::vec4 forward;
 	glm::vec4 up;
 
@@ -64,7 +66,6 @@ private:
 	float fieldOfView;
 	float zNear;
 	float zFar;
-	float aspectRatio;
 
 	//Control variables
 	bool keys[MAX_KEYS];
@@ -74,7 +75,7 @@ private:
 	int startX;
 	int startY;
 
-	void rotate(float pitch, float yaw, float roll);
+	void rotate(const float pitch, const float yaw, const float roll);
 };
 
 #endif /* CAMERA_H_ */
