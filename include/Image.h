@@ -9,7 +9,7 @@ public:
 	enum Format { GREYSCALE = 1, RGB = 3, RGBA = 4 };
 
 	Image() : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {}
-	explicit Image(const std::string& filename, const Format format);
+	explicit Image(const std::string& filename, const Format format, const bool flip = true);
 	Image(const Image& other);
 	Image(Image&& other);
 	~Image();

@@ -7,19 +7,23 @@
 using namespace std;
 
 
-Image::Image(const string& filename, const Format format) : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {
+Image::Image(const string& filename, const Format format, const bool flip) : channels(0), height(0), width(0), pixelDataLength(0), pixelData(nullptr) {
 	ifstream ifile(filename);
 
 	if (ifile.good()) {
 		// SOIL loads images with Y-axis flipped
-		unsigned char* flippedPixelData = SOIL_load_image(filename.c_str(), &width, &height, &channels, format);
-		pixelDataLength = width * height * format;
-		
-		pixelData = new unsigned char[pixelDataLength];
+		if (flip) {
+			unsigned char* flippedPixelData = SOIL_load_image(filename.c_str(), &width, &height, &channels, format);
+			pixelDataLength = width * height * format;
 
-		// Flip the Y-axis
-		for (int i = 0; i < height; ++i) {
-			copy(flippedPixelData + i * width * format, flippedPixelData + i * width * format + width * format, pixelData + (height - 1 - i) * width * format);
+			pixelData = new unsigned char[pixelDataLength];
+
+			// Flip the Y-axis
+			for (int i = 0; i < height; ++i) {
+				copy(flippedPixelData + i * width * format, flippedPixelData + i * width * format + width * format, pixelData + (height - 1 - i) * width * format);
+			}
+		} else {
+			pixelData = SOIL_load_image(filename.c_str(), &width, &height, &channels, format);
 		}
 	} else {
 		stringstream ss;
