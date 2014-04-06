@@ -104,19 +104,19 @@ void ShaderProgram::setMaterialProperty(const PhongProperty&
 }
 
 void ShaderProgram::setLightProperty(const PhongProperty& lightProperty, const glm::vec4& position, const int indexInArray) const {
-	stringstream lightAmbient;  /**/  lightAmbient << "light[" << indexInArray << "].ambient";
-	stringstream lightDiffuse;  /**/  lightDiffuse << "light[" << indexInArray << "].diffuse";
-	stringstream lightSpecular; /**/  lightSpecular << "light[" << indexInArray << "].specular";
-	stringstream lightPosition; /**/  lightPosition << "light[" << indexInArray << "].position";
-	ShaderProgram::setUniformVec4(lightAmbient.str(), lightProperty.getAmbient());
-	ShaderProgram::setUniformVec4(lightDiffuse.str(), lightProperty.getDiffuse());
-	ShaderProgram::setUniformVec4(lightSpecular.str(), lightProperty.getSpecular());
-	ShaderProgram::setUniformVec4(lightPosition.str(), position);
+	stringstream lightIndex;
+	lightIndex << "light[" << indexInArray << "]";
+
+	setUniformVec4(lightIndex.str() + ".ambient", lightProperty.getAmbient());
+	setUniformVec4(lightIndex.str() + ".diffuse", lightProperty.getDiffuse());
+	setUniformVec4(lightIndex.str() + ".specular", lightProperty.getSpecular());
+	setUniformVec4(lightIndex.str() + ".position", position);
 }
 
 void ShaderProgram::setLightPosition(const glm::vec4& position, const int indexInArray) const {
-	stringstream lightPosition; lightPosition << "light[" << indexInArray << "].position";
-	ShaderProgram::setUniformVec4(lightPosition.str(), position);
+	stringstream lightPosition;
+	lightPosition << "light[" << indexInArray << "].position";
+	setUniformVec4(lightPosition.str(), position);
 }
 
 void ShaderProgram::setTerrainContentData(const TerrainContentData& contentData) const {
