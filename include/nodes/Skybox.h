@@ -1,12 +1,19 @@
 #pragma once
 
+#include <memory>
 #include "AbstractNode.h"
+#include "ShaderProgram.h"
+#include "TextureCubeMap.h"
 
 
 class Skybox : public AbstractNode {
 
 public:
-	Skybox();
+	explicit Skybox(const ShaderProgram& shaderProgram, const std::shared_ptr<TextureCubeMap>& texture);
+
+	// Virtual constructor idiom
+	virtual Skybox* clone() const override { return new Skybox(*this); }
+
 	virtual ~Skybox() override {}
 
 protected:

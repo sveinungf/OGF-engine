@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "../mesh/AbstractMesh.h"
 #include "../ShaderProgram.h"
 #include "../Texture.h"
@@ -9,16 +10,18 @@
 class MeshNode : public AbstractNode {
 
 public:
-    // Constructors/destructors
-    explicit MeshNode(const ShaderProgram& shaderProgram, AbstractMesh* mesh);
+    // Constructor
+    explicit MeshNode(const ShaderProgram& shaderProgram, AbstractMesh* const mesh);
+	MeshNode(const MeshNode& other);
+
+	// Virtual constructor idiom
+	virtual MeshNode* clone() const override { return new MeshNode(*this); }
+
+	// Destructor
     virtual ~MeshNode() override;
 
-	// PhongProperty
-	PhongProperty* getMaterial() { return phongProperty; };
-	void setMaterial(PhongProperty* prop) { phongProperty = prop; };
-
     // Texture
-    void addTexture(Texture* texture);
+    void addTexture(const std::shared_ptr<Texture>& texture);
 
 protected:
 	// Rendering
@@ -33,5 +36,5 @@ private:
 	AbstractMesh* mesh;
 
 	// Texture
-	std::vector<Texture*> textures;
+	std::vector<std::shared_ptr<Texture>> textures;
 };

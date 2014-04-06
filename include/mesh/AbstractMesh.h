@@ -1,12 +1,9 @@
 #pragma once
 
-#include <iostream>
-#include <sstream>
 #include <vector>
 #include <GL/glew.h>
 #include <glmhppnowarnings.h>
 #include <glm/ext.hpp>
-#include "../Debug.h"
 #include "../ShaderLayout.h"
 
 
@@ -23,6 +20,9 @@ public:
 	};
 
 	static glm::vec2 texture2DCorners[MAX_CORNERS_2D];
+
+	// Virtual constructor idiom
+	virtual AbstractMesh* clone() const = 0;
 
 	virtual ~AbstractMesh() {}
 

@@ -11,6 +11,10 @@ class Terrain : public AbstractMesh {
 
 public:
 	explicit Terrain(const std::string& filename);
+
+	// Virtual constructor idiom
+	virtual Terrain* clone() const override { return new Terrain(*this); }
+
 	virtual ~Terrain() override;
 
 	Image* getHeightmap() const { return heightmap; }

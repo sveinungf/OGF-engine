@@ -7,6 +7,10 @@ class Quad : public AbstractMesh {
 
 public:
 	Quad();
+
+	// Virtual constructor idiom
+	virtual Quad* clone() const override { return new Quad(*this); }
+
 	virtual ~Quad() override {}
 
 private:

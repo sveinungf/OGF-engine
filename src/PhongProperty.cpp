@@ -1,22 +1,18 @@
 #include "PhongProperty.h"
 
+using namespace glm;
+using namespace std;
 
-PhongProperty::PhongProperty(const glm::vec4& ambientRGBA,
-                             const glm::vec4& diffuseRGBA, const glm::vec4& specularRGBA,
-                             const GLfloat& shine) : ambient(ambientRGBA), diffuse(diffuseRGBA),
-    specular(specularRGBA), shininess(shine) {
+
+PhongProperty::PhongProperty(const vec4& ambientRGBA, const vec4& diffuseRGBA, const vec4& specularRGBA, const GLfloat shine)
+		: ambient(ambientRGBA), diffuse(diffuseRGBA), specular(specularRGBA), shininess(shine) {
 }
 
-PhongProperty::PhongProperty(const PhongProperty& other) : ambient(
-        other.ambient), diffuse(other.diffuse), specular(other.specular),
-    shininess(other.shininess) {
-}
+ostream& operator<<(ostream& output, const PhongProperty& prop) {
+	output << to_string(prop.ambient) << endl;
+	output << to_string(prop.diffuse) << endl;
+	output << to_string(prop.specular) << endl;
+	output << prop.shininess << endl;
 
-std::ostream& operator<< (std::ostream& output, const PhongProperty& prop) {
-    output << glm::to_string(prop.ambient) << std::endl;
-    output << glm::to_string(prop.diffuse) << std::endl;
-    output << glm::to_string(prop.specular) << std::endl;
-    output << prop.shininess << std::endl;
-
-    return output;
+	return output;
 }

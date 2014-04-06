@@ -1,6 +1,8 @@
 #include "mesh/AbstractMesh.h"
 
 
+unsigned int AbstractMesh::count = 0;
+
 glm::vec2 AbstractMesh::texture2DCorners[MAX_CORNERS_2D] = {
 	glm::vec2(0.0f, 0.0f),	// LEFT_BOTTOM
 	glm::vec2(0.0f, 1.0f),	// LEFT_TOP
@@ -17,8 +19,6 @@ AbstractMesh::AbstractMesh() :
 }
 
 void AbstractMesh::buildVAO() {
-	checkErrorAndStop("MeshAbstract::buildVAO() : pre method excecution", true);
-
     glGenVertexArrays(1, &vao); // Create our Vertex Array Object
     glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it
     glGenBuffers(1, &vbo); // Generate our Vertex Buffer Object
@@ -31,8 +31,6 @@ void AbstractMesh::buildVAO() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bytesOfIndices, &indices[0], GL_STATIC_DRAW);
 	}
-
-	checkErrorAndStop("MeshAbstract::buildVAO() : Binding vao/vbo", true);
 	
     glBufferData(GL_ARRAY_BUFFER,
 		bytesOfVertices + bytesOfNormals + bytesOfColors + bytesOfTexCoords + bytesOfTangents + bytesOfBitangents, 0,
@@ -50,8 +48,6 @@ void AbstractMesh::buildVAO() {
 	bufferOffset += bytesOfTangents;
 	glBufferSubData(GL_ARRAY_BUFFER, bufferOffset, bytesOfBitangents, bitangents);
 	bufferOffset += bytesOfBitangents;
-
-	checkErrorAndStop("MeshAbstract::buildVAO() : Sending data to the VBO", true);
 
     // Initiate our VBO with the apropriate state
     attribOffset = 0;
@@ -84,8 +80,4 @@ void AbstractMesh::buildVAO() {
 	glVertexAttribPointer(ShaderLayout::BITANGENT, 3, GL_FLOAT, GL_FALSE, 0,
 		(GLvoid*)attribOffset);
 	attribOffset += bytesOfBitangents;
-
-    checkErrorAndStop("MeshAbstract::buildVAO() : VertexAttribPointerArray", true);
 }
-
-unsigned int AbstractMesh::count = 0;

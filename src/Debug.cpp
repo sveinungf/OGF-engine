@@ -1,9 +1,12 @@
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 #include "Debug.h"
 
 using namespace std;
 
 
-void checkErrorAndStop(const string& errString, bool stop) {
+void Debug::checkErrorAndStop(const string& errString, bool stop) {
     GLenum errCode = glGetError();
 
     if (errCode != GL_NO_ERROR) {
@@ -18,7 +21,7 @@ void checkErrorAndStop(const string& errString, bool stop) {
     }
 }
 
-string hyphenPaddedMessage(const string& message, int length) {
+string Debug::hyphenPaddedMessage(const string& message, int length) {
 	stringstream ss;
 	int messageLength = message.length();
 	int paddingLength = length - messageLength;
@@ -35,7 +38,7 @@ string hyphenPaddedMessage(const string& message, int length) {
 	return ss.str();
 }
 
-void APIENTRY openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
+void APIENTRY Debug::openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
 		GLsizei /*length*/, const GLchar* message, void* /*userParam*/) {
 
 	cerr << endl << hyphenPaddedMessage("openglDebugCallback START") << endl;
@@ -122,7 +125,7 @@ void APIENTRY openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum 
 	cerr << endl << hyphenPaddedMessage("openglDebugCallback END") << endl << endl;
 }
 
-void glfwErrorCallback(int error, const char* description) {
+void Debug::glfwErrorCallback(int error, const char* description) {
 	cerr << endl << hyphenPaddedMessage("glfwErrorCallback START") << endl;
 	cerr << "error: " << error << endl;
 	cerr << "description: " << description << endl;

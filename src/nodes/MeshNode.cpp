@@ -1,26 +1,32 @@
 #include "nodes/MeshNode.h"
 
 using namespace glm;
+using namespace std;
 
 
 // Constructors/destructors
-MeshNode::MeshNode(const ShaderProgram& program,
-           AbstractMesh* meshAbstract) : AbstractNode(), shaderProgram(program), mesh(meshAbstract) {
+MeshNode::MeshNode(const ShaderProgram& program, AbstractMesh* const meshAbstract)
+		: AbstractNode(), shaderProgram(program), mesh(meshAbstract) {
+}
+
+MeshNode::MeshNode(const MeshNode& other) : AbstractNode(other), shaderProgram(other.shaderProgram), mesh(other.mesh->clone()), textures(other.textures) {
 }
 
 MeshNode::~MeshNode() {
-	delete mesh;
+	if (mesh != nullptr) {
+		delete mesh;
+	}
 }
 
 // Texture
-void MeshNode::addTexture(Texture* texture) {
+void MeshNode::addTexture(const shared_ptr<Texture>& texture) {
 	shaderProgram.setTextureId(textures.size());
 	textures.push_back(texture);
 }
 
 // Rendering
 void MeshNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
-	for (AbstractComponent * component : components) {
+	for (AbstractComponent* const component : components) {
 		component->preRender(mesh, viewToClip, worldToView, objectToWorld);
 	}
 
@@ -28,7 +34,7 @@ void MeshNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
 	shaderProgram.setViewToClip(viewToClip);
 	shaderProgram.setWorldToView(worldToView);
 
-	for (unsigned int i = 0; i < textures.size(); ++i) {
+	for (size_t i = 0; i < textures.size(); ++i) {
 		textures.at(i)->useAsTextureId(i);
 	}
 
@@ -36,11 +42,11 @@ void MeshNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
 		shaderProgram.setMaterialProperty(*phongProperty);
 	}
 
-	for (AbstractComponent * component : components) {
+	for (AbstractComponent* const component : components) {
 		component->render(mesh);
 	}
 
-	for (AbstractComponent * component : components) {
+	for (AbstractComponent* const component : components) {
 		component->postRender();
 	}
 }

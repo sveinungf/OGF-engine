@@ -5,18 +5,26 @@ using namespace glm;
 
 // Destructors
 AbstractNode::~AbstractNode() {
-    for (AbstractNode * child : children) {
+    for (AbstractNode* const child : children) {
         delete child;
     }
+
+	for (AbstractComponent* const component : components) {
+		delete component;
+	}
+
+	if (phongProperty != nullptr) {
+		delete phongProperty;
+	}
 }
 
 // Scenegraph
-void AbstractNode::add(AbstractNode* child) {
+void AbstractNode::add(AbstractNode* const child) {
     children.push_back(child);
 }
 
 // Components
-void AbstractNode::addComponent(AbstractComponent* component) {
+void AbstractNode::addComponent(AbstractComponent* const component) {
     components.push_back(component);
 }
 
@@ -33,22 +41,17 @@ void AbstractNode::enableAllParentTransformations() {
     }
 }
 
-void AbstractNode::disableParentTransformation(const Transformation
-        transformation) {
-
+void AbstractNode::disableParentTransformation(const Transformation transformation) {
     transformationFlags[transformation] = false;
 }
 
-void AbstractNode::enableParentTransformation(const Transformation
-        transformation) {
-
+void AbstractNode::enableParentTransformation(const Transformation transformation) {
     transformationFlags[transformation] = true;
 }
 
 // Transformations
 glm::vec3 AbstractNode::getPositionVec3() const {
-    glm::vec4 pos = getPositionVec4();
-    return glm::vec3(pos.x, pos.y, pos.z);
+    return glm::vec3(getPositionVec4());
 }
 
 glm::vec4 AbstractNode::getPositionVec4() const {
@@ -59,8 +62,7 @@ void AbstractNode::setPosition(const glm::vec3& to) {
 	transformations[TRANSLATION] = glm::translate(to - getPositionVec3());
 }
 
-void AbstractNode::setPosition(const GLfloat x, const GLfloat y,
-                               const GLfloat z) {
+void AbstractNode::setPosition(const GLfloat x, const GLfloat y, const GLfloat z) {
     setPosition(glm::vec3(x, y, z));
 }
 
@@ -114,6 +116,21 @@ AbstractNode::AbstractNode() : phongProperty(nullptr) {
     }
 }
 
+AbstractNode::AbstractNode(const AbstractNode& other) : children(other.children.size()), components(other.components.size()), objectToWorld(other.objectToWorld), phongProperty(other.phongProperty == nullptr ? nullptr : new PhongProperty(*other.phongProperty)) {
+	for (size_t i = 0; i < other.children.size(); ++i) {
+		children[i] = other.children[i]->clone();
+	}
+
+	for (size_t i = 0; i < other.components.size(); ++i) {
+		components[i] = other.components[i]->clone();
+	}
+
+	for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {
+		transformationFlags[i] = other.transformationFlags[i];
+		transformations[i] = other.transformations[i];
+	}
+}
+
 // Transformations
 mat4 AbstractNode::getParentObjectToWorld(mat4 parentTransformations[]) const {
     mat4 result;
@@ -132,8 +149,7 @@ mat4 AbstractNode::getParentObjectToWorld(mat4 parentTransformations[]) const {
 void AbstractNode::updateObjectToWorld(mat4 parentTransformations[]) {
     mat4 result;
 
-    transformations[OBJECT_TO_WORLD_PARENT] = getParentObjectToWorld(
-                parentTransformations);
+    transformations[OBJECT_TO_WORLD_PARENT] = getParentObjectToWorld(parentTransformations);
 
     for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {
         result *= transformations[i];
@@ -147,7 +163,7 @@ void AbstractNode::render(const mat4& worldToView, const mat4& viewToClip, mat4 
 	updateObjectToWorld(parentTransformations);
 	renderSelf(worldToView, viewToClip);
 
-	for (AbstractNode * child : children) {
+	for (AbstractNode* const child : children) {
 		child->render(worldToView, viewToClip, transformations);
 	}
 }
@@ -156,7 +172,19 @@ void AbstractNode::renderID(const mat4& worldToView, const mat4& viewToClip, mat
 	updateObjectToWorld(parentTransformations);
 	renderIDSelf(worldToView, viewToClip);
 
-	for (AbstractNode * child : children) {
+	for (AbstractNode* const child : children) {
 		child->renderID(worldToView, viewToClip, transformations);
 	}
+}
+
+void swap(AbstractNode& first, AbstractNode& second) {
+	// Enable ADL
+	using std::swap;
+
+	swap(first.children, second.children);
+	swap(first.components, second.components);
+	swap(first.transformationFlags, second.transformationFlags);
+	swap(first.transformations, second.transformations);
+	swap(first.objectToWorld, second.objectToWorld);
+	swap(first.phongProperty, second.phongProperty);
 }

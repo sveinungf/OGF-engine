@@ -22,11 +22,14 @@ public:
     // Destructors
     virtual ~AbstractNode();
 
+	// Virtual constructor idiom
+	virtual AbstractNode* clone() const = 0;
+
     // Scenegraph
-    void add(AbstractNode* child);
+    void add(AbstractNode* const child);
 
     // Components
-    void addComponent(AbstractComponent* component);
+    void addComponent(AbstractComponent* const component);
 
     // Inherited transformations
     void disableAllParentTransformations();
@@ -51,19 +54,21 @@ public:
     void scale(const GLfloat x, const GLfloat y, const GLfloat z);
 
     // PhongProperty
-	PhongProperty* getPhongProperty() { return phongProperty; };
-	void setPhongProperty(PhongProperty* prop) { phongProperty = prop; };
+	PhongProperty* const getPhongProperty() { return phongProperty; };
+	void setPhongProperty(PhongProperty* const prop) { phongProperty = prop; };
 
     // Rendering
     void render(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
 	void renderID(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
 
+	friend void swap(AbstractNode& first, AbstractNode& second);
+
 protected:
     // Scenegraph
-    std::vector<AbstractNode*> children;
+    std::vector<AbstractNode* const> children;
 
     // Components
-    std::vector<AbstractComponent*> components;
+    std::vector<AbstractComponent* const> components;
 
     // Inherited transformations
     bool transformationFlags[MAX_TRANSFORMATIONS];
@@ -80,6 +85,7 @@ protected:
 
     // Constructors
     AbstractNode();
+	AbstractNode(const AbstractNode& other);
 
     // Transformations
     glm::mat4 getParentObjectToWorld(glm::mat4 parentTransformations[]) const;
@@ -88,5 +94,4 @@ protected:
 	// Rendering
 	virtual void renderSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) = 0;
 	virtual void renderIDSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) = 0;
-
 };

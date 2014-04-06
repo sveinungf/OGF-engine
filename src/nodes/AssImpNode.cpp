@@ -25,56 +25,50 @@ AssImpNode::AssImpNode(const ShaderProgram& program, const std::string& path){
 	for (unsigned int i = 0; i < mdl->mNumMeshes; i++){
 		std::cout << "  Mesh " << i << ": ";
 		AssImpMesh* mesh = new AssImpMesh(mdl->mMeshes[i]);
-		MeshNode* m = new MeshNode(program, mesh);
-		self.push_back(m);
+		MeshNode meshNode(program, mesh);
+		self.push_back(meshNode);
 	}
 	std::cout << std::endl;
 }
 
-AssImpNode::~AssImpNode(){
-	for (MeshNode * node : self) {
-		delete node;
-	}
-}
-
-void AssImpNode::addComponent(AbstractComponent* component, int mesh) {
+void AssImpNode::addComponent(AbstractComponent* const component, const int mesh) {
 	if (mesh < 0) {
-		for (MeshNode * child : self) {
-			child->addComponent(component);
+		for (MeshNode& child : self) {
+			child.addComponent(component);
 		}
 	} else if (mesh < (int) self.size()) {
-		self.at(mesh)->addComponent(component);
+		self.at(mesh).addComponent(component);
 	}
 }
 
-void AssImpNode::setMaterial(PhongProperty* material, int mesh) {
-	if (mesh < 0){
-		for (MeshNode * child : self) {
-			child->setMaterial(material);
+void AssImpNode::setMaterial(PhongProperty* const material, const int mesh) {
+	if (mesh < 0) {
+		for (MeshNode& child : self) {
+			child.setPhongProperty(material);
 		}
 	} else if(mesh < (int) self.size()) {
-		self.at(mesh)->setMaterial(material);
+		self.at(mesh).setPhongProperty(material);
 	}
 }
 
-void AssImpNode::addTexture(Texture2D* texture, int mesh) {
+void AssImpNode::addTexture(const std::shared_ptr<Texture>& texture, const int mesh) {
 	if (mesh < 0){
-		for (MeshNode * child : self) {
-			child->addTexture(texture);
+		for (MeshNode& child : self) {
+			child.addTexture(texture);
 		}
 	} else if (mesh < (int) self.size()) {
-		self.at(mesh)->addTexture(texture);
+		self.at(mesh).addTexture(texture);
 	}
 }
 
 void AssImpNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
-	for (AbstractNode * child : self) {
-		child->render(worldToView, viewToClip, transformations);
+	for (MeshNode& child : self) {
+		child.render(worldToView, viewToClip, transformations);
 	}
 }
 
 void AssImpNode::renderIDSelf(const mat4& worldToView, const mat4& viewToClip) {
-	for (AbstractNode * child : self) {
-		child->renderID(worldToView, viewToClip, transformations);
+	for (MeshNode& child : self) {
+		child.renderID(worldToView, viewToClip, transformations);
 	}
 }

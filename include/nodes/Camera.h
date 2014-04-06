@@ -11,6 +11,10 @@ class Camera : public AbstractNode {
 
 public:
 	explicit Camera(const float fieldOfView, const float zNear, const float zFar);
+
+	// Virtual constructor idiom
+	virtual Camera* clone() const override { return new Camera(*this); }
+
 	virtual ~Camera() override {}
 
 	const glm::mat4& getWorldToView() const { return worldToView; }

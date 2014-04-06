@@ -9,6 +9,11 @@ class LightNode : public AbstractNode {
 
 public:
 	explicit LightNode(ShaderManager* shaderManager, PhongProperty* lightProperty);
+	LightNode(const LightNode& other);
+
+	// Virtual constructor idiom
+	virtual LightNode* clone() const override { return new LightNode(*this); }
+
 	virtual ~LightNode() override {}
 
 protected:

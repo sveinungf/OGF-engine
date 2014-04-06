@@ -1,3 +1,6 @@
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include "ShaderProgram.h"
 
 using namespace glm;
@@ -5,7 +8,7 @@ using namespace std;
 
 
 ShaderProgram::ShaderProgram() {
-	std::cout << std::endl << "Creating shader:" << std::endl;
+	cout << endl << "Creating shader:" << endl;
 	programLocation = glCreateProgram();
 }
 

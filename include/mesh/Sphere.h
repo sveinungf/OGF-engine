@@ -9,6 +9,10 @@ class Sphere : public AbstractMesh {
 
 public:
 	Sphere();
+
+	// Virtual constructor idiom
+	virtual Sphere* clone() const override { return new Sphere(*this); }
+
 	virtual ~Sphere() override {}
 
 private:

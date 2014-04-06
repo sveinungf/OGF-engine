@@ -8,6 +8,10 @@ class Cube : public AbstractMesh {
 public:
 	explicit Cube(const bool invert = false);
 	explicit Cube(const glm::vec4& color, const bool invert = false);
+
+	// Virtual constructor idiom
+	virtual Cube* clone() const override { return new Cube(*this); }
+
 	virtual ~Cube() override {}
 
 protected:

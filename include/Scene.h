@@ -9,18 +9,18 @@
 class Scene {
 
 public:
-    Scene();
+    explicit Scene(const Skybox& skybox);
     ~Scene();
 
-	void init();
-	void setRootNode(AbstractNode* node) { rootNode = node; }
+	void setRootNode(AbstractNode* const node) { rootNode = node; }
 	void setCameraPosition(const glm::vec3& position);
-	Camera* getCamera() { return camera; }
+	Camera& getCamera() { return camera; }
+
     void render();
 	void renderID();
 
 private:
 	AbstractNode* rootNode;
-	Camera* camera;
-	Skybox* skybox;
+	Camera camera;
+	Skybox skybox;
 };

@@ -3,14 +3,12 @@
 #include <ostream>
 #include <GL/glew.h>
 #include <glmhppnowarnings.h>
-#include <glm/ext.hpp>
 
 
 class PhongProperty {
 
 public:
-	explicit PhongProperty(const glm::vec4& ambient, const glm::vec4& diffuse, const glm::vec4& specular, const GLfloat& shininess);
-	PhongProperty(const PhongProperty& other);
+	explicit PhongProperty(const glm::vec4& ambient, const glm::vec4& diffuse, const glm::vec4& specular, const GLfloat shininess);
 
 	const glm::vec4& getAmbient() const { return ambient; }
 	const glm::vec4& getDiffuse() const { return diffuse; }
@@ -21,7 +19,7 @@ public:
 	void setSpecular(const glm::vec4& spec) { specular = spec; }
 	void setShininess(const GLfloat shin) { shininess = shin; }
 
-	friend std::ostream& operator<< (std::ostream & output, const PhongProperty &prop);
+	friend std::ostream& operator<<(std::ostream & output, const PhongProperty &prop);
 
 private:
     glm::vec4 ambient;

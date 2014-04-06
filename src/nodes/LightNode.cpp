@@ -4,11 +4,13 @@
 using namespace glm;
 
 
-LightNode::LightNode(ShaderManager* shaderManager,
-	PhongProperty* lightProperty) : AbstractNode() {
+LightNode::LightNode(ShaderManager* sManager,
+	PhongProperty* lightProperty) : AbstractNode(), shaderManager(sManager) {
 	phongProperty = lightProperty;
     lightId = shaderManager->add(this);
-    this->shaderManager = shaderManager;
+}
+
+LightNode::LightNode(const LightNode& other) : AbstractNode(other), shaderManager(new ShaderManager(*other.shaderManager)), lightId(other.lightId) {
 }
 
 void LightNode::renderSelf(const mat4&, const mat4&) {
