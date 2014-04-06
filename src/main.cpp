@@ -353,16 +353,19 @@ int main(int, char**) {
     glewInit();
 	glGetError(); // "Invalid enumerant" after initializing GLEW
 
-	cout << "OpenGL version " << glGetString(GL_VERSION) << endl;
-
 #if defined(OGF_DEBUG) || defined(_DEBUG)
+	cout << "Vendor: " << glGetString(GL_VENDOR) << endl;
+	cout << "Renderer: " << glGetString(GL_RENDERER) << endl;
+	cout << "OpenGL version " << glGetString(GL_VERSION) << endl;
+	cout << "GLSL version " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
+
 	if (glDebugMessageCallback) {
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(Debug::openglDebugCallback, nullptr);
 		GLuint unusedIds = 0;
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, GL_TRUE);
 	} else {
-		cout << "glDebugMessageCallback not available" << endl;
+		cout << "Warning: glDebugMessageCallback not available" << endl;
 	}
 #endif
 	
