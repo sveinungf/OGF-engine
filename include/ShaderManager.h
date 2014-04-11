@@ -2,21 +2,19 @@
 
 #include <vector>
 #include <glmhppnowarnings.h>
+#include "nodes/LightNode.h"
 #include "ShaderProgram.h"
 
-// M� fordward declare LightNode for � unng� sirkuler avhengighet
-class LightNode;
+
 class ShaderManager {
 
 public:
 	ShaderManager() {}
 
-	int add(LightNode* light);
-	void add(const ShaderProgram& shader);
-	int getNumberOfLights() const { return lights.size(); }
-	int getNumberOfShaders() const { return shaders.size(); }
+	void addLight(LightNode* light);
+	void addShader(const ShaderProgram& shader);
 
-	void updatePosition(const int lightId) const;
+	void updateLightPositions() const;
 	void setUniformGLint(const std::string& variable, const int value) const;
 
 private:

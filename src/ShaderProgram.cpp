@@ -168,10 +168,10 @@ void ShaderProgram::setUniformVec4(const string& variable,
 
 void ShaderProgram::setTransformFeedbackOutput(const vector<string>& varyings) const {
 	// The tedious process of getting a GLchar** from a vector<string>
-	unsigned int size = varyings.size();
+	size_t size = varyings.size();
 	const GLchar** arr = new const GLchar*[size];
 
-	for (unsigned int i = 0; i < size; ++i) {
+	for (size_t i = 0; i < size; ++i) {
 		arr[i] = varyings[i].c_str();
 	}
 

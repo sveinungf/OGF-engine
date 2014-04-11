@@ -100,12 +100,12 @@ void init() {
 		<< ShaderProgram::LINK;
 
 	sManager = new ShaderManager();
-	sManager->add(instancingShader);
-	sManager->add(waterShader);
-	sManager->add(lightShader);
-	sManager->add(terrainShader);
-	sManager->add(treeShader);
-	sManager->add(bumpMapShader);
+	sManager->addShader(instancingShader);
+	sManager->addShader(waterShader);
+	sManager->addShader(lightShader);
+	sManager->addShader(terrainShader);
+	sManager->addShader(treeShader);
+	sManager->addShader(bumpMapShader);
 
 	Terrain* terrainMesh = new Terrain(resourceBase + "/heightmaps/heightmap.tga");
 	Quad* grassMesh = new Quad();
@@ -143,7 +143,8 @@ void init() {
 	skyboxImages.push_back(resourceBase + "/skyboxes/back.bmp");
 	shared_ptr<TextureCubeMap> skyboxTexture(make_shared<TextureCubeMap>(skyboxImages));
 
-	light = new LightNode(sManager, &LightProperties::SUNLIGHT);
+	light = new LightNode(&LightProperties::SUNLIGHT);
+	sManager->addLight(light);
 
 	grassInstancing = new Instancing(contentData.getGrassPositions(), contentData.getGrassNormals());
 	grassNode = new MeshNode(instancingShader, grassMesh);
@@ -194,7 +195,7 @@ void init() {
 	rock->addTexture(rockDiffus);
 
 	Skybox skybox(skyboxShader, skyboxTexture);
-	scene = new Scene(skybox);
+	scene = new Scene(skybox, sManager);
 	scene->getCamera().updateWindowDimensions(width, height);
 	scene->setCameraPosition(cameraStartPosition);
 	scene->setRootNode(terrain);

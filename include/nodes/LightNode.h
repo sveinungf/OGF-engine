@@ -2,14 +2,11 @@
 
 #include "AbstractNode.h"
 
-// M� forward declare ShaderManager for � unng� sirkuler avhengighet
-class ShaderManager;
 
 class LightNode : public AbstractNode {
 
 public:
-	explicit LightNode(ShaderManager* shaderManager, PhongProperty* lightProperty);
-	LightNode(const LightNode& other);
+	explicit LightNode(PhongProperty* lightProperty) : AbstractNode() { phongProperty = lightProperty; }
 
 	// Virtual constructor idiom
 	virtual LightNode* clone() const override { return new LightNode(*this); }
@@ -18,11 +15,6 @@ public:
 
 protected:
 	// Rendering
-	virtual void renderSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) override;
-	virtual void renderIDSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) override;
-
-private:
-	ShaderManager* shaderManager;
-	int lightId;
-
+	virtual void renderSelf(const glm::mat4&, const glm::mat4&) override {}
+	virtual void renderIDSelf(const glm::mat4&, const glm::mat4&) override {}
 };

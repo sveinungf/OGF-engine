@@ -5,36 +5,34 @@ using namespace glm;
 using namespace std;
 
 
-int ShaderManager::add(LightNode* light) {
-	int lightId = lights.size();
+void ShaderManager::addLight(LightNode* light) {
+	size_t lightId = lights.size();
 	lights.push_back(light);
 
-	for (unsigned int s = 0; s < shaders.size(); s++) {
-		shaders[s].setLightProperty(*light->getPhongProperty(), light->getPositionVec4(), lightId);
-		shaders[s].setUniformGLint("numberOfLights", lights.size());
-	};
-	return lightId;
+	for (const ShaderProgram& shader : shaders) {
+		shader.setLightProperty(*light->getPhongProperty(), light->getPositionVec4(), lightId);
+		shader.setUniformGLint("numberOfLights", lights.size());
+	}
 }
 
-void ShaderManager::add(const ShaderProgram& shader) {
-	
-	unsigned int numberOfLights = lights.size();
+void ShaderManager::addShader(const ShaderProgram& shader) {
+	size_t numberOfLights = lights.size();
+	shaders.push_back(shader);
+
 	shader.setUniformGLint("numberOfLights", numberOfLights);
 
-	//if (lights.size() > 0) {
-		for (unsigned int l = 0; l < numberOfLights; ++l) {
-			shader.setLightProperty(*lights[l]->getPhongProperty(), lights[l]->getPositionVec4(), l);
-		}
-	//}
-
-	shaders.push_back(shader);
+	for (size_t l = 0; l < numberOfLights; ++l) {
+		shader.setLightProperty(*lights[l]->getPhongProperty(), lights[l]->getPositionVec4(), l);
+	}
 }
 
-void ShaderManager::updatePosition(const int lightId) const {
-	const vec4& lightPosition = lights[lightId]->getPositionVec4();
+void ShaderManager::updateLightPositions() const {
+	for (size_t i = 0; i < lights.size(); ++i) {
+		const vec4& lightPosition = lights[i]->getPositionVec4();
 
-	for (const ShaderProgram& shader : shaders) {
-		shader.setLightPosition(lightPosition, lightId);
+		for (const ShaderProgram& shader : shaders) {
+			shader.setLightPosition(lightPosition, i);
+		}
 	}
 }
 

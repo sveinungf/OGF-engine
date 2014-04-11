@@ -4,12 +4,13 @@
 #include "nodes/AbstractNode.h"
 #include "nodes/Camera.h"
 #include "nodes/Skybox.h"
+#include "ShaderManager.h"
 
 
 class Scene {
 
 public:
-    explicit Scene(const Skybox& skybox);
+    explicit Scene(const Skybox& skybox, ShaderManager* sManager);
     ~Scene();
 
 	void setRootNode(AbstractNode* const node) { rootNode = node; }
@@ -22,5 +23,6 @@ public:
 private:
 	AbstractNode* rootNode;
 	Camera camera;
+	ShaderManager* shaderManager;
 	Skybox skybox;
 };
