@@ -50,7 +50,6 @@ shared_ptr<MeshNode> waterNode;
 shared_ptr<MeshNode> sunSphere;
 shared_ptr<MeshNode> terrain;
 shared_ptr<LightNode> light;
-ShaderProgram* instancingShader;
 shared_ptr<Instancing> grassInstancing;
 shared_ptr<Instancing> treeInstancing;
 ShaderManager* sManager;
@@ -107,10 +106,9 @@ void init() {
 	sManager->addShader(treeShader);
 	sManager->addShader(bumpMapShader);
 
-	Terrain* terrainMesh = new Terrain(resourceBase + "/heightmaps/heightmap.tga");
-	Quad* grassMesh = new Quad();
-	Quad* waterMesh = new Quad();
-	Sphere* sphereMesh = new Sphere();
+	shared_ptr<Terrain> terrainMesh(make_shared<Terrain>(resourceBase + "/heightmaps/heightmap.tga"));
+	shared_ptr<Quad> quadMesh(make_shared<Quad>());
+	shared_ptr<Sphere> sphereMesh(make_shared<Sphere>());
 
 	TerrainContentData contentData = terrainMesh->getContentData();
 	terrainShader.setTerrainContentData(contentData);
@@ -146,13 +144,13 @@ void init() {
 	sManager->addLight(light);
 
 	grassInstancing = make_shared<Instancing>(contentData.getGrassPositions(), contentData.getGrassNormals());
-	grassNode = make_shared<MeshNode>(instancingShader, grassMesh);
+	grassNode = make_shared<MeshNode>(instancingShader, quadMesh);
 	grassNode->addComponent(grassInstancing);
 	grassNode->addComponent(blending);
 	grassNode->addTexture(billboardGrass);
 	grassNode->move(0.0f, 0.5f, 0.0f);
 	
-	waterNode = make_shared<MeshNode>(waterShader, waterMesh);
+	waterNode = make_shared<MeshNode>(waterShader, quadMesh);
 	waterNode->addComponent(ibodraw);
 	waterNode->addComponent(blending);
 	waterNode->addTexture(skyboxTexture);

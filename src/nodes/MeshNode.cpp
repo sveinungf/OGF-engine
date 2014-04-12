@@ -5,17 +5,8 @@ using namespace std;
 
 
 // Constructors/destructors
-MeshNode::MeshNode(const ShaderProgram& program, AbstractMesh* const meshAbstract)
-		: AbstractNode(), shaderProgram(program), mesh(meshAbstract) {
-}
-
-MeshNode::MeshNode(const MeshNode& other) : AbstractNode(other), shaderProgram(other.shaderProgram), mesh(other.mesh->clone()), textures(other.textures) {
-}
-
-MeshNode::~MeshNode() {
-	if (mesh != nullptr) {
-		delete mesh;
-	}
+MeshNode::MeshNode(const ShaderProgram& program, const shared_ptr<AbstractMesh>& theMesh)
+		: AbstractNode(), shaderProgram(program), mesh(theMesh) {
 }
 
 // Texture

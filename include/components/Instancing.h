@@ -17,8 +17,8 @@ public:
 	// Virtual constructor idiom
 	virtual Instancing* clone() const override { return new Instancing(*this); }
 
-	virtual void preRender(AbstractMesh* mesh, const glm::mat4& viewToClip, const glm::mat4& worldToView, const glm::mat4& objectToWorld) override;
-	virtual void render(AbstractMesh* mesh) override;
+	virtual void preRender(const std::shared_ptr<AbstractMesh>&, const glm::mat4& viewToClip, const glm::mat4& worldToView, const glm::mat4& objectToWorld) override;
+	virtual void render(const std::shared_ptr<AbstractMesh>& mesh) override;
 	virtual void postRender() override {}
 
 	int getVisibleInstances() const { return visibleInstances; }

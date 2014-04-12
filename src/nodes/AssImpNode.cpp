@@ -25,10 +25,11 @@ AssImpNode::AssImpNode(const ShaderProgram& program, const std::string& path){
 
 	for (unsigned int i = 0; i < mdl->mNumMeshes; i++){
 		std::cout << "  Mesh " << i << ": ";
-		AssImpMesh* mesh = new AssImpMesh(mdl->mMeshes[i]);
+		shared_ptr<AssImpMesh> mesh(make_shared<AssImpMesh>(mdl->mMeshes[i]));
 		MeshNode meshNode(program, mesh);
 		self.push_back(meshNode);
 	}
+
 	std::cout << std::endl;
 }
 

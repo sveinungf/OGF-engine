@@ -71,7 +71,7 @@ void Instancing::init() {
 	cullingShader << ShaderProgram::LINK;
 }
 
-void Instancing::preRender(AbstractMesh* mesh, const mat4& viewToClip, const mat4& worldToView,
+void Instancing::preRender(const std::shared_ptr<AbstractMesh>& mesh, const mat4& viewToClip, const mat4& worldToView,
                            const mat4& objectToWorld) {
     cullingShader.setObjectToClip(viewToClip * worldToView * objectToWorld);
 	cullingShader.setUniformVec3("objectPositiveExtent", mesh->getPositiveExtent());
@@ -104,7 +104,7 @@ void Instancing::preRender(AbstractMesh* mesh, const mat4& viewToClip, const mat
     glGetQueryObjectiv(cullQuery, GL_QUERY_RESULT, &visibleInstances);
 }
 
-void Instancing::render(AbstractMesh* mesh) {
+void Instancing::render(const std::shared_ptr<AbstractMesh>& mesh) {
     glBindVertexArray(mesh->getVAO());
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionsTFB);

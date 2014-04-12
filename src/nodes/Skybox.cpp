@@ -9,9 +9,9 @@
 using namespace std;
 
 
-Skybox::Skybox(const ShaderProgram& shaderProgram, const std::shared_ptr<TextureCubeMap>& texture) {
+Skybox::Skybox(const ShaderProgram& shaderProgram, const shared_ptr<TextureCubeMap>& texture) {
 
-	Cube* cubeMesh = new Cube(true);
+	shared_ptr<Cube> cubeMesh(make_shared<Cube>(true));
 	shared_ptr<MeshNode> cubeNode(make_shared<MeshNode>(shaderProgram, cubeMesh));
 
 	cubeNode->addComponent(make_shared<IBODraw>());
