@@ -10,7 +10,7 @@ void ShaderManager::addLight(const shared_ptr<LightNode>& light) {
 	lights.push_back(light);
 
 	for (const ShaderProgram& shader : shaders) {
-		shader.setLightProperty(*light->getPhongProperty(), light->getPositionVec4(), lightId);
+		shader.setLightProperty(light->getLightProperty(), light->getPositionVec4(), lightId);
 		shader.setUniformGLint("numberOfLights", lights.size());
 	}
 }
@@ -22,7 +22,7 @@ void ShaderManager::addShader(const ShaderProgram& shader) {
 	shader.setUniformGLint("numberOfLights", numberOfLights);
 
 	for (size_t l = 0; l < numberOfLights; ++l) {
-		shader.setLightProperty(*lights[l]->getPhongProperty(), lights[l]->getPositionVec4(), l);
+		shader.setLightProperty(lights[l]->getLightProperty(), lights[l]->getPositionVec4(), l);
 	}
 }
 

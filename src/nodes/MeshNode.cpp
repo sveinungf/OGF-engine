@@ -24,6 +24,11 @@ void MeshNode::addTexture(const shared_ptr<Texture>& texture) {
 	textures.push_back(texture);
 }
 
+// Phong
+void MeshNode::setMaterialProperty(const PhongProperty& phong) const {
+	shaderProgram.setMaterialProperty(phong);
+}
+
 // Rendering
 void MeshNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
 	for (const auto& component : components) {
@@ -36,10 +41,6 @@ void MeshNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
 
 	for (size_t i = 0; i < textures.size(); ++i) {
 		textures.at(i)->useAsTextureId(i);
-	}
-
-	if (phongProperty != nullptr) {
-		shaderProgram.setMaterialProperty(*phongProperty);
 	}
 
 	for (const auto& component : components) {

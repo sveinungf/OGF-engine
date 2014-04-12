@@ -20,6 +20,9 @@ public:
     // Texture
     void addTexture(const std::shared_ptr<Texture>& texture);
 
+	// Phong
+	void setMaterialProperty(const PhongProperty& phong) const;
+
 protected:
 	// Rendering
 	virtual void renderSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) override;

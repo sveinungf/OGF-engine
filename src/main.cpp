@@ -7,9 +7,9 @@
 #include <glm/gtx/transform.hpp>
 
 #include "components/Blending.h"
+#include "components/IBODraw.h"
 #include "components/Instancing.h"
 #include "components/SimpleDraw.h"
-#include "components/IBODraw.h"
 #include "mesh/AssImpMesh.h"
 #include "mesh/Cube.h"
 #include "mesh/Quad.h"
@@ -142,7 +142,7 @@ void init() {
 	skyboxImages.push_back(resourceBase + "/skyboxes/back.bmp");
 	shared_ptr<TextureCubeMap> skyboxTexture(make_shared<TextureCubeMap>(skyboxImages));
 
-	light = make_shared<LightNode>(&LightProperties::SUNLIGHT);
+	light = make_shared<LightNode>(LightProperties::SUNLIGHT);
 	sManager->addLight(light);
 
 	grassInstancing = make_shared<Instancing>(contentData.getGrassPositions(), contentData.getGrassNormals());

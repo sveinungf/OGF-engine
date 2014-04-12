@@ -6,15 +6,19 @@
 class LightNode : public AbstractNode {
 
 public:
-	explicit LightNode(PhongProperty* lightProperty) : AbstractNode() { phongProperty = lightProperty; }
+	explicit LightNode(const PhongProperty& phong) : AbstractNode(), lightProperty(phong) {}
+	virtual ~LightNode() override {}
 
 	// Virtual constructor idiom
 	virtual LightNode* clone() const override { return new LightNode(*this); }
 
-	virtual ~LightNode() override {}
+	const PhongProperty& getLightProperty() const { return lightProperty; }
 
 protected:
 	// Rendering
 	virtual void renderSelf(const glm::mat4&, const glm::mat4&) override {}
 	virtual void renderIDSelf(const glm::mat4&, const glm::mat4&) override {}
+
+private:
+	PhongProperty lightProperty;
 };

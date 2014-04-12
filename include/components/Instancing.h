@@ -12,11 +12,10 @@ class Instancing : public AbstractComponent {
 public:
 	explicit Instancing(const std::vector<glm::vec3>& instancePositions);
 	explicit Instancing(const std::vector<glm::vec3>& instancePositions, const std::vector<glm::vec3>& instanceNormals);
+	virtual ~Instancing() override {}
 
 	// Virtual constructor idiom
 	virtual Instancing* clone() const override { return new Instancing(*this); }
-
-	virtual ~Instancing() override {}
 
 	virtual void preRender(AbstractMesh* mesh, const glm::mat4& viewToClip, const glm::mat4& worldToView, const glm::mat4& objectToWorld) override;
 	virtual void render(AbstractMesh* mesh) override;

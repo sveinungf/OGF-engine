@@ -54,10 +54,6 @@ public:
     void scale(const glm::vec3& xyz);
     void scale(const GLfloat x, const GLfloat y, const GLfloat z);
 
-    // PhongProperty
-	PhongProperty* const getPhongProperty() { return phongProperty; };
-	void setPhongProperty(PhongProperty* const prop) { phongProperty = prop; };
-
     // Rendering
     void render(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
 	void renderID(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
@@ -78,9 +74,6 @@ protected:
     // Transformations
     glm::mat4 transformations[MAX_TRANSFORMATIONS];
     glm::mat4 objectToWorld;
-
-    // PhongProperty
-	PhongProperty* phongProperty;
 
 
     /* Protected methods */

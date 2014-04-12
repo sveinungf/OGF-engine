@@ -5,18 +5,7 @@ using namespace std;
 
 
 // Destructors
-AbstractNode::~AbstractNode() {/*
-    for (AbstractNode* const child : children) {
-        delete child;
-    }
-	*/
-	/*for (AbstractComponent* const component : components) {
-		delete component;
-	}*/
-
-	if (phongProperty != nullptr) {
-		delete phongProperty;
-	}
+AbstractNode::~AbstractNode() {
 }
 
 // Scenegraph
@@ -111,14 +100,13 @@ void AbstractNode::scale(const GLfloat x, const GLfloat y, const GLfloat z) {
 /* Protected methods */
 
 // Constructors
-AbstractNode::AbstractNode() : phongProperty(nullptr) {
+AbstractNode::AbstractNode() {
     for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {
         transformationFlags[i] = true;
     }
 }
 
-AbstractNode::AbstractNode(const AbstractNode& other) : children(other.children.size()), components(other.components.size()), objectToWorld(other.objectToWorld), phongProperty(other.phongProperty == nullptr ? nullptr : new PhongProperty(*other.phongProperty)) {
-
+AbstractNode::AbstractNode(const AbstractNode& other) : children(other.children.size()), components(other.components.size()), objectToWorld(other.objectToWorld) {
 	for (size_t i = 0; i < other.children.size(); ++i) {
 		children[i] = shared_ptr<AbstractNode>(other.children[i]->clone());
 	}
@@ -189,5 +177,4 @@ void swap(AbstractNode& first, AbstractNode& second) {
 	swap(first.transformationFlags, second.transformationFlags);
 	swap(first.transformations, second.transformations);
 	swap(first.objectToWorld, second.objectToWorld);
-	swap(first.phongProperty, second.phongProperty);
 }

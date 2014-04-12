@@ -42,13 +42,13 @@ void AssImpNode::addComponent(const shared_ptr<AbstractComponent>& component, co
 	}
 }
 
-void AssImpNode::setMaterial(PhongProperty* const material, const int mesh) {
+void AssImpNode::setMaterial(const PhongProperty& material, const int mesh) {
 	if (mesh < 0) {
 		for (MeshNode& child : self) {
-			child.setPhongProperty(material);
+			child.setMaterialProperty(material);
 		}
 	} else if(mesh < (int) self.size()) {
-		self.at(mesh).setPhongProperty(material);
+		self.at(mesh).setMaterialProperty(material);
 	}
 }
 
