@@ -23,7 +23,7 @@ void main() {
 	boundingBox[4] = objectToClip * vec4(instancePosition + vec3(objectPositiveExtent.xy, objectNegativeExtent.z),  1.0f);
 	boundingBox[5] = objectToClip * vec4(instancePosition + vec3(objectNegativeExtent.x,  objectPositiveExtent.y, objectNegativeExtent.z), 1.0f);
 	boundingBox[6] = objectToClip * vec4(instancePosition + vec3(objectPositiveExtent.x,  objectNegativeExtent.yz), 1.0f);
-	boundingBox[7] = objectToClip * vec4(instancePosition - objectNegativeExtent, 1.0f);
+	boundingBox[7] = objectToClip * vec4(instancePosition + objectNegativeExtent, 1.0f);
 	
 	int outOfBound[6] = int[6](0, 0, 0, 0, 0, 0);
 
@@ -36,13 +36,11 @@ void main() {
 		if (boundingBox[i].z < -boundingBox[i].w) ++outOfBound[5];
 	}
 
-	bool inFrustum = true;
+	objectVisible = 1;
 
 	for (int i = 0; i < 6; ++i) {
 		if (outOfBound[i] == 8) {
-			inFrustum = false;
+			objectVisible = 0;
 		}
 	}
-
-	objectVisible = inFrustum ? 1 : 0;
 }
