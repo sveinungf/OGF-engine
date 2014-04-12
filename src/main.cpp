@@ -122,7 +122,6 @@ void init() {
 	SimpleDraw* simpleDraw = new SimpleDraw();
 	IBODraw* ibodraw = new IBODraw();
 
-	//Texture* grass = new Texture2D(resourceBase + "/textures/grass.bmp");
 	string textureDir = resourceBase + "/textures/";
 	shared_ptr<Texture> grass(make_shared<Texture2D>(textureDir + "grass.bmp"));
 	shared_ptr<Texture> sand(make_shared<Texture2D>(textureDir + "sand_diffuse.png"));

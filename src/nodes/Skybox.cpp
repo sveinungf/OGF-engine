@@ -20,3 +20,7 @@ Skybox::Skybox(const ShaderProgram& shaderProgram, const std::shared_ptr<Texture
 
 	children.push_back(cubeMesh);
 }
+
+void swap(Skybox& first, Skybox& second) {
+	swap(static_cast<AbstractNode&>(first), static_cast<AbstractNode&>(second));
+}

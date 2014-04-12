@@ -20,13 +20,12 @@ public:
 	};
 
 	static glm::vec2 texture2DCorners[MAX_CORNERS_2D];
-
-	// Virtual constructor idiom
-	virtual AbstractMesh* clone() const = 0;
+	static unsigned int count;
 
 	virtual ~AbstractMesh() {}
 
-	static unsigned int count;
+	// Virtual constructor idiom
+	virtual AbstractMesh* clone() const = 0;
 
 	const GLuint getVAO() const { return vao; }
 	const GLuint getVBO() const { return vbo; }
@@ -71,6 +70,7 @@ protected:
 	glm::vec3 negativeExtent;
 
 	AbstractMesh();
+
 	virtual void prepareBufferData() = 0;
 	void buildVAO();
 

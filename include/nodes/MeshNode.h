@@ -10,15 +10,12 @@
 class MeshNode : public AbstractNode {
 
 public:
-    // Constructor
     explicit MeshNode(const ShaderProgram& shaderProgram, AbstractMesh* const mesh);
 	MeshNode(const MeshNode& other);
+	virtual ~MeshNode() override;
 
 	// Virtual constructor idiom
 	virtual MeshNode* clone() const override { return new MeshNode(*this); }
-
-	// Destructor
-    virtual ~MeshNode() override;
 
     // Texture
     void addTexture(const std::shared_ptr<Texture>& texture);

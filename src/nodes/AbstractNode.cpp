@@ -117,6 +117,7 @@ AbstractNode::AbstractNode() : phongProperty(nullptr) {
 }
 
 AbstractNode::AbstractNode(const AbstractNode& other) : children(other.children.size()), components(other.components.size()), objectToWorld(other.objectToWorld), phongProperty(other.phongProperty == nullptr ? nullptr : new PhongProperty(*other.phongProperty)) {
+
 	for (size_t i = 0; i < other.children.size(); ++i) {
 		children[i] = other.children[i]->clone();
 	}
@@ -177,6 +178,7 @@ void AbstractNode::renderID(const mat4& worldToView, const mat4& viewToClip, mat
 	}
 }
 
+// Friends
 void swap(AbstractNode& first, AbstractNode& second) {
 	// Enable ADL
 	using std::swap;

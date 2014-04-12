@@ -10,11 +10,14 @@ class Skybox : public AbstractNode {
 
 public:
 	explicit Skybox(const ShaderProgram& shaderProgram, const std::shared_ptr<TextureCubeMap>& texture);
+	Skybox(const Skybox&) = default;
+	Skybox(Skybox&& other) { swap(*this, other); }
+	virtual ~Skybox() override {}
 
 	// Virtual constructor idiom
 	virtual Skybox* clone() const override { return new Skybox(*this); }
 
-	virtual ~Skybox() override {}
+	friend void swap(Skybox& first, Skybox& second);
 
 protected:
 	virtual void renderSelf(const glm::mat4&, const glm::mat4&) override {}
