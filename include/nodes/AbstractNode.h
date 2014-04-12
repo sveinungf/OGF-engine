@@ -30,7 +30,7 @@ public:
     void add(const std::shared_ptr<AbstractNode>& child);
 
     // Components
-    void addComponent(AbstractComponent* const component);
+    void addComponent(const std::shared_ptr<AbstractComponent>& component);
 
     // Inherited transformations
     void disableAllParentTransformations();
@@ -70,7 +70,7 @@ protected:
     std::vector<std::shared_ptr<AbstractNode>> children;
 
     // Components
-    std::vector<AbstractComponent* const> components;
+    std::vector<std::shared_ptr<AbstractComponent>> components;
 
     // Inherited transformations
     bool transformationFlags[MAX_TRANSFORMATIONS];

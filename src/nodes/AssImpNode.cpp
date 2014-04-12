@@ -7,6 +7,7 @@
 #include "nodes/MeshNode.h"
 
 using namespace glm;
+using namespace std;
 
 
 AssImpNode::AssImpNode(const ShaderProgram& program, const std::string& path){
@@ -31,7 +32,7 @@ AssImpNode::AssImpNode(const ShaderProgram& program, const std::string& path){
 	std::cout << std::endl;
 }
 
-void AssImpNode::addComponent(AbstractComponent* const component, const int mesh) {
+void AssImpNode::addComponent(const shared_ptr<AbstractComponent>& component, const int mesh) {
 	if (mesh < 0) {
 		for (MeshNode& child : self) {
 			child.addComponent(component);
@@ -52,7 +53,7 @@ void AssImpNode::setMaterial(PhongProperty* const material, const int mesh) {
 }
 
 void AssImpNode::addTexture(const std::shared_ptr<Texture>& texture, const int mesh) {
-	if (mesh < 0){
+	if (mesh < 0) {
 		for (MeshNode& child : self) {
 			child.addTexture(texture);
 		}

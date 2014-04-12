@@ -14,7 +14,7 @@ public:
 
 	virtual ~AssImpNode() override {}
 
-	void addComponent(AbstractComponent* const component, const int mesh = -1);
+	void addComponent(const std::shared_ptr<AbstractComponent>& component, const int mesh = -1);
 	void setMaterial(PhongProperty* const material, const int mesh = -1);
 	void addTexture(const std::shared_ptr<Texture>& texture, const int mesh = -1);
 

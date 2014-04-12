@@ -10,9 +10,9 @@ AbstractNode::~AbstractNode() {/*
         delete child;
     }
 	*/
-	for (AbstractComponent* const component : components) {
+	/*for (AbstractComponent* const component : components) {
 		delete component;
-	}
+	}*/
 
 	if (phongProperty != nullptr) {
 		delete phongProperty;
@@ -25,7 +25,7 @@ void AbstractNode::add(const shared_ptr<AbstractNode>& child) {
 }
 
 // Components
-void AbstractNode::addComponent(AbstractComponent* const component) {
+void AbstractNode::addComponent(const shared_ptr<AbstractComponent>& component) {
     components.push_back(component);
 }
 
@@ -124,7 +124,7 @@ AbstractNode::AbstractNode(const AbstractNode& other) : children(other.children.
 	}
 
 	for (size_t i = 0; i < other.components.size(); ++i) {
-		components[i] = other.components[i]->clone();
+		components[i] = shared_ptr<AbstractComponent>(other.components[i]->clone());
 	}
 
 	for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {

@@ -14,8 +14,8 @@ Skybox::Skybox(const ShaderProgram& shaderProgram, const std::shared_ptr<Texture
 	Cube* cubeMesh = new Cube(true);
 	shared_ptr<MeshNode> cubeNode(make_shared<MeshNode>(shaderProgram, cubeMesh));
 
-	cubeNode->addComponent(new IBODraw());
-	cubeNode->addComponent(new DisableDepthMasking());
+	cubeNode->addComponent(make_shared<IBODraw>());
+	cubeNode->addComponent(make_shared<DisableDepthMasking>());
 	cubeNode->addTexture(texture);
 
 	children.push_back(cubeNode);

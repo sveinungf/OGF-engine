@@ -51,8 +51,8 @@ shared_ptr<MeshNode> sunSphere;
 shared_ptr<MeshNode> terrain;
 shared_ptr<LightNode> light;
 ShaderProgram* instancingShader;
-Instancing* grassInstancing;
-Instancing* treeInstancing;
+shared_ptr<Instancing> grassInstancing;
+shared_ptr<Instancing> treeInstancing;
 ShaderManager* sManager;
 
 bool renderID = false;
@@ -118,9 +118,9 @@ void init() {
 	std::cout << "Grass instances: " << contentData.getGrassPositions().size() << std::endl;
 	std::cout << "Tree instances: " << contentData.getTreePositions().size() << std::endl;
 
-	Blending* blending = new Blending();
-	SimpleDraw* simpleDraw = new SimpleDraw();
-	IBODraw* ibodraw = new IBODraw();
+	shared_ptr<Blending> blending(make_shared<Blending>());
+	shared_ptr<SimpleDraw> simpleDraw(make_shared<SimpleDraw>());
+	shared_ptr<IBODraw> ibodraw(make_shared<IBODraw>());
 
 	string textureDir = resourceBase + "/textures/";
 	shared_ptr<Texture> grass(make_shared<Texture2D>(textureDir + "grass.bmp"));
@@ -145,7 +145,7 @@ void init() {
 	light = make_shared<LightNode>(&LightProperties::SUNLIGHT);
 	sManager->addLight(light);
 
-	grassInstancing = new Instancing(contentData.getGrassPositions(), contentData.getGrassNormals());
+	grassInstancing = make_shared<Instancing>(contentData.getGrassPositions(), contentData.getGrassNormals());
 	grassNode = make_shared<MeshNode>(instancingShader, grassMesh);
 	grassNode->addComponent(grassInstancing);
 	grassNode->addComponent(blending);
@@ -164,7 +164,7 @@ void init() {
 	sunSphere->move(200.0f, 0.0f, 0.0f);
 	sunSphere->add(light);
 	
-	treeInstancing = new Instancing(contentData.getTreePositions());
+	treeInstancing = make_shared<Instancing>(contentData.getTreePositions());
 	tree = make_shared<AssImpNode>(treeShader, resourceBase + "/tree.3ds");
 	tree->addComponent(treeInstancing);
 	tree->addComponent(blending);

@@ -26,7 +26,7 @@ void MeshNode::addTexture(const shared_ptr<Texture>& texture) {
 
 // Rendering
 void MeshNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
-	for (AbstractComponent* const component : components) {
+	for (const auto& component : components) {
 		component->preRender(mesh, viewToClip, worldToView, objectToWorld);
 	}
 
@@ -42,11 +42,11 @@ void MeshNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
 		shaderProgram.setMaterialProperty(*phongProperty);
 	}
 
-	for (AbstractComponent* const component : components) {
+	for (const auto& component : components) {
 		component->render(mesh);
 	}
 
-	for (AbstractComponent* const component : components) {
+	for (const auto& component : components) {
 		component->postRender();
 	}
 }
