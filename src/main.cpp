@@ -43,13 +43,13 @@ unsigned int frameCount;
 double previousTime;
 
 Scene* scene;
-AssImpNode* tree;
-AssImpNode* rock;
-MeshNode* grassNode;
-MeshNode* waterNode;
-MeshNode* sunSphere;
-MeshNode* terrain;
-LightNode* light;
+shared_ptr<AssImpNode> tree;
+shared_ptr<AssImpNode> rock;
+shared_ptr<MeshNode> grassNode;
+shared_ptr<MeshNode> waterNode;
+shared_ptr<MeshNode> sunSphere;
+shared_ptr<MeshNode> terrain;
+shared_ptr<LightNode> light;
 ShaderProgram* instancingShader;
 Instancing* grassInstancing;
 Instancing* treeInstancing;
@@ -142,30 +142,30 @@ void init() {
 	skyboxImages.push_back(resourceBase + "/skyboxes/back.bmp");
 	shared_ptr<TextureCubeMap> skyboxTexture(make_shared<TextureCubeMap>(skyboxImages));
 
-	light = new LightNode(&LightProperties::SUNLIGHT);
+	light = make_shared<LightNode>(&LightProperties::SUNLIGHT);
 	sManager->addLight(light);
 
 	grassInstancing = new Instancing(contentData.getGrassPositions(), contentData.getGrassNormals());
-	grassNode = new MeshNode(instancingShader, grassMesh);
+	grassNode = make_shared<MeshNode>(instancingShader, grassMesh);
 	grassNode->addComponent(grassInstancing);
 	grassNode->addComponent(blending);
 	grassNode->addTexture(billboardGrass);
 	grassNode->move(0.0f, 0.5f, 0.0f);
 	
-	waterNode = new MeshNode(waterShader, waterMesh);
+	waterNode = make_shared<MeshNode>(waterShader, waterMesh);
 	waterNode->addComponent(ibodraw);
 	waterNode->addComponent(blending);
 	waterNode->addTexture(skyboxTexture);
 	waterNode->rotateAroundSelfX(-90.0f);
 	waterNode->scale((GLfloat) terrainMesh->getWidth(), (GLfloat) terrainMesh->getLength(), 1.0f);
 
-	sunSphere = new MeshNode(lightShader, sphereMesh);
+	sunSphere = make_shared<MeshNode>(lightShader, sphereMesh);
 	sunSphere->addComponent(simpleDraw);
 	sunSphere->move(200.0f, 0.0f, 0.0f);
 	sunSphere->add(light);
 	
 	treeInstancing = new Instancing(contentData.getTreePositions());
-	tree = new AssImpNode(treeShader, resourceBase + "/tree.3ds");
+	tree = make_shared<AssImpNode>(treeShader, resourceBase + "/tree.3ds");
 	tree->addComponent(treeInstancing);
 	tree->addComponent(blending);
 	tree->addTexture(twig, 0);
@@ -173,7 +173,7 @@ void init() {
 	tree->addTexture(bark, 2);
 	tree->addTexture(bark, 3);
 	
-	terrain = new MeshNode(terrainShader, terrainMesh);
+	terrain = make_shared<MeshNode>(terrainShader, terrainMesh);
 	terrain->addComponent(ibodraw);
 	terrain->addTexture(sand);
 	terrain->addTexture(grass);
@@ -184,7 +184,7 @@ void init() {
 	terrain->add(waterNode);
 	terrain->add(tree);
 
-	rock = new AssImpNode(bumpMapShader, resourceBase + "/Stone_Forest_1.obj");
+	rock = make_shared<AssImpNode>(bumpMapShader, resourceBase + "/Stone_Forest_1.obj");
 	rock->addComponent(simpleDraw);
 	rock->move(0.0f, 0.45f, 0.0f);
 	terrain->add(rock);

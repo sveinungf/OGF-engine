@@ -6,10 +6,6 @@ using namespace glm;
 Scene::Scene(const Skybox& theSkybox, ShaderManager* sManager) : rootNode(nullptr), camera(75.0f, 0.01f, 435.0f), shaderManager(sManager), skybox(theSkybox) {
 }
 
-Scene::~Scene() {
-    delete rootNode;
-}
-
 void Scene::setCameraPosition(const vec3& cameraPosition) {
 	camera.setPosition(cameraPosition);
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <glmhppnowarnings.h>
 #include "../components/AbstractComponent.h"
@@ -26,7 +27,7 @@ public:
 	virtual AbstractNode* clone() const = 0;
 
     // Scenegraph
-    void add(AbstractNode* const child);
+    void add(const std::shared_ptr<AbstractNode>& child);
 
     // Components
     void addComponent(AbstractComponent* const component);
@@ -66,7 +67,7 @@ public:
 
 protected:
     // Scenegraph
-    std::vector<AbstractNode* const> children;
+    std::vector<std::shared_ptr<AbstractNode>> children;
 
     // Components
     std::vector<AbstractComponent* const> components;

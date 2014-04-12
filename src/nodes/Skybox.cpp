@@ -11,14 +11,14 @@ using namespace std;
 
 Skybox::Skybox(const ShaderProgram& shaderProgram, const std::shared_ptr<TextureCubeMap>& texture) {
 
-	Cube* cube = new Cube(true);
-	MeshNode* cubeMesh = new MeshNode(shaderProgram, cube);
+	Cube* cubeMesh = new Cube(true);
+	shared_ptr<MeshNode> cubeNode(make_shared<MeshNode>(shaderProgram, cubeMesh));
 
-	cubeMesh->addComponent(new IBODraw());
-	cubeMesh->addComponent(new DisableDepthMasking());
-	cubeMesh->addTexture(texture);
+	cubeNode->addComponent(new IBODraw());
+	cubeNode->addComponent(new DisableDepthMasking());
+	cubeNode->addTexture(texture);
 
-	children.push_back(cubeMesh);
+	children.push_back(cubeNode);
 }
 
 void swap(Skybox& first, Skybox& second) {

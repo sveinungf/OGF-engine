@@ -1,14 +1,15 @@
 #include "nodes/AbstractNode.h"
 
 using namespace glm;
+using namespace std;
 
 
 // Destructors
-AbstractNode::~AbstractNode() {
+AbstractNode::~AbstractNode() {/*
     for (AbstractNode* const child : children) {
         delete child;
     }
-
+	*/
 	for (AbstractComponent* const component : components) {
 		delete component;
 	}
@@ -19,7 +20,7 @@ AbstractNode::~AbstractNode() {
 }
 
 // Scenegraph
-void AbstractNode::add(AbstractNode* const child) {
+void AbstractNode::add(const shared_ptr<AbstractNode>& child) {
     children.push_back(child);
 }
 
@@ -119,7 +120,7 @@ AbstractNode::AbstractNode() : phongProperty(nullptr) {
 AbstractNode::AbstractNode(const AbstractNode& other) : children(other.children.size()), components(other.components.size()), objectToWorld(other.objectToWorld), phongProperty(other.phongProperty == nullptr ? nullptr : new PhongProperty(*other.phongProperty)) {
 
 	for (size_t i = 0; i < other.children.size(); ++i) {
-		children[i] = other.children[i]->clone();
+		children[i] = shared_ptr<AbstractNode>(other.children[i]->clone());
 	}
 
 	for (size_t i = 0; i < other.components.size(); ++i) {
@@ -164,7 +165,7 @@ void AbstractNode::render(const mat4& worldToView, const mat4& viewToClip, mat4 
 	updateObjectToWorld(parentTransformations);
 	renderSelf(worldToView, viewToClip);
 
-	for (AbstractNode* const child : children) {
+	for (const auto& child : children) {
 		child->render(worldToView, viewToClip, transformations);
 	}
 }
@@ -173,7 +174,7 @@ void AbstractNode::renderID(const mat4& worldToView, const mat4& viewToClip, mat
 	updateObjectToWorld(parentTransformations);
 	renderIDSelf(worldToView, viewToClip);
 
-	for (AbstractNode* const child : children) {
+	for (const auto& child : children) {
 		child->renderID(worldToView, viewToClip, transformations);
 	}
 }

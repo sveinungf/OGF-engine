@@ -5,7 +5,7 @@ using namespace glm;
 using namespace std;
 
 
-void ShaderManager::addLight(LightNode* light) {
+void ShaderManager::addLight(const shared_ptr<LightNode>& light) {
 	size_t lightId = lights.size();
 	lights.push_back(light);
 

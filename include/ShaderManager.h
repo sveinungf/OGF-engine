@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <glmhppnowarnings.h>
 #include "nodes/LightNode.h"
@@ -11,7 +12,7 @@ class ShaderManager {
 public:
 	ShaderManager() {}
 
-	void addLight(LightNode* light);
+	void addLight(const std::shared_ptr<LightNode>& light);
 	void addShader(const ShaderProgram& shader);
 
 	void updateLightPositions() const;
@@ -19,5 +20,5 @@ public:
 
 private:
 	std::vector<ShaderProgram> shaders;
-	std::vector<LightNode*> lights;
+	std::vector<std::shared_ptr<LightNode>> lights;
 };
