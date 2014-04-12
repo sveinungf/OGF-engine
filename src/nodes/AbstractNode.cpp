@@ -4,10 +4,6 @@ using namespace glm;
 using namespace std;
 
 
-// Destructors
-AbstractNode::~AbstractNode() {
-}
-
 // Scenegraph
 void AbstractNode::add(const shared_ptr<AbstractNode>& child) {
     children.push_back(child);
@@ -106,21 +102,6 @@ AbstractNode::AbstractNode() {
     }
 }
 
-AbstractNode::AbstractNode(const AbstractNode& other) : children(other.children.size()), components(other.components.size()), objectToWorld(other.objectToWorld) {
-	for (size_t i = 0; i < other.children.size(); ++i) {
-		children[i] = shared_ptr<AbstractNode>(other.children[i]->clone());
-	}
-
-	for (size_t i = 0; i < other.components.size(); ++i) {
-		components[i] = shared_ptr<AbstractComponent>(other.components[i]->clone());
-	}
-
-	for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {
-		transformationFlags[i] = other.transformationFlags[i];
-		transformations[i] = other.transformations[i];
-	}
-}
-
 // Transformations
 mat4 AbstractNode::getParentObjectToWorld(mat4 parentTransformations[]) const {
     mat4 result;
@@ -165,16 +146,4 @@ void AbstractNode::renderID(const mat4& worldToView, const mat4& viewToClip, mat
 	for (const auto& child : children) {
 		child->renderID(worldToView, viewToClip, transformations);
 	}
-}
-
-// Friends
-void swap(AbstractNode& first, AbstractNode& second) {
-	// Enable ADL
-	using std::swap;
-
-	swap(first.children, second.children);
-	swap(first.components, second.components);
-	swap(first.transformationFlags, second.transformationFlags);
-	swap(first.transformations, second.transformations);
-	swap(first.objectToWorld, second.objectToWorld);
 }

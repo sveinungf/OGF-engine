@@ -21,7 +21,7 @@ public:
     };
 
     // Destructors
-    virtual ~AbstractNode();
+	virtual ~AbstractNode() {}
 
 	// Virtual constructor idiom
 	virtual AbstractNode* clone() const = 0;
@@ -58,9 +58,6 @@ public:
     void render(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
 	void renderID(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
 
-	// Friends
-	friend void swap(AbstractNode& first, AbstractNode& second);
-
 protected:
     // Scenegraph
     std::vector<std::shared_ptr<AbstractNode>> children;
@@ -80,8 +77,6 @@ protected:
 
     // Constructors
     AbstractNode();
-	AbstractNode(const AbstractNode& other);
-	AbstractNode(AbstractNode&& other) { swap(*this, other); }
 
     // Transformations
     glm::mat4 getParentObjectToWorld(glm::mat4 parentTransformations[]) const;

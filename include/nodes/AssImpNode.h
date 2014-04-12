@@ -8,11 +8,10 @@ class AssImpNode : public AbstractNode {
 
 public:
 	explicit AssImpNode(const ShaderProgram& program, const std::string& path);
+	virtual ~AssImpNode() override {}
 
 	// Virtual constructor idiom
 	virtual AssImpNode* clone() const override { return new AssImpNode(*this); }
-
-	virtual ~AssImpNode() override {}
 
 	void addComponent(const std::shared_ptr<AbstractComponent>& component, const int mesh = -1);
 	void setMaterial(const PhongProperty& phong, const int mesh = -1);
