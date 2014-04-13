@@ -1,48 +1,32 @@
+#include <array>
 #include "mesh/Terrain.h"
 
 using namespace glm;
 using namespace std;
 
 
-Terrain::Terrain(const string& filename) : AbstractMesh() {
-	useIBO = true;
-	heightmap = new Image(filename, Image::GREYSCALE);
-	
+Terrain::Terrain(const string& filename) : AbstractMesh(), heightmap(filename, Image::GREYSCALE) {
 	prepareBufferData();
 	populateContentData();
 	buildVAO();
 }
 
-Terrain::~Terrain() {
-	delete heightmap;
-	delete points;
-	delete pointNormals;
-}
-
 void Terrain::prepareBufferData() {
 	float heightFactor = TerrainContentData::MAX_HEIGHT_DIFFERENCE / 255.0f;
 
-	unsigned char* imageData = heightmap->getPixelData();
-	length = heightmap->getHeight();
-	width = heightmap->getWidth();
+	unsigned char* imageData = heightmap.getPixelData();
+	const int length = heightmap.getHeight();
+	const int width = heightmap.getWidth();
 
 	// Just for pure performance
-	int lastLengthIndex = length - 1;
-	int lastWidthIndex = width - 1;
+	const int lastLengthIndex = length - 1;
+	const int lastWidthIndex = width - 1;
 
-	int size = width * length;
-	numberOfVertices = useIBO ? size : lastWidthIndex * lastLengthIndex * 6;
+	const int numberOfVertices = width * length;
 
-    vertices = new glm::vec4[numberOfVertices];
-	normals = new glm::vec3[numberOfVertices];
-	texCoords = new glm::vec2[numberOfVertices];
-
-	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
-	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
-	bytesOfTexCoords = sizeof(glm::vec2) * numberOfVertices;
-
-    points = new glm::vec3[size];
-	pointNormals = new glm::vec3[size];
+	vertices.reserve(numberOfVertices);
+	normals = vector<vec3>(numberOfVertices);
+	texCoords.reserve(numberOfVertices);
 	
 	unsigned char minByteHeight = imageData[0];
 	unsigned char maxByteHeight = minByteHeight;
@@ -75,7 +59,7 @@ void Terrain::prepareBufferData() {
             float x = startX - j;
 			float y = (imageData[index] - byteHeightZero) * heightFactor;
             float z = startZ - i;
-            points[index] = glm::vec3(x, y, z);
+			vertices.push_back(vec4(x, y, z, 1.0f));
         }
     }
 
@@ -109,15 +93,15 @@ void Terrain::prepareBufferData() {
 
 			*/
 
-            glm::vec3 vertex0 = points[current];
-            glm::vec3 vertex1 = points[current + 1];
-			glm::vec3 vertex2 = points[nextRow + 1];
-			glm::vec3 vertex3 = points[nextRow];
-			glm::vec3 vertex4 = points[nextRow - 1];
-			glm::vec3 vertex5 = points[current - 1];
-			glm::vec3 vertex6 = points[pastRow - 1];
-			glm::vec3 vertex7 = points[pastRow];
-			glm::vec3 vertex8 = points[pastRow + 1];
+            glm::vec3 vertex0 = vec3(vertices[current]);
+			glm::vec3 vertex1 = vec3(vertices[current + 1]);
+			glm::vec3 vertex2 = vec3(vertices[nextRow + 1]);
+			glm::vec3 vertex3 = vec3(vertices[nextRow]);
+			glm::vec3 vertex4 = vec3(vertices[nextRow - 1]);
+			glm::vec3 vertex5 = vec3(vertices[current - 1]);
+			glm::vec3 vertex6 = vec3(vertices[pastRow - 1]);
+			glm::vec3 vertex7 = vec3(vertices[pastRow]);
+			glm::vec3 vertex8 = vec3(vertices[pastRow + 1]);
 
 			glm::vec3 vector01 = vertex1 - vertex0;	// Vector from vertex 0 to vertex 1
 			glm::vec3 vector02 = vertex2 - vertex0; // Vector from vertex 0 to vertex 2
@@ -138,135 +122,54 @@ void Terrain::prepareBufferData() {
 			glm::vec3 normalG = glm::normalize(glm::cross(vector08, vector07));
 			glm::vec3 normalH = glm::normalize(glm::cross(vector01, vector08));
 
-			pointNormals[current] = (normalA + normalB + normalC + normalD + normalE + normalF + normalG + normalH) / 8.0f;
+			normals[current] = (normalA + normalB + normalC + normalD + normalE + normalF + normalG + normalH) / 8.0f;
         }
     }	
 
-	if (useIBO) {
-		// Indices calculations
-		for (int i = 0; i < lastLengthIndex; ++i) {
-			for (int j = 0; j < lastWidthIndex; ++j) {
-				int current = i * width + j;
-				int	nextRow = ((i + 1) * width) + j;
+	for (int i = 0; i < lastLengthIndex; ++i) {
+		for (int j = 0; j < lastWidthIndex; ++j) {
+			int current = i * width + j;
+			int	nextRow = ((i + 1) * width) + j;
 
-				indices.push_back(current);
-				indices.push_back(nextRow + 1);
-				indices.push_back(current + 1);
+			indices.push_back(current);
+			indices.push_back(nextRow + 1);
+			indices.push_back(current + 1);
 			
-				indices.push_back(current);
-				indices.push_back(nextRow);
-				indices.push_back(nextRow + 1);
-			}
+			indices.push_back(current);
+			indices.push_back(nextRow);
+			indices.push_back(nextRow + 1);
 		}
+	}
 
-		for (int i = 0; i < length; ++i) {
-			for (int j = 0; j < width; ++j) {
-				int k = i * width + j;
-
-				vertices[k] = vec4(points[k], 1.0f);
-				normals[k] = pointNormals[k];
-
-				if (i % 2 == 0) {
-					if (j % 2 == 0) {
-						texCoords[k] = texture2DCorners[LEFT_TOP];
-					} else {
-						texCoords[k] = texture2DCorners[RIGHT_TOP];
-					}
+	for (int i = 0; i < length; ++i) {
+		for (int j = 0; j < width; ++j) {
+			if (i % 2 == 0) {
+				if (j % 2 == 0) {
+					texCoords.push_back(texture2DCorners[LEFT_TOP]);
 				} else {
-					if (j % 2 == 0) {
-						texCoords[k] = texture2DCorners[LEFT_BOTTOM];
-					} else {
-						texCoords[k] = texture2DCorners[RIGHT_BOTTOM];
-					}
+					texCoords.push_back(texture2DCorners[RIGHT_TOP]);
 				}
-			}
-		}
-	} else {
-		int index = 0;
-
-		// Triangles calculations
-		for (int i = 0; i < lastLengthIndex; ++i) {
-			for (int j = 0; j < lastWidthIndex; ++j) {
-				int current = i * width + j;
-				int nextRow = ((i + 1) * width) + j;
-
-				/*
-				 ________________	-> j++
-				|       |       |
-				|       |       |	// Vertex 0 is the current vertex. The other vertices is numbered clockwise within the same quad.
-				|       |       |
-				|       |       |
-				|       |       |
-				|       |       |
-				|_______0_______1
-				|       |\      |
-				|       | \     |
-				|       |  \    |
-				|       |   \   |
-				|       |    \  |
-				|       |     \ |
-				|_______3______\2
-
-				|
-				v
-				i++
-
-				*/
-
-				glm::vec4 vertex0 = glm::vec4(points[current], 1.0f);
-				glm::vec4 vertex1 = glm::vec4(points[current + 1], 1.0f);
-				glm::vec4 vertex2 = glm::vec4(points[nextRow + 1], 1.0f);
-				glm::vec4 vertex3 = glm::vec4(points[nextRow], 1.0f);
-				
-				glm::vec3 normal0 = pointNormals[current];
-				glm::vec3 normal1 = pointNormals[current + 1];
-				glm::vec3 normal2 = pointNormals[nextRow + 1];
-				glm::vec3 normal3 = pointNormals[nextRow];
-				
-				vertices[index] = vertex0;
-				texCoords[index] = texture2DCorners[LEFT_TOP];
-				normals[index] = normal0;
-				++index;
-
-				vertices[index] = vertex2;
-				texCoords[index] = texture2DCorners[RIGHT_BOTTOM];
-				normals[index] = normal2;
-				++index;
-
-				vertices[index] = vertex1;
-				texCoords[index] = texture2DCorners[RIGHT_TOP];
-				normals[index] = normal1;
-				++index;
-
-				vertices[index] = vertex0;
-				texCoords[index] = texture2DCorners[LEFT_TOP];
-				normals[index] = normal0;
-				++index;
-
-				vertices[index] = vertex3;
-				texCoords[index] = texture2DCorners[LEFT_BOTTOM];
-				normals[index] = normal3;
-				++index;
-
-				vertices[index] = vertex2;
-				texCoords[index] = texture2DCorners[RIGHT_BOTTOM];
-				normals[index] = normal2;
-				++index;
+			} else {
+				if (j % 2 == 0) {
+					texCoords.push_back(texture2DCorners[LEFT_BOTTOM]);
+				} else {
+					texCoords.push_back(texture2DCorners[RIGHT_BOTTOM]);
+				}
 			}
 		}
 	}
 }
 
 float Terrain::getHeightAt(int x, int z) const {
-	return points[x * heightmap->getWidth() + z].y;
+	return vertices[x * heightmap.getWidth() + z].y;
 }
 
-const glm::vec3& Terrain::getPointAt(int x, int z) const {
-	return points[x * heightmap->getWidth() + z];
+const glm::vec4& Terrain::getPointAt(int x, int z) const {
+	return vertices[x * heightmap.getWidth() + z];
 }
 
 const glm::vec3& Terrain::getNormalAt(int x, int z) const {
-	return pointNormals[x * heightmap->getWidth() + z];
+	return normals[x * heightmap.getWidth() + z];
 }
 
 void Terrain::populateContentData() {
@@ -284,6 +187,9 @@ void Terrain::populateContentData() {
 	contentData.setSnowHeight(snowHeight);
 
 	float maxHeightDifference = 0.0f;
+
+	const int length = heightmap.getHeight();
+	const int width = heightmap.getWidth();
 
 	for (int i = 1; i < length - 1; ++i) {
 		for (int j = 1; j < width - 1; ++j) {
@@ -313,23 +219,23 @@ void Terrain::populateContentData() {
 			i++
 
 			*/
-			glm::vec3 vertex0 = points[current];
+			const glm::vec4& vertex0 = vertices[current];
 			float height = vertex0.y;
 
 			if (height < rockHeight && height > waterHeight) {
-				glm::vec3 surroundingVertices[8];
-				surroundingVertices[0] = points[current + 1];
-				surroundingVertices[1] = points[nextRow + 1];
-				surroundingVertices[2] = points[nextRow];
-				surroundingVertices[3] = points[nextRow - 1];
-				surroundingVertices[4] = points[current - 1];
-				surroundingVertices[5] = points[pastRow - 1];
-				surroundingVertices[6] = points[pastRow];
-				surroundingVertices[7] = points[pastRow + 1];
+				vector<vec4> surroundingVertices;
+				surroundingVertices.push_back(vertices[current + 1]);
+				surroundingVertices.push_back(vertices[nextRow + 1]);
+				surroundingVertices.push_back(vertices[nextRow]);
+				surroundingVertices.push_back(vertices[nextRow - 1]);
+				surroundingVertices.push_back(vertices[current - 1]);
+				surroundingVertices.push_back(vertices[pastRow - 1]);
+				surroundingVertices.push_back(vertices[pastRow]);
+				surroundingVertices.push_back(vertices[pastRow + 1]);
 				
 				bool eligibleForTree = true;
 
-				for (int i = 0; i < 8; ++i) {
+				for (size_t i = 0; i < surroundingVertices.size(); ++i) {
 					float surroundingHeight = surroundingVertices[i].y;
 					float heightDifference = abs(surroundingHeight - height);
 
@@ -342,10 +248,10 @@ void Terrain::populateContentData() {
 				float random = (float) rand() / RAND_MAX; // Random value between 0.0f and 1.0f
 
 				if (eligibleForTree && random < 0.1f) {
-					treePositions.push_back(vertex0);
+					treePositions.push_back(vec3(vertex0));
 				} else if (random < 0.7f) {
-					grassPositions.push_back(vertex0);
-					grassNormals.push_back(pointNormals[current]);
+					grassPositions.push_back(vec3(vertex0));
+					grassNormals.push_back(normals[current]);
 				}
 			}
 		}

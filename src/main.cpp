@@ -187,7 +187,7 @@ void init() {
 	rock->move(0.0f, 0.45f, 0.0f);
 	terrain->add(rock);
 	rock->scale(0.02f, 0.02f, 0.02f);
-	rock->move(terrainMesh->getPointAt(50, 50));
+	rock->move(vec3(terrainMesh->getPointAt(50, 50)));
 	rock->addTexture(rockNormalMap);
 	rock->addTexture(rockDiffus);
 
@@ -200,8 +200,6 @@ void init() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-	std::cout << std::endl << "Ready!" << std::endl << std::endl;
 }
 
 void display(void) {
@@ -322,6 +320,8 @@ int main(int, char**) {
 		exit(EXIT_FAILURE);
 	}
 
+	double glfwInitTime = glfwGetTime();
+
 #if defined(OGF_DEBUG) || defined(_DEBUG)
 	std::cout << "Running debug build..." << std::endl;
 
@@ -368,6 +368,11 @@ int main(int, char**) {
 #endif
 	
 	init();
+
+#if defined(OGF_DEBUG) || defined(_DEBUG)
+	double deltaTime = glfwGetTime() - glfwInitTime;
+	cout << endl << "Initialized in " << deltaTime << " seconds." << endl;
+#endif
 
 	while (!glfwWindowShouldClose(window)) {
 		display();

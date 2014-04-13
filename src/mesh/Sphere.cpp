@@ -1,5 +1,8 @@
 #include "mesh/Sphere.h"
 
+using namespace glm;
+using namespace std;
+
 
 Sphere::Sphere() : AbstractMesh() {
 	prepareBufferData();
@@ -9,25 +12,27 @@ Sphere::Sphere() : AbstractMesh() {
 void Sphere::prepareBufferData() {
 	const int NumTimesToSubdivide = 5;
 	const int NumTriangles = 4096;  // (4 faces)^(NumTimesToSubdivide + 1)
-	numberOfVertices = 3 * NumTriangles;
+	int numberOfVertices = 3 * NumTriangles;
 
-	index = 0;
-	vertices = new glm::vec4[numberOfVertices];
-	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
-	colors = new glm::vec4[numberOfVertices];
-	bytesOfColors = sizeof(glm::vec4) * numberOfVertices;
-	normals = new glm::vec3[numberOfVertices];
-	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
-	texCoords = 0;
-	bytesOfTexCoords = 0;
+	vertices.reserve(numberOfVertices);
+	colors.reserve(numberOfVertices);
+	normals.reserve(numberOfVertices);
 
 	tetrahedron(NumTimesToSubdivide);
 }
 
 void Sphere::triangle(const glm::vec4& a, const glm::vec4& b, const glm::vec4& c) {
-    normals[index] = glm::vec3(a.x, a.y, a.z); vertices[index] = a; colors[index] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f); index++;
-	normals[index] = glm::vec3(b.x, b.y, b.z); vertices[index] = b; colors[index] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f); index++;
-	normals[index] = glm::vec3(c.x, c.y, c.z); vertices[index] = c; colors[index] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f); index++;
+    normals.push_back(vec3(a.x, a.y, a.z));
+	vertices.push_back(a);
+	colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+	normals.push_back(vec3(b.x, b.y, b.z));
+	vertices.push_back(b);
+	colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+	normals.push_back(vec3(c.x, c.y, c.z));
+	vertices.push_back(c);
+	colors.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 glm::vec4 Sphere::unit(const glm::vec4& p) const {

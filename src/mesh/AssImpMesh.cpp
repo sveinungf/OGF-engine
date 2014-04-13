@@ -5,21 +5,22 @@
 #include <iostream> 
 #include <glm/gtc/swizzle.hpp>
 
+using namespace glm;
+using namespace std;
+
 
 AssImpMesh::AssImpMesh(aiMesh* mesh) : AbstractMesh() {
 	this->id = ++AbstractMesh::count;
 	std::cout << "id( " << id << " )";
-	numberOfVertices = mesh->mNumVertices;
+	unsigned int numberOfVertices = mesh->mNumVertices;
 
 	std::cout << " vertices( " << numberOfVertices << " )";
 
-	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
-
-	vertices = new glm::vec4[numberOfVertices];
+	vertices.reserve(numberOfVertices);
 
 	for (unsigned int i = 0; i < numberOfVertices; ++i){
 		auto v = mesh->mVertices[i];
-		vertices[i] = glm::vec4(v.x, v.y, v.z, 1.0f);
+		vertices.push_back(vec4(v.x, v.y, v.z, 1.0f));
 
 		if (v.x > positiveExtent.x) {
 			positiveExtent.x = v.x;
@@ -46,39 +47,36 @@ AssImpMesh::AssImpMesh(aiMesh* mesh) : AbstractMesh() {
 
 	if (mesh->HasNormals()){
 		std::cout << " normals";
-		bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
-		normals = new glm::vec3[numberOfVertices];
+		normals.reserve(numberOfVertices);
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++){
 			auto n = mesh->mNormals[i];
-			normals[i] = glm::vec3(n.x, n.y, n.z);
+			normals.push_back(vec3(n.x, n.y, n.z));
 		}
 	}
 
 	for (unsigned int uvChanIndex = 0; uvChanIndex < mesh->GetNumUVChannels(); uvChanIndex++){
 		if (uvChanIndex == 0 && mesh->HasTextureCoords(uvChanIndex)){
 			std::cout << " UVcoords";
-			bytesOfTexCoords = sizeof(glm::vec2) * numberOfVertices;
-			texCoords = new glm::vec2[numberOfVertices];
+			texCoords.reserve(numberOfVertices);
 			
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++){
 				auto t = mesh->mTextureCoords[uvChanIndex][i];
-				texCoords[i] = glm::vec2(t.x, t.y);
+				texCoords.push_back(vec2(t.x, t.y));
 			}
 
-			computeTangentAndBitangetValues();
+			computeTangentAndBitangetValues(numberOfVertices);
 			std::cout << " gen( tangent bitangent )";
 		}
 		else break;
 	}
 
 	for (unsigned int vColorIndex = 0; vColorIndex < mesh->GetNumColorChannels(); vColorIndex++){
-		if (vColorIndex == 0 && mesh->HasVertexColors(vColorIndex)){
+		if (vColorIndex == 0 && mesh->HasVertexColors(vColorIndex)) {
 			std::cout << " colors";
-			bytesOfColors = sizeof(glm::vec3) * numberOfVertices;
-			colors = new glm::vec4[numberOfVertices];
-			for (unsigned int i = 0; i < mesh->mNumVertices; i++){
+			colors.reserve(numberOfVertices);
+			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 				auto c = mesh->mColors[vColorIndex][i];
-				colors[i] = glm::vec4(c.r, c.g, c.b, c.a);
+				colors.push_back(vec4(c.r, c.g, c.b, c.a));
 			}
 		}
 		else break;
@@ -89,12 +87,9 @@ AssImpMesh::AssImpMesh(aiMesh* mesh) : AbstractMesh() {
 	buildVAO();
 }
 
-void AssImpMesh::computeTangentAndBitangetValues() {
-	//Create arrays
-	tangents = new glm::vec3[numberOfVertices];
-	bytesOfTangents = sizeof(glm::vec3) * numberOfVertices;
-	bitangents = new glm::vec3[numberOfVertices];
-	bytesOfBitangents = sizeof(glm::vec3) * numberOfVertices;
+void AssImpMesh::computeTangentAndBitangetValues(const unsigned int numberOfVertices) {
+	tangents = vector<vec3>(numberOfVertices);
+	bitangents = vector<vec3>(numberOfVertices);
 
 	for (unsigned int i = 0; i < numberOfVertices; i += 3) {
 		//find triangle corners cornerOne,cornerTwo & cornerThree
@@ -120,7 +115,11 @@ void AssImpMesh::computeTangentAndBitangetValues() {
 		glm::vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
 
 		// Set the same tangent and bitangent for all three vertices of the triangle.
-		tangents[i + 0] = tangent;  tangents[i + 1] = tangent;  tangents[i + 2] = tangent;
-		bitangents[i + 0] = bitangent;  bitangents[i + 1] = bitangent;  bitangents[i + 2] = bitangent;
+		tangents[i + 0] = tangent;
+		tangents[i + 1] = tangent;
+		tangents[i + 2] = tangent;
+		bitangents[i + 0] = bitangent;
+		bitangents[i + 1] = bitangent;
+		bitangents[i + 2] = bitangent;
 	}
 }

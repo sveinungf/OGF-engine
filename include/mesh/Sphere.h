@@ -9,18 +9,16 @@ class Sphere : public AbstractMesh {
 
 public:
 	Sphere();
+	virtual ~Sphere() override {}
 
 	// Virtual constructor idiom
 	virtual Sphere* clone() const override { return new Sphere(*this); }
 
-	virtual ~Sphere() override {}
-
 private:
-	virtual void prepareBufferData();
+	void prepareBufferData();
 
 	// Sphere generating stuff
 	GLfloat divideByZeroTolerance;
-	GLuint index;
 
 	void triangle(const glm::vec4& a, const glm::vec4& b, const glm::vec4& c);
 	glm::vec4 unit(const glm::vec4& p) const;

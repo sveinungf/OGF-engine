@@ -8,13 +8,11 @@ class AssImpMesh : public AbstractMesh {
 
 public:
 	explicit AssImpMesh(aiMesh* mesh);
+	virtual ~AssImpMesh() override {}
 
 	// Virtual constructor idiom
 	virtual AssImpMesh* clone() const override { return new AssImpMesh(*this); }
 
-	virtual ~AssImpMesh() override {}
-
 private:
-	void prepareBufferData() override {}
-	void computeTangentAndBitangetValues();
+	void computeTangentAndBitangetValues(const unsigned int numberOfVertices);
 };

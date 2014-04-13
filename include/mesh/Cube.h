@@ -7,16 +7,10 @@ class Cube : public AbstractMesh {
 
 public:
 	explicit Cube(const bool invert = false);
-	explicit Cube(const glm::vec4& color, const bool invert = false);
+	virtual ~Cube() override {}
 
 	// Virtual constructor idiom
 	virtual Cube* clone() const override { return new Cube(*this); }
-
-	virtual ~Cube() override {}
-
-protected:
-	virtual void prepareBufferData() override;
-	void prepareBufferData(const glm::vec4& color);
 
 private:
 	enum Corner3D {
@@ -37,4 +31,5 @@ private:
 	bool inverted;
 
 	void buildSide(int& index, const Corner3D a, const Corner3D b, const Corner3D c, const Corner3D d);
+	void prepareBufferData();
 };

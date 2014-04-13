@@ -1,5 +1,8 @@
 #include "mesh/Cube.h"
 
+using namespace glm;
+using namespace std;
+
 
 glm::vec3 Cube::originalCube[Cube::MAX_CORNERS_3D] = {
 	glm::vec3(-0.5f, -0.5f, -0.5f),		// LEFT_BOTTOM_FRONT
@@ -13,37 +16,15 @@ glm::vec3 Cube::originalCube[Cube::MAX_CORNERS_3D] = {
 };
 
 Cube::Cube(const bool invert) : AbstractMesh(), inverted(invert) {
-	useIBO = true;
 	prepareBufferData();
 	buildVAO();
 }
 
-Cube::Cube(const glm::vec4& color, const bool invert) : AbstractMesh(), inverted(invert) {
-	useIBO = true;
-	prepareBufferData(color);
-	buildVAO();
-}
-
 void Cube::prepareBufferData() {
-	prepareBufferData(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
-}
-
-void Cube::prepareBufferData(const glm::vec4& color) {
-	numberOfVertices = 24; // 4 vertices per face * 6 faces
-	bytesOfVertices = sizeof(glm::vec4) * numberOfVertices;
-	bytesOfNormals = sizeof(glm::vec3) * numberOfVertices;
-	bytesOfColors = sizeof(glm::vec4) * numberOfVertices;
-	bytesOfTexCoords = sizeof(glm::vec2) * numberOfVertices;
-
-	vertices = new glm::vec4[numberOfVertices];
-	normals = new glm::vec3[numberOfVertices];
-	colors = new glm::vec4[numberOfVertices];
-	texCoords = new glm::vec2[numberOfVertices];
-
-	for (unsigned int i = 0; i < numberOfVertices; ++i){
-		colors[i] = color;
-	}
-
+	int numberOfVertices = 24; // 4 vertices per face * 6 faces
+	vertices.reserve(numberOfVertices);
+	normals.reserve(numberOfVertices);
+	texCoords.reserve(numberOfVertices);
 
 	int index = 0;
 
@@ -77,31 +58,29 @@ void Cube::prepareBufferData(const glm::vec4& color) {
 }
 
 void Cube::buildSide(int& index, const Corner3D a, const Corner3D b, const Corner3D c, const Corner3D d) {
-	normals[index] = originalCube[a];
-	vertices[index] = glm::vec4(originalCube[a], 1.0f);
-	texCoords[index] = texture2DCorners[LEFT_BOTTOM];
-	++index;
+	normals.push_back(originalCube[a]);
+	vertices.push_back(vec4(originalCube[a], 1.0f));
+	texCoords.push_back(texture2DCorners[LEFT_BOTTOM]);
 	
-	normals[index] = originalCube[b];
-	vertices[index] = glm::vec4(originalCube[b], 1.0f);
-	texCoords[index] = texture2DCorners[LEFT_TOP];
-	++index;
+	normals.push_back(originalCube[b]);
+	vertices.push_back(vec4(originalCube[b], 1.0f));
+	texCoords.push_back(texture2DCorners[LEFT_TOP]);
 	
-	normals[index] = originalCube[c];
-	vertices[index] = glm::vec4(originalCube[c], 1.0f);
-	texCoords[index] = texture2DCorners[RIGHT_TOP];
-	++index;
+	normals.push_back(originalCube[c]);
+	vertices.push_back(vec4(originalCube[c], 1.0f));
+	texCoords.push_back(texture2DCorners[RIGHT_TOP]);
 
-    normals[index] = originalCube[d];
-    vertices[index] = glm::vec4(originalCube[d], 1.0f);
-	texCoords[index] = texture2DCorners[RIGHT_BOTTOM];
-	++index;
+	normals.push_back(originalCube[d]);
+	vertices.push_back(vec4(originalCube[d], 1.0f));
+	texCoords.push_back(texture2DCorners[RIGHT_BOTTOM]);
 
-	indices.push_back(index - 3);
-	indices.push_back(index - 2);
-	indices.push_back(index - 4);
+	indices.push_back(index + 1);
+	indices.push_back(index + 2);
+	indices.push_back(index);
 
-	indices.push_back(index - 2);
-	indices.push_back(index - 1);
-	indices.push_back(index - 4);
+	indices.push_back(index + 2);
+	indices.push_back(index + 3);
+	indices.push_back(index);
+
+	index += 4;
 }

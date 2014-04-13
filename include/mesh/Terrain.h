@@ -11,36 +11,30 @@ class Terrain : public AbstractMesh {
 
 public:
 	explicit Terrain(const std::string& filename);
+	virtual ~Terrain() override {}
 
 	// Virtual constructor idiom
 	virtual Terrain* clone() const override { return new Terrain(*this); }
 
-	virtual ~Terrain() override;
-
-	Image* getHeightmap() const { return heightmap; }
-	int getLength() const { return length; }
-	int getWidth() const { return width; }
+	const Image& getHeightmap() const { return heightmap; }
+	int getLength() const { return heightmap.getHeight(); }
+	int getWidth() const { return heightmap.getWidth(); }
 	float getMinHeight() const { return minHeight; }
 	float getMaxHeight() const { return maxHeight; }
 	const TerrainContentData& getContentData() const { return contentData; }
 
 	float getHeightAt(int x, int z) const;
-	const glm::vec3& getPointAt(int x, int z) const;
+	const glm::vec4& getPointAt(int x, int z) const;
 	const glm::vec3& getNormalAt(int x, int z) const;
 
 private:
-	Image* heightmap;
-	int length;
-	int width;
+	Image heightmap;
 
 	float minHeight;
 	float maxHeight;
 
 	TerrainContentData contentData;
 
-	glm::vec3* points;
-	glm::vec3* pointNormals;
-
-	virtual void prepareBufferData() override;
+	void prepareBufferData();
 	void populateContentData();
 };

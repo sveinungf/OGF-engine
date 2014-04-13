@@ -1,9 +1,10 @@
 #include "mesh/Quad.h"
 
 using namespace glm;
+using namespace std;
 
 
-vec3 Quad::points[4] = {
+vec3 Quad::points[MAX_CORNERS_2D] = {
 	vec3(-0.5f, -0.5f, 0.0f),	// LEFT_BOTTOM
 	vec3(-0.5f, 0.5f, 0.0f),	// LEFT_TOP
 	vec3(0.5f, -0.5f, 0.0f),	// RIGHT_BOTTOM
@@ -11,7 +12,6 @@ vec3 Quad::points[4] = {
 };
 
 Quad::Quad() : AbstractMesh() {
-	useIBO = true;
 	prepareBufferData();
 	buildVAO();
 
@@ -20,11 +20,12 @@ Quad::Quad() : AbstractMesh() {
 }
 
 void Quad::prepareBufferData() {
-	numberOfVertices = 4;
+	int numberOfVertices = MAX_CORNERS_2D;
+	vec3 normal(0.0f, 0.0f, 1.0f);
 
-	vertices = new vec4[numberOfVertices];
-	normals = new vec3[numberOfVertices];
-	texCoords = new vec2[numberOfVertices];
+	vertices.reserve(numberOfVertices);
+	normals = vector<vec3>(numberOfVertices, normal); // Fills the vector with the default value 'normal'
+	texCoords.reserve(numberOfVertices);
 
 	indices.push_back(0);
 	indices.push_back(2);
@@ -34,15 +35,8 @@ void Quad::prepareBufferData() {
 	indices.push_back(2);
 	indices.push_back(3);
 
-	bytesOfVertices = sizeof(vec4) * numberOfVertices;
-	bytesOfNormals = sizeof(vec3) * numberOfVertices;
-	bytesOfTexCoords = sizeof(vec2) * numberOfVertices;
-
-	vec3 normal(0.0f, 0.0f, 1.0f);
-
-	for (unsigned int i = 0; i < numberOfVertices; ++i) {
-		vertices[i] = vec4(points[i], 1.0f);
-		normals[i] = normal;
-		texCoords[i] = texture2DCorners[i];
+	for (int i = 0; i < numberOfVertices; ++i) {
+		vertices.push_back(vec4(points[i], 1.0f));
+		texCoords.push_back(texture2DCorners[i]);
 	}
 }
