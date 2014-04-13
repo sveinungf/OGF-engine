@@ -45,7 +45,7 @@ glm::vec4 AbstractNode::getPositionVec4() const {
 }
 
 void AbstractNode::setPosition(const glm::vec3& to) {
-	transformations[TRANSLATION] = glm::translate(to - getPositionVec3());
+	transformations[TRANSLATION] = glm::translate(to);
 }
 
 void AbstractNode::setPosition(const GLfloat x, const GLfloat y, const GLfloat z) {
