@@ -1,6 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <GL/glew.h>
+#include "Texture.h"
 
 
 class FrameBuffer {
@@ -14,7 +16,7 @@ public:
 	FrameBuffer& operator=(const FrameBuffer&) = delete;
 
 	const GLuint getFBO() const { return fbo; }
-	const GLuint getTexture() const { return texture; }
+	const std::shared_ptr<Texture>& getTexture() const { return texture; }
 	
 	void enable() const;
 	void disable() const;
@@ -27,5 +29,5 @@ private:
 
 	GLuint fbo;
 	GLuint depth;
-	GLuint texture;
+	std::shared_ptr<Texture> texture;
 };

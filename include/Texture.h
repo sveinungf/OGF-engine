@@ -6,10 +6,13 @@
 class Texture {
 
 public:
-	// Virtual constructor idiom
-	virtual Texture* clone() const = 0;
+	// Copying disallowed since the dtor calls glDelete* functions
+	Texture(const Texture&) = delete;
+	virtual ~Texture();
 
-	virtual ~Texture() {}
+	Texture& operator=(const Texture&) = delete;
+
+	const GLuint getTextureName() const { return textureName; }
 
 	virtual void useAsTextureId(const GLuint id) const = 0;
 

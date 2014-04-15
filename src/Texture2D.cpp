@@ -2,7 +2,16 @@
 #include <iostream>
 
 
-Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) : Texture(), image(filename, Image::RGBA) {
+Texture2D::Texture2D(const int width, const int height) : Texture() {
+	glBindTexture(GL_TEXTURE_2D, textureName);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+}
+
+Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) : Texture() {
+	Image image(filename, Image::RGBA);
+
 	std::cout << "Loading texture: " << filename << std::endl;
 
     glBindTexture(GL_TEXTURE_2D, textureName);
