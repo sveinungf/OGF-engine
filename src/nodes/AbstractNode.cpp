@@ -16,15 +16,11 @@ void AbstractNode::addComponent(const shared_ptr<AbstractComponent>& component) 
 
 // Inherited transformations
 void AbstractNode::disableAllParentTransformations() {
-    for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {
-        transformationFlags[i] = false;
-    }
+	transformationFlags.fill(false);
 }
 
 void AbstractNode::enableAllParentTransformations() {
-    for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {
-        transformationFlags[i] = true;
-    }
+	transformationFlags.fill(true);
 }
 
 void AbstractNode::disableParentTransformation(const Transformation transformation) {
@@ -49,7 +45,7 @@ void AbstractNode::setPosition(const glm::vec3& to) {
 }
 
 void AbstractNode::setPosition(const GLfloat x, const GLfloat y, const GLfloat z) {
-    setPosition(glm::vec3(x, y, z));
+	transformations[TRANSLATION] = glm::translate(x, y, z);
 }
 
 void AbstractNode::move(const glm::vec3& xyz) {
@@ -97,19 +93,17 @@ void AbstractNode::scale(const GLfloat x, const GLfloat y, const GLfloat z) {
 
 // Constructors
 AbstractNode::AbstractNode() {
-    for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {
-        transformationFlags[i] = true;
-    }
+	transformationFlags.fill(true);
 }
 
 // Transformations
-mat4 AbstractNode::getParentObjectToWorld(mat4 parentTransformations[]) const {
+mat4 AbstractNode::getParentObjectToWorld(const array<mat4, MAX_TRANSFORMATIONS>* const parentTransformations) const {
     mat4 result;
 
     if (parentTransformations != nullptr) {
         for (int i = 0; i < MAX_TRANSFORMATIONS; ++i) {
             if (transformationFlags[i]) {
-                result *= parentTransformations[i];
+                result *= parentTransformations->at(i);
             }
         }
     }
@@ -117,7 +111,7 @@ mat4 AbstractNode::getParentObjectToWorld(mat4 parentTransformations[]) const {
     return result;
 }
 
-void AbstractNode::updateObjectToWorld(mat4 parentTransformations[]) {
+void AbstractNode::updateObjectToWorld(const array<mat4, MAX_TRANSFORMATIONS>* const parentTransformations) {
     mat4 result;
 
     transformations[OBJECT_TO_WORLD_PARENT] = getParentObjectToWorld(parentTransformations);
@@ -130,20 +124,20 @@ void AbstractNode::updateObjectToWorld(mat4 parentTransformations[]) {
 }
 
 // Rendering
-void AbstractNode::render(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+void AbstractNode::render(const mat4& worldToView, const mat4& viewToClip, const array<mat4, MAX_TRANSFORMATIONS>* const parentTransformations) {
 	updateObjectToWorld(parentTransformations);
 	renderSelf(worldToView, viewToClip);
 
 	for (const auto& child : children) {
-		child->render(worldToView, viewToClip, transformations);
+		child->render(worldToView, viewToClip, &transformations);
 	}
 }
 
-void AbstractNode::renderID(const mat4& worldToView, const mat4& viewToClip, mat4 parentTransformations[]) {
+void AbstractNode::renderID(const mat4& worldToView, const mat4& viewToClip, const array<mat4, MAX_TRANSFORMATIONS>* const parentTransformations) {
 	updateObjectToWorld(parentTransformations);
 	renderIDSelf(worldToView, viewToClip);
 
 	for (const auto& child : children) {
-		child->renderID(worldToView, viewToClip, transformations);
+		child->renderID(worldToView, viewToClip, &transformations);
 	}
 }

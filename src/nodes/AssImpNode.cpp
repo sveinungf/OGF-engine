@@ -65,12 +65,12 @@ void AssImpNode::addTexture(const std::shared_ptr<Texture>& texture, const int m
 
 void AssImpNode::renderSelf(const mat4& worldToView, const mat4& viewToClip) {
 	for (MeshNode& child : self) {
-		child.render(worldToView, viewToClip, transformations);
+		child.render(worldToView, viewToClip, &transformations);
 	}
 }
 
 void AssImpNode::renderIDSelf(const mat4& worldToView, const mat4& viewToClip) {
 	for (MeshNode& child : self) {
-		child.renderID(worldToView, viewToClip, transformations);
+		child.renderID(worldToView, viewToClip, &transformations);
 	}
 }

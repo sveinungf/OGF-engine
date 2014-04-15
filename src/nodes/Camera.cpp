@@ -157,7 +157,7 @@ void Camera::render() {
 	updateWorldToView();
 
 	for (const auto& child : children) {
-		child->render(getWorldToView(), getViewToClip(), transformations);
+		child->render(getWorldToView(), getViewToClip(), &transformations);
 	}
 }
 
@@ -166,7 +166,7 @@ void Camera::renderID() {
 	updateWorldToView();
 
 	for (const auto& child : children) {
-		child->renderID(getWorldToView(), getViewToClip(), transformations);
+		child->renderID(getWorldToView(), getViewToClip(), &transformations);
 	}
 }
 

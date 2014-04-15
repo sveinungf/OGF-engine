@@ -62,7 +62,7 @@ void Scene::render() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, waterSurfaceFBO.getTexture()->getTextureName());
 
-	waterNode->render(camera.getWorldToView(), camera.getViewToClip(), nullptr);
+	waterNode->render(camera.getWorldToView(), camera.getViewToClip());
 
 	glDisable(GL_BLEND);
 }

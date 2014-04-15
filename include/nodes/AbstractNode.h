@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <memory>
 #include <vector>
 #include <glmhppnowarnings.h>
@@ -55,8 +56,8 @@ public:
     void scale(const GLfloat x, const GLfloat y, const GLfloat z);
 
     // Rendering
-    void render(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[] = nullptr);
-	void renderID(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[] = nullptr);
+	void render(const glm::mat4& worldToView, const glm::mat4& viewToClip, const std::array<glm::mat4, MAX_TRANSFORMATIONS>* const parentTransformations = nullptr);
+	void renderID(const glm::mat4& worldToView, const glm::mat4& viewToClip, const std::array<glm::mat4, MAX_TRANSFORMATIONS>* const parentTransformations = nullptr);
 
 protected:
     // Scenegraph
@@ -66,10 +67,10 @@ protected:
     std::vector<std::shared_ptr<AbstractComponent>> components;
 
     // Inherited transformations
-    bool transformationFlags[MAX_TRANSFORMATIONS];
+	std::array<bool, MAX_TRANSFORMATIONS> transformationFlags;
 
     // Transformations
-    glm::mat4 transformations[MAX_TRANSFORMATIONS];
+	std::array<glm::mat4, MAX_TRANSFORMATIONS> transformations;
     glm::mat4 objectToWorld;
 
 
@@ -79,8 +80,8 @@ protected:
     AbstractNode();
 
     // Transformations
-    glm::mat4 getParentObjectToWorld(glm::mat4 parentTransformations[]) const;
-    void updateObjectToWorld(glm::mat4 parentTransformations[]);
+	glm::mat4 getParentObjectToWorld(const std::array<glm::mat4, MAX_TRANSFORMATIONS>* const parentTransformations) const;
+	void updateObjectToWorld(const std::array<glm::mat4, MAX_TRANSFORMATIONS>* const parentTransformations);
 
 	// Rendering
 	virtual void renderSelf(const glm::mat4& worldToView, const glm::mat4& viewToClip) = 0;
