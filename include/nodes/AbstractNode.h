@@ -55,8 +55,8 @@ public:
     void scale(const GLfloat x, const GLfloat y, const GLfloat z);
 
     // Rendering
-    void render(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
-	void renderID(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[]);
+    void render(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[] = nullptr);
+	void renderID(const glm::mat4& worldToView, const glm::mat4& viewToClip, glm::mat4 parentTransformations[] = nullptr);
 
 protected:
     // Scenegraph
