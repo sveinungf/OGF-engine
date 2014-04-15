@@ -6,7 +6,7 @@
 class Blending : public AbstractComponent {
 
 public:
-	Blending() : AbstractComponent() {}
+	Blending();
 	virtual ~Blending() override {}
 
 	// Virtual constructor idiom

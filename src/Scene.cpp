@@ -55,20 +55,15 @@ void Scene::render() {
 
 	rootNode->render(camera.getWorldToView(), camera.getViewToClip());
 
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, waterSurfaceFBO.getTexture()->getTextureName());
 
+	glEnable(GL_BLEND);
 	waterNode->render(camera.getWorldToView(), camera.getViewToClip());
-
 	glDisable(GL_BLEND);
 }
 
 void Scene::renderID() {
-	shaderManager->updateLightPositions();
 	camera.renderID();
 	skybox.renderID(camera.getWorldToViewNoTranslation(), camera.getViewToClip());
 	rootNode->renderID(camera.getWorldToView(), camera.getViewToClip());
