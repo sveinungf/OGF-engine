@@ -19,6 +19,8 @@ public:
 	void setCameraPosition(const glm::vec3& position);
 	Camera& getCamera() { return camera; }
 
+	void updateWindowDimensions(const int width, const int height);
+
     void render();
 	void renderID();
 

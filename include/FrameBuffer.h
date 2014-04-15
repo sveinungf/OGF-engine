@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <GL/glew.h>
-#include "Texture.h"
+#include "Texture2D.h"
 
 
 class FrameBuffer {
@@ -16,7 +16,7 @@ public:
 	FrameBuffer& operator=(const FrameBuffer&) = delete;
 
 	const GLuint getFBO() const { return fbo; }
-	const std::shared_ptr<Texture>& getTexture() const { return texture; }
+	const std::shared_ptr<Texture2D>& getTexture() const { return texture; }
 	
 	void enable() const;
 	void disable() const;
@@ -24,10 +24,9 @@ public:
 	void reshape(const int width, const int height);
 
 private:
-	void cleanup();
 	void generate(const int width, const int height);
 
 	GLuint fbo;
 	GLuint depth;
-	std::shared_ptr<Texture> texture;
+	std::shared_ptr<Texture2D> texture;
 };

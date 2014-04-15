@@ -10,7 +10,8 @@ FrameBuffer::FrameBuffer(const int width, const int height) : fbo(0), depth(0), 
 }
 
 FrameBuffer::~FrameBuffer() {
-	cleanup();
+	glDeleteFramebuffers(1, &fbo);
+	glDeleteRenderbuffers(1, &depth);
 }
 
 void FrameBuffer::enable() const {
@@ -25,13 +26,10 @@ void FrameBuffer::disable() const {
 }
 
 void FrameBuffer::reshape(const int width, const int height) {
-	cleanup();
-	generate(width, height);
-}
+	texture->resize(width, height);
 
-void FrameBuffer::cleanup() {
-	glDeleteFramebuffers(1, &fbo);
-	glDeleteRenderbuffers(1, &depth);
+	glBindRenderbuffer(GL_RENDERBUFFER, depth);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
 }
 
 void FrameBuffer::generate(const int width, const int height) {

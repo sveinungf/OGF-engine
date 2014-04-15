@@ -11,8 +11,12 @@ class Texture2D : public Texture {
 public:
 	explicit Texture2D(const int width, const int height);
     explicit Texture2D(const std::string& filename, bool generateMipMaps = true);
-
 	virtual ~Texture2D() override {}
 
+	void resize(const int width, const int height);
+
     virtual void useAsTextureId(const GLuint id) const override;
+
+private:
+	bool fromImage;
 };

@@ -10,6 +10,11 @@ void Scene::setCameraPosition(const vec3& cameraPosition) {
 	camera.setPosition(cameraPosition);
 }
 
+void Scene::updateWindowDimensions(const int width, const int height) {
+	camera.updateWindowDimensions(width, height);
+	waterSurfaceFBO.reshape(width, height);
+}
+
 void Scene::render() {
 	shaderManager->updateLightPositions(true);
 	camera.render();

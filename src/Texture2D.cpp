@@ -1,15 +1,18 @@
-#include "Texture2D.h"
 #include <iostream>
+#include <stdexcept>
+#include "Texture2D.h"
+
+using namespace std;
 
 
-Texture2D::Texture2D(const int width, const int height) : Texture() {
+Texture2D::Texture2D(const int width, const int height) : Texture(), fromImage(false) {
 	glBindTexture(GL_TEXTURE_2D, textureName);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 }
 
-Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) : Texture() {
+Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) : Texture(), fromImage(true) {
 	Image image(filename, Image::RGBA);
 
 	std::cout << "Loading texture: " << filename << std::endl;
@@ -27,6 +30,15 @@ Texture2D::Texture2D(const std::string& filename, bool generateMipMaps) : Textur
     } else {
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     }
+}
+
+void Texture2D::resize(const int width, const int height) {
+	if (fromImage) {
+		throw runtime_error("Texture2D::resize should not be used when the texture is loaded from image");
+	}
+
+	glBindTexture(GL_TEXTURE_2D, textureName);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 }
 
 void Texture2D::useAsTextureId(const GLuint id) const {
