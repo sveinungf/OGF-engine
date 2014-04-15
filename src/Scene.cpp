@@ -15,6 +15,7 @@ void Scene::render() {
 	camera.render();
 	skybox.render(camera.getWorldToViewNoTranslation(), camera.getViewToClip(), nullptr);
 	rootNode->render(camera.getWorldToView(), camera.getViewToClip(), nullptr);
+	waterNode->render(camera.getWorldToView(), camera.getViewToClip(), nullptr);
 }
 
 void Scene::renderID() {
@@ -22,4 +23,5 @@ void Scene::renderID() {
 	camera.renderID();
 	skybox.renderID(camera.getWorldToViewNoTranslation(), camera.getViewToClip(), nullptr);
 	rootNode->renderID(camera.getWorldToView(), camera.getViewToClip(), nullptr);
+	waterNode->renderID(camera.getWorldToView(), camera.getViewToClip(), nullptr);
 }

@@ -179,7 +179,6 @@ void init() {
 	terrain->addTexture(snow);
 	terrain->add(sunSphere);
 	terrain->add(grassNode);
-	terrain->add(waterNode);
 	terrain->add(tree);
 
 	rock = make_shared<AssImpNode>(bumpMapShader, resourceBase + "/Stone_Forest_1.obj");
@@ -196,6 +195,7 @@ void init() {
 	scene->getCamera().updateWindowDimensions(width, height);
 	scene->setCameraPosition(cameraStartPosition);
 	scene->setRootNode(terrain);
+	scene->setWaterNode(waterNode);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);

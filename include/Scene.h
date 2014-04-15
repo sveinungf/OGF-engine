@@ -14,6 +14,7 @@ public:
     explicit Scene(const Skybox& skybox, ShaderManager* sManager);
 
 	void setRootNode(const std::shared_ptr<AbstractNode>& node) { rootNode = node; }
+	void setWaterNode(const std::shared_ptr<AbstractNode>& node) { waterNode = node; }
 	void setCameraPosition(const glm::vec3& position);
 	Camera& getCamera() { return camera; }
 
@@ -22,6 +23,7 @@ public:
 
 private:
 	std::shared_ptr<AbstractNode> rootNode;
+	std::shared_ptr<AbstractNode> waterNode;
 	Camera camera;
 	ShaderManager* shaderManager;
 	Skybox skybox;
