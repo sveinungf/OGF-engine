@@ -24,6 +24,7 @@ uniform float snowHeight;
 uniform float mixRange;
 
 uniform int id;
+uniform int discardUnderWater;
 
 in vec4 vertexColor;
 in vec2 vertexTexCoord;
@@ -76,7 +77,9 @@ void main() {
 
 	vec4 textureColor;
 	
-	if (vHeight < waterHeight - sandGrassMixRange) {			// sand
+	if (discardUnderWater == 1 && vHeight < waterHeight) {
+		discard;
+	} else if (vHeight < waterHeight - sandGrassMixRange) {		// sand
 		textureColor = texture2D(texArray[0], vertexTexCoord);
 	} else if (vHeight < waterHeight + sandGrassMixRange) {		// mix between sand and grass
 		float mixFactor = (vHeight - waterHeight + sandGrassMixRange) / (2.0f * sandGrassMixRange);

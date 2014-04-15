@@ -2,8 +2,10 @@
 
 in vec3 pos_eye;
 in vec3 n_eye;
+in vec2 vertexTexCoord;
+in vec4 texCoordProject;
 
-uniform samplerCube cube_texture;
+uniform sampler2D texArray[1];
 uniform mat4 worldToView;
 uniform int id;
 
@@ -21,7 +23,8 @@ void main() {
 	reflected = vec3(inverse(worldToView) * vec4(reflected, 0.0f));
 
 	if (id == 0) {
-		color = vec4(mix(texture(cube_texture, reflected), vec4(0.0f, 0.8f, 0.8f, 1.0f), 0.3f).xyz, 0.8f);
+		//color = vec4(mix(texture(cube_texture, reflected), vec4(0.0f, 0.8f, 0.8f, 1.0f), 0.3f).xyz, 0.8f);
+		color = vec4(texture2DProj(texArray[0], texCoordProject).xyz, 0.9f);
 	} else {
 		color = vec4(encodeID(id), 1.0f);
 	}

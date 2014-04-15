@@ -16,6 +16,9 @@ public:
 	// Virtual constructor idiom
 	virtual MeshNode* clone() const override { return new MeshNode(*this); }
 
+	// Shader
+	const ShaderProgram& getShaderProgram() const { return shaderProgram; }
+
     // Texture
     void addTexture(const std::shared_ptr<Texture>& texture);
 

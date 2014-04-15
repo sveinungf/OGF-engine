@@ -2,19 +2,20 @@
 
 #include <memory>
 #include <GL/glew.h>
-#include "nodes/AbstractNode.h"
+#include "nodes/MeshNode.h"
 #include "nodes/Camera.h"
 #include "nodes/Skybox.h"
+#include "FrameBuffer.h"
 #include "ShaderManager.h"
 
 
 class Scene {
 
 public:
-    explicit Scene(const Skybox& skybox, ShaderManager* sManager);
+    explicit Scene(const Skybox& skybox, ShaderManager* sManager, const int width, const int height);
 
-	void setRootNode(const std::shared_ptr<AbstractNode>& node) { rootNode = node; }
-	void setWaterNode(const std::shared_ptr<AbstractNode>& node) { waterNode = node; }
+	void setRootNode(const std::shared_ptr<MeshNode>& node) { rootNode = node; }
+	void setWaterNode(const std::shared_ptr<MeshNode>& node) { waterNode = node; }
 	void setCameraPosition(const glm::vec3& position);
 	Camera& getCamera() { return camera; }
 
@@ -22,9 +23,11 @@ public:
 	void renderID();
 
 private:
-	std::shared_ptr<AbstractNode> rootNode;
-	std::shared_ptr<AbstractNode> waterNode;
+	std::shared_ptr<MeshNode> rootNode;
+	std::shared_ptr<MeshNode> waterNode;
 	Camera camera;
 	ShaderManager* shaderManager;
 	Skybox skybox;
+
+	FrameBuffer waterSurfaceFBO;
 };

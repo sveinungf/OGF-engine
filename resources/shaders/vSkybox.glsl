@@ -12,6 +12,6 @@ uniform mat4 viewToClip;
 void main() {
     vPosition = position;
 	vec4 posInWorldCoords = objectToWorld * position;
-	vTexCoord3 = posInWorldCoords.xyz;
+	vTexCoord3 = position.xyz;
     gl_Position = viewToClip * worldToView * posInWorldCoords;
 }

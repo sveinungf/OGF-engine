@@ -15,7 +15,7 @@ public:
 	void addLight(const std::shared_ptr<LightNode>& light);
 	void addShader(const ShaderProgram& shader);
 
-	void updateLightPositions() const;
+	void updateLightPositions(const bool flipped = false) const;
 	void setUniformGLint(const std::string& variable, const int value) const;
 
 private:

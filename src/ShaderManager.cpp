@@ -26,9 +26,12 @@ void ShaderManager::addShader(const ShaderProgram& shader) {
 	}
 }
 
-void ShaderManager::updateLightPositions() const {
+void ShaderManager::updateLightPositions(const bool flipped) const {
 	for (size_t i = 0; i < lights.size(); ++i) {
-		const vec4& lightPosition = lights[i]->getPositionVec4();
+		vec4 lightPosition = lights[i]->getPositionVec4();
+		if (flipped) {
+			lightPosition.y = -lightPosition.y;
+		}
 
 		for (const ShaderProgram& shader : shaders) {
 			shader.setLightPosition(lightPosition, i);

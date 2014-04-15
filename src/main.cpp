@@ -191,7 +191,7 @@ void init() {
 	rock->addTexture(rockDiffus);
 
 	Skybox skybox(skyboxShader, skyboxTexture);
-	scene = new Scene(skybox, sManager);
+	scene = new Scene(skybox, sManager, width, height);
 	scene->getCamera().updateWindowDimensions(width, height);
 	scene->setCameraPosition(cameraStartPosition);
 	scene->setRootNode(terrain);
