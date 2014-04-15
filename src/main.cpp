@@ -291,7 +291,6 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int /*mods*
 				fbo.enable();
 
 				sManager->setUniformGLint("idMul", 1);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				scene->renderID();
 			
 				glReadPixels((int) cursorX, windowHeight - (int) cursorY, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &data);
