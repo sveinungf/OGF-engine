@@ -152,8 +152,6 @@ void init() {
 	
 	waterNode = make_shared<MeshNode>(waterShader, quadMesh);
 	waterNode->addComponent(ibodraw);
-	waterNode->addComponent(blending);
-	waterNode->addTexture(skyboxTexture);
 	waterNode->rotateAroundSelfX(-90.0f);
 	waterNode->scale((GLfloat) terrainMesh->getWidth(), (GLfloat) terrainMesh->getLength(), 1.0f);
 

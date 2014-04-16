@@ -10,6 +10,11 @@ void Scene::setCameraPosition(const vec3& cameraPosition) {
 	camera.setPosition(cameraPosition);
 }
 
+void Scene::setWaterNode(const std::shared_ptr<MeshNode>& node) {
+	waterNode = node;
+	waterNode->addTexture(waterSurfaceFBO.getTexture());
+}
+
 void Scene::updateWindowDimensions(const int width, const int height) {
 	camera.updateWindowDimensions(width, height);
 	waterSurfaceFBO.reshape(width, height);
@@ -24,7 +29,6 @@ void Scene::render() {
 	waterSurfaceFBO.enable();
 
 	glEnable(GL_STENCIL_TEST);
-	glCullFace(GL_FRONT);
 
 	glEnable(GL_RASTERIZER_DISCARD);
 	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
@@ -35,6 +39,8 @@ void Scene::render() {
 	glStencilFunc(GL_EQUAL, 1, 0xffffffff);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 	glDisable(GL_RASTERIZER_DISCARD);
+
+	glCullFace(GL_FRONT);
 
 	skybox.scale(1.0f, -1.0f, 1.0f);
 	skybox.render(camera.getWorldToViewNoTranslation(), camera.getViewToClip());
@@ -54,9 +60,6 @@ void Scene::render() {
 	shaderManager->updateLightPositions(true);
 
 	rootNode->render(camera.getWorldToView(), camera.getViewToClip());
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, waterSurfaceFBO.getTexture()->getTextureName());
 
 	glEnable(GL_BLEND);
 	waterNode->render(camera.getWorldToView(), camera.getViewToClip());
