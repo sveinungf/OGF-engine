@@ -55,6 +55,7 @@ shared_ptr<Instancing> treeInstancing;
 ShaderManager* sManager;
 
 bool renderID = false;
+bool fastSun = false;
 
 void init() {
 	oldTimeSinceStart = glfwGetTime();
@@ -105,6 +106,7 @@ void init() {
 	sManager->addShader(terrainShader);
 	sManager->addShader(treeShader);
 	sManager->addShader(bumpMapShader);
+	sManager->addShader(skyboxShader);
 
 	shared_ptr<Terrain> terrainMesh(make_shared<Terrain>(resourceBase + "/heightmaps/heightmap.tga"));
 	shared_ptr<Quad> quadMesh(make_shared<Quad>());
@@ -130,14 +132,16 @@ void init() {
 	shared_ptr<Texture> bark(make_shared<Texture2D>(textureDir + "bark.png"));
 	shared_ptr<Texture> rockNormalMap(make_shared<Texture2D>(textureDir + "S1Normal.jpg"));
 	shared_ptr<Texture> rockDiffus(make_shared<Texture2D>(textureDir + "S3Diffus.jpg"));
+
+	
 	
 	vector<string> skyboxImages;
-	skyboxImages.push_back(resourceBase + "/skyboxes/right.bmp");
-	skyboxImages.push_back(resourceBase + "/skyboxes/left.bmp");
-	skyboxImages.push_back(resourceBase + "/skyboxes/top.bmp");
-	skyboxImages.push_back(resourceBase + "/skyboxes/bottom.bmp");
-	skyboxImages.push_back(resourceBase + "/skyboxes/front.bmp");
-	skyboxImages.push_back(resourceBase + "/skyboxes/back.bmp");
+	skyboxImages.push_back(resourceBase + "/skyboxes/night_right1.png");
+	skyboxImages.push_back(resourceBase + "/skyboxes/night_left2.png");
+	skyboxImages.push_back(resourceBase + "/skyboxes/night_top3.png");
+	skyboxImages.push_back(resourceBase + "/skyboxes/night_bottom4.png");
+	skyboxImages.push_back(resourceBase + "/skyboxes/night_front5.png");
+	skyboxImages.push_back(resourceBase + "/skyboxes/night_back6.png");
 	shared_ptr<TextureCubeMap> skyboxTexture(make_shared<TextureCubeMap>(skyboxImages));
 
 	light = make_shared<LightNode>(LightProperties::SUNLIGHT);
@@ -157,7 +161,8 @@ void init() {
 
 	sunSphere = make_shared<MeshNode>(lightShader, sphereMesh);
 	sunSphere->addComponent(simpleDraw);
-	sunSphere->move(200.0f, 0.0f, 0.0f);
+	sunSphere->move(400.0f, 0.0f, 0.0f);
+	sunSphere->scale(10.0f, 10.0f, 10.0f);
 	sunSphere->add(light);
 	
 	treeInstancing = make_shared<Instancing>(contentData.getTreePositions());
@@ -205,7 +210,9 @@ void display(void) {
 	double deltaTime = timeSinceStart - oldTimeSinceStart;
 	oldTimeSinceStart = timeSinceStart;
 	scene->getCamera().doMove(deltaTime);
-	sunSphere->rotateAroundOriginZ(5 * (float) deltaTime);
+
+	int factor = fastSun ? 15 : 1;
+	sunSphere->rotateAroundOriginZ(factor * (float) deltaTime);
 
 	double timeInterval = timeSinceStart - previousTime;
 	if (timeInterval > 1.0) {
@@ -232,6 +239,10 @@ void display(void) {
 void keyCallback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/) {
 	if (action == GLFW_PRESS) {
 		switch (key) {
+		case 'f':
+		case 'F':
+			fastSun = !fastSun;
+			break;
 		case 'o':
 		case 'O':
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// show wireframe

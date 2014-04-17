@@ -21,7 +21,7 @@ void Scene::updateWindowDimensions(const int width, const int height) {
 }
 
 void Scene::render() {
-	shaderManager->updateLightPositions(true);
+	shaderManager->updateLightPositions();
 	camera.render();
 
 	skybox.render(camera.getWorldToViewNoTranslation(), camera.getViewToClip());
@@ -46,18 +46,20 @@ void Scene::render() {
 	skybox.render(camera.getWorldToViewNoTranslation(), camera.getViewToClip());
 	skybox.scale(1.0f, -1.0f, 1.0f);
 
+	shaderManager->updateLightPositions(true);
+
 	rootNode->getShaderProgram().setUniformGLint("discardUnderWater", 1);
 	rootNode->scale(1.0f, -1.0f, 1.0f);
 	rootNode->render(camera.getWorldToView(), camera.getViewToClip());
 	rootNode->scale(1.0f, -1.0f, 1.0f);
 	rootNode->getShaderProgram().setUniformGLint("discardUnderWater", 0);
 
+	shaderManager->updateLightPositions(true);
+
 	glCullFace(GL_BACK);
 	glDisable(GL_STENCIL_TEST);
 
 	waterSurfaceFBO.disable();
-
-	shaderManager->updateLightPositions(true);
 
 	rootNode->render(camera.getWorldToView(), camera.getViewToClip());
 
