@@ -30,15 +30,7 @@ void Scene::render() {
 
 	glEnable(GL_STENCIL_TEST);
 
-	glEnable(GL_RASTERIZER_DISCARD);
-	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-	glStencilFunc(GL_ALWAYS, 1, 0xffffffff);
-
 	waterNode->render(camera.getWorldToView(), camera.getViewToClip());
-
-	glStencilFunc(GL_EQUAL, 1, 0xffffffff);
-	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-	glDisable(GL_RASTERIZER_DISCARD);
 
 	glCullFace(GL_FRONT);
 
@@ -63,9 +55,7 @@ void Scene::render() {
 
 	rootNode->render(camera.getWorldToView(), camera.getViewToClip());
 
-	glEnable(GL_BLEND);
 	waterNode->render(camera.getWorldToView(), camera.getViewToClip());
-	glDisable(GL_BLEND);
 }
 
 void Scene::renderID() {

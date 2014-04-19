@@ -10,6 +10,7 @@
 #include "components/IBODraw.h"
 #include "components/Instancing.h"
 #include "components/SimpleDraw.h"
+#include "components/StencilPlane.h"
 #include "mesh/AssImpMesh.h"
 #include "mesh/Cube.h"
 #include "mesh/Quad.h"
@@ -61,7 +62,7 @@ void init() {
 	oldTimeSinceStart = glfwGetTime();
 	previousTime = oldTimeSinceStart;
 
-	std::string resourceBase(OGF_RESOURCE_DIR);
+	string resourceBase(OGF_RESOURCE_DIR);
 
 	ShaderProgram instancingShader = ShaderProgram()
 		<< Shader(resourceBase + "/shaders/vInstancing.glsl", Shader::VERTEX)
@@ -108,19 +109,20 @@ void init() {
 	sManager->addShader(bumpMapShader);
 	sManager->addShader(skyboxShader);
 
-	shared_ptr<Terrain> terrainMesh(make_shared<Terrain>(resourceBase + "/heightmaps/heightmap.tga"));
 	shared_ptr<Quad> quadMesh(make_shared<Quad>());
 	shared_ptr<Sphere> sphereMesh(make_shared<Sphere>());
+	shared_ptr<Terrain> terrainMesh(make_shared<Terrain>(resourceBase + "/heightmaps/heightmap.tga"));
 
 	TerrainContentData contentData = terrainMesh->getContentData();
 	terrainShader.setTerrainContentData(contentData);
 
-	std::cout << "Grass instances: " << contentData.getGrassPositions().size() << std::endl;
-	std::cout << "Tree instances: " << contentData.getTreePositions().size() << std::endl;
+	cout << "Grass instances: " << contentData.getGrassPositions().size() << endl;
+	cout << "Tree instances: " << contentData.getTreePositions().size() << endl;
 
 	shared_ptr<Blending> blending(make_shared<Blending>());
-	shared_ptr<SimpleDraw> simpleDraw(make_shared<SimpleDraw>());
 	shared_ptr<IBODraw> ibodraw(make_shared<IBODraw>());
+	shared_ptr<SimpleDraw> simpleDraw(make_shared<SimpleDraw>());
+	shared_ptr<StencilPlane> stencilPlane(make_shared<StencilPlane>());
 
 	string textureDir = resourceBase + "/textures/";
 	shared_ptr<Texture> grass(make_shared<Texture2D>(textureDir + "grass.bmp"));
@@ -132,8 +134,6 @@ void init() {
 	shared_ptr<Texture> bark(make_shared<Texture2D>(textureDir + "bark.png"));
 	shared_ptr<Texture> rockNormalMap(make_shared<Texture2D>(textureDir + "S1Normal.jpg"));
 	shared_ptr<Texture> rockDiffus(make_shared<Texture2D>(textureDir + "S3Diffus.jpg"));
-
-	
 	
 	vector<string> skyboxImages;
 	skyboxImages.push_back(resourceBase + "/skyboxes/night_right1.png");
@@ -154,8 +154,12 @@ void init() {
 	grassNode->addTexture(billboardGrass);
 	grassNode->move(0.0f, 0.5f, 0.0f);
 	
+	shared_ptr<SwitchableComponent> waterSwitchComponent(make_shared<SwitchableComponent>());
+	waterSwitchComponent->addComponent(stencilPlane);
+	waterSwitchComponent->addComponent(blending);
 	waterNode = make_shared<MeshNode>(waterShader, quadMesh);
 	waterNode->addComponent(ibodraw);
+	waterNode->addComponent(waterSwitchComponent);
 	waterNode->rotateAroundSelfX(-90.0f);
 	waterNode->scale((GLfloat) terrainMesh->getWidth(), (GLfloat) terrainMesh->getLength(), 1.0f);
 
@@ -174,6 +178,14 @@ void init() {
 	tree->addTexture(bark, 2);
 	tree->addTexture(bark, 3);
 	
+	rock = make_shared<AssImpNode>(bumpMapShader, resourceBase + "/Stone_Forest_1.obj");
+	rock->addComponent(simpleDraw);
+	rock->move(0.0f, 0.45f, 0.0f);
+	rock->scale(0.02f, 0.02f, 0.02f);
+	rock->move(vec3(terrainMesh->getPointAt(50, 50)));
+	rock->addTexture(rockNormalMap);
+	rock->addTexture(rockDiffus);
+
 	terrain = make_shared<MeshNode>(terrainShader, terrainMesh);
 	terrain->addComponent(ibodraw);
 	terrain->addTexture(sand);
@@ -183,15 +195,7 @@ void init() {
 	terrain->add(sunSphere);
 	terrain->add(grassNode);
 	terrain->add(tree);
-
-	rock = make_shared<AssImpNode>(bumpMapShader, resourceBase + "/Stone_Forest_1.obj");
-	rock->addComponent(simpleDraw);
-	rock->move(0.0f, 0.45f, 0.0f);
 	terrain->add(rock);
-	rock->scale(0.02f, 0.02f, 0.02f);
-	rock->move(vec3(terrainMesh->getPointAt(50, 50)));
-	rock->addTexture(rockNormalMap);
-	rock->addTexture(rockDiffus);
 
 	Skybox skybox(skyboxShader, skyboxTexture);
 	scene = new Scene(skybox, sManager, width, height);
