@@ -11,6 +11,7 @@
 #include "components/Instancing.h"
 #include "components/SimpleDraw.h"
 #include "components/StencilPlane.h"
+#include "components/SwitchableComponent.h"
 #include "mesh/AssImpMesh.h"
 #include "mesh/Cube.h"
 #include "mesh/Quad.h"
