@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 #include <GL/glew.h>
@@ -7,6 +8,7 @@
 #include "PhongProperty.h"
 #include "Shader.h"
 #include "TerrainContentData.h"
+#include "Texture.h"
 
 
 class ShaderProgram {
@@ -30,7 +32,7 @@ public:
 	void setWorldToView(const glm::mat4& matrix) const { setUniformMat4("worldToView", matrix); }
 	void setViewToClip(const glm::mat4& matrix) const { setUniformMat4("viewToClip", matrix); }
 
-	void setTextureId(const GLuint id) const;
+	void setTextureId(const std::shared_ptr<Texture>& texture, const GLuint id);
 
 	void setMaterialProperty(const PhongProperty& materialProperty) const;
 	void setLightProperty(const PhongProperty&	lightProperty, const glm::vec4& position, const int indexInArray) const;
@@ -48,4 +50,7 @@ public:
 
 private:
     GLuint programLocation;
+
+	int texture2DCount;
+	int textureCubeMapCount;
 };

@@ -11,7 +11,7 @@ MeshNode::MeshNode(const ShaderProgram& program, const shared_ptr<AbstractMesh>&
 
 // Texture
 void MeshNode::addTexture(const shared_ptr<Texture>& texture) {
-	shaderProgram.setTextureId(textures.size());
+	shaderProgram.setTextureId(texture, textures.size());
 	textures.push_back(texture);
 }
 

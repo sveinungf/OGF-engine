@@ -14,6 +14,7 @@ public:
 
 	const GLuint getTextureName() const { return textureName; }
 
+	virtual int getType() const = 0;
 	virtual void useAsTextureId(const GLuint id) const = 0;
 
 protected:

@@ -13,5 +13,6 @@ public:
 
 	virtual ~TextureCubeMap() override {}
 
+	virtual int getType() const override { return GL_TEXTURE_CUBE_MAP; }
 	virtual void useAsTextureId(const GLuint id) const override;
 };

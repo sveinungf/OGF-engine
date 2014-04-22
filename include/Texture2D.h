@@ -15,6 +15,7 @@ public:
 
 	void resize(const int width, const int height);
 
+	virtual int getType() const override { return GL_TEXTURE_2D; }
     virtual void useAsTextureId(const GLuint id) const override;
 
 private:

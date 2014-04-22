@@ -7,7 +7,7 @@ using namespace glm;
 using namespace std;
 
 
-ShaderProgram::ShaderProgram() {
+ShaderProgram::ShaderProgram() : texture2DCount(0), textureCubeMapCount(0) {
 	cout << endl << "Creating shader:" << endl;
 	programLocation = glCreateProgram();
 }
@@ -37,20 +37,18 @@ ShaderProgram& ShaderProgram::operator<<(const Action type){
 }
 
 ShaderProgram& ShaderProgram::operator<<(const Shader& s) {
-	{
-		switch (s.getType()){
-		case Shader::FRAGMENT:
-			std::cout << "  Fragment: ";
-			break;
-		case Shader::GEOMETRY:
-			std::cout << "  Geometry: ";
-			break;
-		case Shader::VERTEX:
-			std::cout << "  Vertex:   ";
-			break;
-		}
-		std::cout << s.getPath() << std::endl;
+	switch (s.getType()) {
+	case Shader::FRAGMENT:
+		std::cout << "  Fragment: ";
+		break;
+	case Shader::GEOMETRY:
+		std::cout << "  Geometry: ";
+		break;
+	case Shader::VERTEX:
+		std::cout << "  Vertex:   ";
+		break;
 	}
+	std::cout << s.getPath() << std::endl;
 
 	ifstream fileStream(s.getPath());
 
@@ -89,9 +87,20 @@ ShaderProgram& ShaderProgram::operator<<(const Shader& s) {
 	return *this;
 }
 
-void ShaderProgram::setTextureId(const GLuint id) const {
+void ShaderProgram::setTextureId(const shared_ptr<Texture>& texture, const GLuint id) {
 	stringstream ss;
-	ss << "texArray[" << id << "]";
+
+	switch (texture->getType()) {
+	case GL_TEXTURE_2D:
+		ss << "texArray[" << texture2DCount << "]";
+		++texture2DCount;
+		break;
+	case GL_TEXTURE_CUBE_MAP:
+		ss << "textureCubeMap[" << textureCubeMapCount << "]";
+		++textureCubeMapCount;
+		break;
+	}
+
 	setUniformGLint(ss.str(), id);
 }
 
@@ -126,43 +135,33 @@ void ShaderProgram::setTerrainContentData(const TerrainContentData& contentData)
 	setUniformGLfloat("mixRange", TerrainContentData::TEXTURE_MIX_RANGE);
 }
 
-void ShaderProgram::setUniformGLint(const string& variable,
-	const GLint value) const {
+void ShaderProgram::setUniformGLint(const string& variable, const GLint value) const {
 	glUseProgram(programLocation);
-	GLuint uniformLocation = glGetUniformLocation(programLocation,
-		variable.c_str());
+	GLuint uniformLocation = glGetUniformLocation(programLocation, variable.c_str());
 	glUniform1i(uniformLocation, value);
 }
 
-void ShaderProgram::setUniformGLfloat(const string& variable,
-                                      const GLfloat value) const {
+void ShaderProgram::setUniformGLfloat(const string& variable, const GLfloat value) const {
 	glUseProgram(programLocation);
-    GLuint uniformLocation = glGetUniformLocation(programLocation,
-                             variable.c_str());
+    GLuint uniformLocation = glGetUniformLocation(programLocation, variable.c_str());
     glUniform1f(uniformLocation, value);
 }
 
-void ShaderProgram::setUniformMat4(const string& variable,
-                                   const mat4& value) const {
+void ShaderProgram::setUniformMat4(const string& variable, const mat4& value) const {
 	glUseProgram(programLocation);
-    GLuint uniformLocation = glGetUniformLocation(programLocation,
-                             variable.c_str());
+    GLuint uniformLocation = glGetUniformLocation(programLocation, variable.c_str());
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, &value[0][0]);
 }
 
-void ShaderProgram::setUniformVec3(const string& variable,
-                                   const vec3& value) const {
+void ShaderProgram::setUniformVec3(const string& variable, const vec3& value) const {
 	glUseProgram(programLocation);
-    GLuint uniformLocation = glGetUniformLocation(programLocation,
-                             variable.c_str());
+    GLuint uniformLocation = glGetUniformLocation(programLocation, variable.c_str());
     glUniform3fv(uniformLocation, 1, &value[0]);
 }
 
-void ShaderProgram::setUniformVec4(const string& variable,
-                                   const vec4& value) const {
+void ShaderProgram::setUniformVec4(const string& variable, const vec4& value) const {
 	glUseProgram(programLocation);
-    GLuint uniformLocation = glGetUniformLocation(programLocation,
-                             variable.c_str());
+    GLuint uniformLocation = glGetUniformLocation(programLocation, variable.c_str());
     glUniform4fv(uniformLocation, 1, &value[0]);
 }
 
