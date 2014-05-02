@@ -49,9 +49,7 @@ shared_ptr<AssImpNode> tree;
 shared_ptr<AssImpNode> rock;
 shared_ptr<MeshNode> grassNode;
 shared_ptr<MeshNode> waterNode;
-shared_ptr<MeshNode> sunSphere;
 shared_ptr<MeshNode> terrain;
-shared_ptr<LightNode> light;
 shared_ptr<Instancing> grassInstancing;
 shared_ptr<Instancing> treeInstancing;
 ShaderManager* sManager;
@@ -111,7 +109,7 @@ void init() {
 	sManager->addShader(skyboxShader);
 
 	shared_ptr<Quad> quadMesh(make_shared<Quad>());
-	shared_ptr<Sphere> sphereMesh(make_shared<Sphere>());
+	
 	shared_ptr<Terrain> terrainMesh(make_shared<Terrain>(resourceBase + "/heightmaps/heightmap.tga"));
 
 	TerrainContentData contentData = terrainMesh->getContentData();
@@ -145,9 +143,6 @@ void init() {
 	skyboxImages.push_back(resourceBase + "/skyboxes/night_back6.png");
 	shared_ptr<TextureCubeMap> skyboxTexture(make_shared<TextureCubeMap>(skyboxImages));
 
-	light = make_shared<LightNode>(LightProperties::SUNLIGHT);
-	sManager->addLight(light);
-
 	grassInstancing = make_shared<Instancing>(contentData.getGrassPositions(), contentData.getGrassNormals());
 	grassNode = make_shared<MeshNode>(instancingShader, quadMesh);
 	grassNode->addComponent(grassInstancing);
@@ -163,12 +158,6 @@ void init() {
 	waterNode->addComponent(waterSwitchComponent);
 	waterNode->rotateAroundSelfX(-90.0f);
 	waterNode->scale((GLfloat) terrainMesh->getWidth(), (GLfloat) terrainMesh->getLength(), 1.0f);
-
-	sunSphere = make_shared<MeshNode>(lightShader, sphereMesh);
-	sunSphere->addComponent(simpleDraw);
-	sunSphere->move(400.0f, 0.0f, 0.0f);
-	sunSphere->scale(10.0f, 10.0f, 10.0f);
-	sunSphere->add(light);
 	
 	treeInstancing = make_shared<Instancing>(contentData.getTreePositions());
 	tree = make_shared<AssImpNode>(treeShader, resourceBase + "/tree.3ds");
@@ -193,17 +182,18 @@ void init() {
 	terrain->addTexture(grass);
 	terrain->addTexture(greyrock);
 	terrain->addTexture(snow);
-	terrain->add(sunSphere);
 	terrain->add(grassNode);
 	terrain->add(tree);
 	terrain->add(rock);
 
-	Skybox skybox(skyboxShader, skyboxTexture);
+	Skybox skybox(skyboxShader, lightShader, skyboxTexture);
 	scene = new Scene(skybox, sManager, width, height);
 	scene->getCamera().updateWindowDimensions(width, height);
 	scene->setCameraPosition(cameraStartPosition);
 	scene->setRootNode(terrain);
 	scene->setWaterNode(waterNode);
+
+	sManager->addLight(skybox.getSunLightNode());
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -217,7 +207,7 @@ void display(void) {
 	scene->getCamera().doMove(deltaTime);
 
 	int factor = fastSun ? 15 : 1;
-	sunSphere->rotateAroundOriginZ(factor * (float) deltaTime);
+	scene->getSkybox().getSunNode()->rotateAroundOriginZ(factor * (float) deltaTime);
 
 	double timeInterval = timeSinceStart - previousTime;
 	if (timeInterval > 1.0) {
@@ -247,6 +237,10 @@ void keyCallback(GLFWwindow* window, int key, int /*scancode*/, int action, int 
 		case 'f':
 		case 'F':
 			fastSun = !fastSun;
+			break;
+		case 'l':
+		case 'L':
+			cout << "LIGHT POS: " << to_string(scene->getSkybox().getSunLightNode()->getPositionVec3()) << endl;
 			break;
 		case 'o':
 		case 'O':

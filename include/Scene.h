@@ -18,6 +18,7 @@ public:
 	void setWaterNode(const std::shared_ptr<MeshNode>& node);
 	void setCameraPosition(const glm::vec3& position);
 	Camera& getCamera() { return camera; }
+	Skybox& getSkybox() { return skybox; }
 
 	void updateWindowDimensions(const int width, const int height);
 
